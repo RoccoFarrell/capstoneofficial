@@ -1,0 +1,20 @@
+<div class="jumbotron text-center">
+	<h1>Post Tags</h1>
+
+	<form class="form-inline" ng-submit="postTags.saveTag()">
+		<input type="text" class="form-control" placeholder="tagID" ng-model="postTags.tagData.tagID">
+		<input type="text" class="form-control" placeholder="tagScanDate" ng-model="postTags.tagData.tagScanDate">
+		<button type="submit" class="btn btn-success">Add Entry</button>	
+	</form>
+
+	<div class="row show-hide-message" ng-show="postTags.message">
+		<div class="col-sm-6 col-sm-offset-2">
+
+			<div class="alert alert-info">
+				{{ postTags.message }}
+			</div>
+
+		</div>
+	</div>
+
+</div>

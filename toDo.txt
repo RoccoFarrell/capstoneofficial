@@ -1,0 +1,10 @@
+Determine difference between service and factory and which we want to be using
+Create user DB and patient DB
+User service /factory
+	API functions to retrieve user data
+Patient service/factory
+	API functions to retrieve patient data
+Login page
+	Authentication/tokens
+	OAuth
+Figure out MongoDB databases/collections and how they appear out of thin air

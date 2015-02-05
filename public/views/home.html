@@ -1,0 +1,38 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-3 sidebar">
+          <ul class="nav nav-sidebar">
+            <h3>Patient List</h3>
+            <!-- 
+            <li class="active"><a href="#">Overview <span class="sr-only">(current)</span></a></li>
+            <li><a href="#">Reports</a></li>
+            <li><a href="#">Analytics</a></li>
+            <li><a href="#">Export</a></li>
+            -->
+          </ul>
+         
+          <ul ng-repeat="item in home.patients">
+          <a href='#'>{{item.patientName}} </a>
+          	<li>Age: {{item.patientAge}}</li>
+            <li>Address: {{item.patientAddress}}</li>
+            <li>Caretaker: {{item.patientCaretaker}}</li>
+          </ul> 
+         
+        </div>
+
+        <div class="col-sm-9 main">
+			<div class="jumbotron">
+
+			<!-- display the message -->
+            <div>
+    			<span id="loginMessage"><i class="fa fa-user-plus"></i></span><h2>You are now logged in.</h2>
+    			{{ main.message }}
+            </div>
+
+			</div>
+
+	    </div>
+
+	</div> <!-- end row div -->
+
+</div><!-- end container fluid -->

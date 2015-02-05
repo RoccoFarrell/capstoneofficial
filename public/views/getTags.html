@@ -1,0 +1,24 @@
+<div class="jumbotron text-center">
+	<h1>Get Tags</h1>
+
+	<table class="table table-bordered">
+		<thead>
+			<tr>
+				<td>tag id</td>
+				<td>tag scan date</td>
+				<td>_id</td>
+				<td>__v</td>
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-repeat="item in getTags.tags">
+				<td>{{ item.tagID }}</td>
+				<td>{{ item.tagScanDate }}</td>
+				<td>{{ item._id }}</td>
+				<td>{{ item.__V }}</td>
+			</tr>
+		</tbody>
+	</table>
+
+
+</div>
