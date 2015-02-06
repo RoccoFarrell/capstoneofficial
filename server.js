@@ -15,6 +15,7 @@ var passport = require("passport")
 var port = process.env.PORT || 3000; // set the port for our app
 var Tag = require('./app/models/tag');
 var Patient = require('./app/models/patient');
+var User = require('./app/models/user');
 
 //Connect to database
 mongoose.connect('mongodb://localhost:27017/tagData');
@@ -49,12 +50,12 @@ apiRouter.use(function(req, res, next){
 
 	//more middle ware
 	next();
-});
+	});
 
 // test route to make sure everything is working
-apiRouter.get('/', function(req, res) {
-	res.json({ message: 'hooray! welcome to our api!' });
-});
+/* apiRouter.get('/', function(req, res) {
+	res.json({ message: 'API' });
+	}); */
 
 // more routes for our API will happen here
 
@@ -96,6 +97,36 @@ apiRouter.route('/tags')
 			if(err) return res.send(err);
 
 			res.json({ message: 'Successfully cleared all tags'});
+		});
+	});
+
+apiRouter.route('/users')
+
+	.get(function(req, res){
+		User.find(function(err, users){
+			if(err) res.send(err);
+
+			res.json(users);
+			});
+	})
+	
+	.post(function(req, res){
+
+		var user = new User();
+
+		user.name = req.body.name;
+		user.username = req.body.username;
+		user.password = req.body.password;
+
+		user.save(function(err) {
+			if(err) {
+				if(err.code == 11000)
+					return res.json({ success: false, message: 'A user with that username already exists. '});
+				else
+					return res.send(err);
+			}
+
+			res.json({ message: 'User created!' });
 		});
 	});
 
@@ -145,7 +176,7 @@ app.use('/api', apiRouter);
 // basic route for the home page
 app.get('*', function(req, res) {
 	res.sendFile(path.join(__dirname + '/public/views/index.html'));
-});
+	});
 
 
 // START THE SERVER

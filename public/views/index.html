@@ -69,6 +69,7 @@
 
 	<script src="../app/services/tagsService.js"></script>
 	<script src="../app/services/patientService.js"></script>
+	<script src="../app/services/userService.js"></script>
 
 	<script src="../js/app.js"></script> 
 	<script src="../js/app.routes.js"></script>
@@ -77,7 +78,7 @@
 
 </head>
 
-<body class="container" ng-app="displayTags" ng-controller="mainController as main">
+<body class="container" ng-app="mainApp" ng-controller="mainController as main">
 	<!-- HEADER AND NAVBAR -->
 	<header>
 		<nav class="navbar navbar-inverse navbar-fixed-top">
@@ -88,6 +89,7 @@
 
 			<ul class="nav navbar-nav">
 				<!-- <li><a href="/"><i class="fa fa-home"></i>Home</a></li> -->
+				<li><a href="/login"><i class="fa fa-sign-in"></i> Login </a></li>
 				<li><a href="/home"><i class="fa fa-user"></i> Your Page </a></li>
 				<li><a href="/getTags"><i class="fa fa-spinner fa-spin"></i> Get Tags </a></li>
 				<li><a href="/postTags"><i class="fa fa-cog fa-spin"></i> Post new Tags </a></li>
