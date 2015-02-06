@@ -11,11 +11,11 @@ var mongoose = require('mongoose'); // for working w/ our database
 var path = require("path");
 var passport = require("passport")
 
-
 var port = process.env.PORT || 3000; // set the port for our app
-var Tag = require('./app/models/tag');
 var Patient = require('./app/models/patient');
-var User = require('./app/models/user');
+
+var tagsController = require('./public/app/controllers/tagsController');
+var userController = require('./public/app/controllers/userController');
 
 //Connect to database
 mongoose.connect('mongodb://localhost:27017/tagData');
@@ -60,75 +60,13 @@ apiRouter.use(function(req, res, next){
 // more routes for our API will happen here
 
 apiRouter.route('/tags')
-
-	.post(function(req, res){
-		var tag = new Tag();
-
-		tag.tagID = req.body.tagID;
-		tag.tagScanDate = req.body.tagScanDate;
-
-		console.log('tag data getting transmitted to API: ' + req.body.tagID);
-
-		tag.save(function(err)
-		{
-			if(err){
-				if(err.code == 11000)
-					return res.json({ success: false, message: 'duplicate entry'});
-				else
-					return res.json({ success: false, message: 'err' + err.code});
-
-			}
-				res.json({ message: 'Tag entry created!'});
-		});
-
-		
-	})
-
-	.get(function(req, res){
-		//res.json({ message: 'Welcome to tags get'});
-		Tag.find(function(err, tags) {
-			if (err) res.send(err);
-				res.json(tags);
-		});
-	})
-
-	.delete(function(req, res){
-		Tag.remove({}, function(err, tags){
-			if(err) return res.send(err);
-
-			res.json({ message: 'Successfully cleared all tags'});
-		});
-	});
+	.post(tagsController.postTags)
+	.get(tagsController.getTags)
+	.delete(tagsController.deleteTags);
 
 apiRouter.route('/users')
-
-	.get(function(req, res){
-		User.find(function(err, users){
-			if(err) res.send(err);
-
-			res.json(users);
-			});
-	})
-	
-	.post(function(req, res){
-
-		var user = new User();
-
-		user.name = req.body.name;
-		user.username = req.body.username;
-		user.password = req.body.password;
-
-		user.save(function(err) {
-			if(err) {
-				if(err.code == 11000)
-					return res.json({ success: false, message: 'A user with that username already exists. '});
-				else
-					return res.send(err);
-			}
-
-			res.json({ message: 'User created!' });
-		});
-	});
+	.post(userController.postUsers)
+	.get(userController.getUsers);
 
 apiRouter.route('/patients')
 
@@ -177,7 +115,6 @@ app.use('/api', apiRouter);
 app.get('*', function(req, res) {
 	res.sendFile(path.join(__dirname + '/public/views/index.html'));
 	});
-
 
 // START THE SERVER
 // ===============================
