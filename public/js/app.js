@@ -1,5 +1,9 @@
 // name our angular app
-angular.module('displayTags', ['routerRoutes', 'tagsService', 'patientService'])
+angular.module('mainApp', ['routerRoutes', 
+  'tagsService',
+  'patientService',
+  'userService'
+  ])
 
 .controller('mainController', function() {
 
@@ -27,6 +31,43 @@ angular.module('displayTags', ['routerRoutes', 'tagsService', 'patientService'])
   });
 })
 
+//login controller
+.controller('loginController', function(userFactory){
+  var vm = this;
+  //vm.message = 'logging in';
+
+  vm.getUsers = function(){
+
+    userFactory.all()
+
+      .success(function(data){
+
+        vm.users = data;
+        console.log('get users worked')
+      })
+  }
+
+  vm.saveUser = function(){
+    vm.processing = true;
+    vm.message = ' ';
+
+    userFactory.create(vm.userData)
+
+    .success(function(data){
+
+      vm.processing = false;
+
+      vm.userData = {};
+      vm.message = data.message;
+      console.log('post user worked');
+    });
+
+  }
+})
+
+
+
+
 //getTags controller
 .controller('getTagsController', function(tagsFactory){
 
@@ -39,7 +80,7 @@ angular.module('displayTags', ['routerRoutes', 'tagsService', 'patientService'])
     .success(function(data){
 
       vm.tags = data;
-      console.log('it worked');
+      console.log('get tags worked');
     });
 })
 
@@ -59,7 +100,7 @@ angular.module('displayTags', ['routerRoutes', 'tagsService', 'patientService'])
 
       vm.tagData = {};
       vm.message = data.message;
-      console.log('post worked');
+      console.log('post tags worked');
     });
   }
 });
