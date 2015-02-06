@@ -8,3 +8,4 @@ Login page
 	Authentication/tokens
 	OAuth
 Figure out MongoDB databases/collections and how they appear out of thin air
+Get good understanding of git
