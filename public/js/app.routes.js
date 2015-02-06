@@ -35,6 +35,12 @@ angular.module('routerRoutes', ['ngRoute'])
             controllerAs : 'login'
         })
 
+        .when('/newUser', {
+            templateUrl: '../views/newUser.html',
+            controller : 'loginController',
+            controllerAs: 'login'
+        })
+
         .otherwise({
             redirectTo: "/"
         });

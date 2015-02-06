@@ -28,10 +28,12 @@ UserSchema.pre('save', function(next) {
 });
 
 // method to compare a given password with the database hash
-UserSchema.methods.comparePassword = function(password) {
+UserSchema.methods.verifyPassword = function(password, callback) {
 	var user = this;
-
-	return bcrypt.compareSync(password, user.password);
+	bcrypt.compare(password, this.password, function(err, isMatch){
+		if(err) return callback(err);
+		callback(null, isMatch);
+	});
 };
 
 // return the model

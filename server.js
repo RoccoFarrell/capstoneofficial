@@ -4,12 +4,14 @@
 // CALL THE PACKAGES --------path------------
 var express = require('express'); // call express
 var app = express(); // define our app using express
+
 var bodyParser = require('body-parser'); // get body-parser
 var morgan = require('morgan'); // used to see requests
 var mongoose = require('mongoose'); // for working w/ our database
 
 var path = require("path");
 var passport = require("passport")
+var authController = require('./public/app/controllers/auth')
 
 var port = process.env.PORT || 3000; // set the port for our app
 var Patient = require('./app/models/patient');
@@ -37,6 +39,9 @@ app.use(function(req, res, next) {
 app.use(morgan('dev'));
 app.use(express.static(__dirname + '/public'));
 
+//initialize passport
+app.use(passport.initialize());
+
 
 // ROUTES FOR OUR API
 // =============================
@@ -60,13 +65,13 @@ apiRouter.use(function(req, res, next){
 // more routes for our API will happen here
 
 apiRouter.route('/tags')
-	.post(tagsController.postTags)
-	.get(tagsController.getTags)
-	.delete(tagsController.deleteTags);
+	.post(authController.isAuthenticated, tagsController.postTags)
+	.get(authController.isAuthenticated, tagsController.getTags)
+	.delete(authController.isAuthenticated, tagsController.deleteTags);
 
 apiRouter.route('/users')
 	.post(userController.postUsers)
-	.get(userController.getUsers);
+	.get(authController.isAuthenticated, userController.getUsers);
 
 apiRouter.route('/patients')
 
@@ -110,6 +115,16 @@ apiRouter.route('/patients')
 // REGISTER OUR ROUTES -------------------------------
 // all of our routes will be prefixed with /api
 app.use('/api', apiRouter);
+
+var mainRouter = express.Router();
+
+/* mainRouter.route('/login')
+	.post(authController.initialLogin, function(req, res){
+		res.redirect('/users/' + req.user.username);
+	});
+*/
+
+app.use('/', mainRouter);
 
 // basic route for the home page
 app.get('*', function(req, res) {
