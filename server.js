@@ -118,11 +118,13 @@ app.use('/api', apiRouter);
 
 var mainRouter = express.Router();
 
-/* mainRouter.route('/login')
+mainRouter.route('/login')
+
 	.post(authController.initialLogin, function(req, res){
+		console.log('using mainRouter');
 		res.redirect('/users/' + req.user.username);
 	});
-*/
+
 
 app.use('/', mainRouter);
 

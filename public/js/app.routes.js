@@ -29,6 +29,7 @@ angular.module('routerRoutes', ['ngRoute'])
             controllerAs: 'postTags'
         })
 
+        
         .when('/login', {
             templateUrl: '../views/login.html',
             controller : 'loginController',

@@ -3,10 +3,10 @@
 
 	<form class="form-inline" ng-submit="login.getUsers()">
 		<input type="text" class="form-control" placeholder="User Name" ng-model="login.userData.username">
-		<input type="text" class="form-control" placeholder="Password" ng-model="login.userData.password">
+		<input type="password" class="form-control" ng-model="login.userData.password">
 		
 		<!-- <button type="submit" class="btn btn-success">Add Entry</button> -->
-		<button type="submit" class="btn btn-success">New User</button>		
+		<button type="submit" class="btn btn-block btn-primary">Login</button>		
 	</form>
 
 	<div class="row show-hide-message" ng-show="login.message">
