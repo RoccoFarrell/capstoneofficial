@@ -65,9 +65,6 @@ angular.module('mainApp', ['routerRoutes',
   }
 })
 
-
-
-
 //getTags controller
 .controller('getTagsController', function(tagsFactory){
 

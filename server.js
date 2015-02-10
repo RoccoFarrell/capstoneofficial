@@ -11,7 +11,7 @@ var mongoose = require('mongoose'); // for working w/ our database
 
 var path = require("path");
 var passport = require("passport")
-var authController = require('./public/app/controllers/auth')
+var authController = require('./public/app/controllers/authController')
 
 var port = process.env.PORT || 3000; // set the port for our app
 var Patient = require('./app/models/patient');
@@ -51,7 +51,7 @@ var apiRouter = express.Router();
 //middleware to use for all requests
 apiRouter.use(function(req, res, next){
 	//do logging
-	console.log('Somebody just came in our app!');
+	console.log('API in use');
 
 	//more middle ware
 	next();
@@ -67,11 +67,13 @@ apiRouter.use(function(req, res, next){
 apiRouter.route('/tags')
 	.post(authController.isAuthenticated, tagsController.postTags)
 	.get(authController.isAuthenticated, tagsController.getTags)
+	//.get(tagsController.getTags)
 	.delete(authController.isAuthenticated, tagsController.deleteTags);
 
 apiRouter.route('/users')
 	.post(userController.postUsers)
 	.get(authController.isAuthenticated, userController.getUsers);
+	//.get(userController.getUsers);
 
 apiRouter.route('/patients')
 

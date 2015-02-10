@@ -1,5 +1,5 @@
 <div class="jumbotron text-center">
-	<h1>Log In / Register</h1>
+	<h1>Register New User</h1>
 
 	<form class="form-inline" ng-submit="login.saveUser()">
 		<input type="text" class="form-control" placeholder="Name" ng-model="login.userData.name">
@@ -7,7 +7,7 @@
 		<input type="text" class="form-control" placeholder="Password" ng-model="login.userData.password">
 		
 		<!-- <button type="submit" class="btn btn-success">Add Entry</button> -->
-		<button type="submit" class="btn btn-success">New User</button>		
+		<button type="submit" class="btn btn-success">Create</button>		
 	</form>
 
 	<div class="row show-hide-message" ng-show="login.message">
