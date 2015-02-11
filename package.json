@@ -5,6 +5,7 @@
     "bcrypt-nodejs": "0.0.3",
     "body-parser": "~1.9.3",
     "express": "~4.10.3",
+    "jsonwebtoken": "^3.2.2",
     "mongoose": "~3.8.19",
     "morgan": "~1.5.0",
     "passport": "^0.2.1",

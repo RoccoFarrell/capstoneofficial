@@ -7,18 +7,13 @@ var app = express(); // define our app using express
 var bodyParser = require('body-parser'); // get body-parser
 var morgan = require('morgan'); // used to see requests
 var mongoose = require('mongoose'); // for working w/ our database
+var config = require('./config');
 
-var path = require("path");
-var passport = require("passport")
-
-var port = process.env.PORT || 3000; // set the port for our app
-var Patient = require('./app/models/patient');
-
-var tagsController = require('./public/app/controllers/tagsController');
-var userController = require('./public/app/controllers/userController');
+var path = require('path');
+//var passport = require("passport");
 
 //Connect to database
-mongoose.connect('mongodb://localhost:27017/tagData');
+mongoose.connect(config.database);
 
 // APP CONFIGURATION ---------------------
 // use body parser so we can grab information from POST requests
@@ -41,71 +36,7 @@ app.use(express.static(__dirname + '/public'));
 // ROUTES FOR OUR API
 // =============================
 // get an instance of the express router
-var apiRouter = express.Router();
-
-//middleware to use for all requests
-apiRouter.use(function(req, res, next){
-	//do logging
-	console.log('Somebody just came in our app!');
-
-	//more middle ware
-	next();
-	});
-
-// test route to make sure everything is working
-/* apiRouter.get('/', function(req, res) {
-	res.json({ message: 'API' });
-	}); */
-
-// more routes for our API will happen here
-
-apiRouter.route('/tags')
-	.post(tagsController.postTags)
-	.get(tagsController.getTags)
-	.delete(tagsController.deleteTags);
-
-apiRouter.route('/users')
-	.post(userController.postUsers)
-	.get(userController.getUsers);
-
-apiRouter.route('/patients')
-
-	.post(function(req, res) {
-		var patient = new Patient();
-
-		patient.patientName = req.body.patientName;
-		patient.patientAge = req.body.patientAge;
-		patient.patientAddress = req.body.patientAddress;
-		patient.patientCaretaker = req.body.patientCaretaker;
-
-		patient.save(function(err)
-		{
-			if(err){
-				if(err.code == 11000)
-					return res.json({ success: false, message: 'duplicate entry'});
-				else
-					return res.json({ success: false, message: 'err' + err.code});
-			}
-
-			res.json({ message: 'Patient entry created!'});
-		});
-	})
-
-	.get(function(req,res){
-		Patient.find(function(err,patients){
-			if(err) return res.send(err);
-
-			res.json(patients);
-		});
-	})
-
-	.delete(function(req,res){
-		Patient.remove({}, function(err, patients){
-			if(err) return res.send(err);
-
-			res.json({message: 'Successfully cleared all patients'});
-		});
-	});
+var apiRouter = require('./app/routes/api')(app, express);
 
 // REGISTER OUR ROUTES -------------------------------
 // all of our routes will be prefixed with /api
@@ -118,5 +49,5 @@ app.get('*', function(req, res) {
 
 // START THE SERVER
 // ===============================
-app.listen(port);
-console.log('Magic happens on port ' + port);
+app.listen(config.port);
+console.log('Application running on ' + config.port);

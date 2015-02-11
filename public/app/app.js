@@ -1,5 +1,6 @@
 // name our angular app
-angular.module('mainApp', ['routerRoutes', 
+angular.module('mainApp', [
+  'app.routes', 
   'tagsService',
   'patientService',
   'userService'
