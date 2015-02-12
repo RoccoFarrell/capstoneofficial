@@ -26,20 +26,9 @@ angular.module('mainApp', [
 })
 
 //login controller
-.controller('loginController', function(userFactory){
+.controller('newUserController', function(userFactory){
   var vm = this;
   //vm.message = 'logging in';
-
-  vm.getUsers = function(){
-
-    userFactory.all()
-
-      .success(function(data){
-
-        vm.users = data;
-        console.log('get users worked')
-      })
-  }
 
   vm.saveUser = function(){
     vm.processing = true;

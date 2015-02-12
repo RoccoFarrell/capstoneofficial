@@ -12,6 +12,8 @@ var userRoutes = require('./userRoutes');
 module.exports = function(app, express) {
 	var apiRouter = express.Router();
 
+	apiRouter.post('/users', userRoutes.postUsers);
+
 	apiRouter.post('/authenticate', function(req, res){
 
 	User.findOne({
@@ -103,7 +105,7 @@ module.exports = function(app, express) {
 		.delete(tagRoutes.deleteTags);
 
 	apiRouter.route('/users')
-		.post(userRoutes.postUsers)
+		//.post(userRoutes.postUsers)
 		.get(userRoutes.getUsers);
 
 	apiRouter.route('/patients')
