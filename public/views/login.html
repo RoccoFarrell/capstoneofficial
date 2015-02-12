@@ -1,23 +1,45 @@
-<div class="jumbotron text-center">
-	<h1>Log In / Register</h1>
+<div class="row col-sm-8 col-sm-offset-2">
+	<div class="jumbotron">
+		<h1>Login</h1>
 
-	<form class="form-inline" ng-submit="login.saveUser()">
-		<input type="text" class="form-control" placeholder="Name" ng-model="login.userData.name">
-		<input type="text" class="form-control" placeholder="User Name" ng-model="login.userData.username">
-		<input type="text" class="form-control" placeholder="Password" ng-model="login.userData.password">
-		
-		<!-- <button type="submit" class="btn btn-success">Add Entry</button> -->
-		<button type="submit" class="btn btn-success">New User</button>		
-	</form>
-
-	<div class="row show-hide-message" ng-show="login.message">
-		<div class="col-sm-6 col-sm-offset-3">
-
-			<div class="alert alert-info">
-				{{ login.message }}
+		<form ng-submit="login.doLogin()">
+			<div class="form-group">
+				<label>Username</label>
+				<input type="text" class="form-control" ng-model="login.loginData.username">
+			</div>
+			<div>
+				<label>Password</label>
+				<input type="password" class="form-control" ng-model="login.loginData.password">
 			</div>
 
-		</div>
-	</div>
+			
+			<!--error-->
+			<div class="alert alert-danger" ng-if="login.error">
+				{{ login.error }}
+			</div>
 
+			<div class="form-group" style="margin-top: 15px">
+
+			<!-- <button type="submit" class="btn btn-success">Add Entry</button> -->
+				<button type="submit" class="btn btn-block btn-primary">
+					<span ng-if="!login.processing">Login</span>
+					<span ng-if="login.processing"><i class="fa fa-spinner fa-spin"></i></span>
+				</button>
+			</div>		
+
+		</form>
+
+		<!--
+		<div class="row show-hide-message" ng-show="login.message">
+			<div class="col-sm-6 col-sm-offset-3">
+
+				<div class="alert alert-info">
+					{{ login.message }}
+				</div>
+
+			</div>
+		</div>
+		-->
+
+	</div>
 </div>

@@ -1,22 +1,15 @@
 // name our angular app
 angular.module('mainApp', [
-  'app.routes', 
+  'app.routes',
+  'authService',
+  'mainCtrl',
   'tagsService',
   'patientService',
-  'userService'
+  'userService'  
   ])
 
-.controller('mainController', function() {
-
-	// bind this to vm (view-model)
-  var vm = this;	
-
-  // define variables and objects on this
-  // this lets them be available to our views
-
-	// define a basic variable
-	vm.message = 'View your patients to the right';
-
+.config(function($httpProvider){
+  $httpProvider.interceptors.push('AuthInterceptor');
 })
 
 //home controller

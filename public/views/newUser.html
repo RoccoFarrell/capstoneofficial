@@ -1,0 +1,25 @@
+<div class="row col-sm-6 col-sm-offset-3">
+	<div class="jumbotron">
+		<h1>Log In / Register</h1>
+
+		<form class="form-inline" ng-submit="login.saveUser()">
+			<input type="text" class="form-control" placeholder="Name" ng-model="login.userData.name">
+			<input type="text" class="form-control" placeholder="User Name" ng-model="login.userData.username">
+			<input type="text" class="form-control" placeholder="Password" ng-model="login.userData.password">
+			
+			<!-- <button type="submit" class="btn btn-success">Add Entry</button> -->
+			<button type="submit" class="btn btn-success">New User</button>		
+		</form>
+
+		<div class="row show-hide-message" ng-show="login.message">
+			<div class="col-sm-6 col-sm-offset-3">
+
+				<div class="alert alert-info">
+					{{ login.message }}
+				</div>
+
+			</div>
+		</div>
+
+	</div>
+</div>
