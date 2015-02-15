@@ -6,16 +6,20 @@
 			<tr>
 				<td>tag id</td>
 				<td>tag scan date</td>
-				<td>_id</td>
+				<!--
+				<td>poop</td>
 				<td>__v</td>
+				-->
 			</tr>
 		</thead>
-		<tbody>
+		<tbody class="tagDisplay">
 			<tr ng-repeat="item in getTags.tags">
 				<td>{{ item.tagID }}</td>
 				<td>{{ item.tagScanDate }}</td>
+				<!--
 				<td>{{ item._id }}</td>
 				<td>{{ item.__V }}</td>
+				-->
 			</tr>
 		</tbody>
 	</table>

@@ -55,16 +55,37 @@ angular.module('mainApp', [
 .controller('getTagsController', function(tagsFactory){
 
   var vm = this;
+  var date;
 
-  vm.message = 'get tags yeah';
+  //vm.message = 'get tags yeah';
 
   tagsFactory.all()
 
     .success(function(data){
 
       vm.tags = data;
-      console.log('get tags worked');
+      //console.log('get tags worked');
+      //console.log('length: ' + vm.tags.length)
+
+      for(i=0; i< vm.tags.length; i++){
+    
+        //console.log("tagScanDate to string: " + vm.tags[i].tagScanDate);
+        //console.log("test if JSON date: ");
+        //console.log(vm.tags[i].tagScanDate instanceof Date);
+        //console.log("test if JSON object: ");
+        //console.log(vm.tags[i] instanceof Object);
+        //console.log("test if conversion is JSON Date: ");
+        date = new Date(vm.tags[i].tagScanDate);
+        //console.log(date instanceof Date)
+        //console.log(date);
+        vm.tags[i].tagScanDate = date.toString();
+      }
+
+
     });
+
+
+
 })
 
 //postTags controller

@@ -14,8 +14,18 @@
           <ul ng-repeat="item in home.patients">
           <a href='#'>{{item.patientName}} </a>
           	<li>Age: {{item.patientAge}}</li>
-            <li>Address: {{item.patientAddress}}</li>
             <li>Caretaker: {{item.patientCaretaker}}</li>
+            <!-- <li>Address: {{item.patientAddress}}</li> -->
+            <li> Address </li>
+            <li class="nestedList">
+              <ul ng-repeat="item2 in item.patientAddress">
+                <li>Street: {{item2.street}}</li>
+                <li>City: {{item2.city}}</li>
+                <li>State: {{item2.state}}</li>
+                <li>Zip: {{item2.zipcode}}</li>
+              </ul>
+            </li>
+            
           </ul> 
          
         </div>

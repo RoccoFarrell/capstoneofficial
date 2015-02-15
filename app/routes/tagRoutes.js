@@ -15,7 +15,10 @@ exports.postTags = function(req, res){
 			if(err.code == 11000)
 				return res.json({ success: false, message: 'duplicate entry'});
 			else
-				return res.json({ success: false, message: 'err' + err.code});
+			{
+				errCode = err.code;
+				return res.json({ success: false, message: 'err: ' + errCode});
+			}
 
 		}
 			res.json({ message: 'Tag entry created!'});
@@ -27,6 +30,7 @@ exports.getTags = function(req, res){
 	Tag.find(function(err, tags) {
 		if (err) res.send(err);
 			res.json(tags);
+			console.log("tags" + tags);
 	});
 };
 

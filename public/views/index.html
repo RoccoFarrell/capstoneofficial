@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width" />
 	<title>Elder Care View</title>
 
 	<base href="/">
@@ -10,57 +11,12 @@
 	<!-- load bootstrap and our stylesheet -->
 	<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
 	<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.css">
+
+	<!-- Fonts -->
+	<link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+
 	<link type="text/css" rel="stylesheet" href="../assets/css/style.css">
 	<link rel="shortcut icon" href="../assets/img/favicon.ico">
-
-	<style>
-
-	html{
-		height: 100%;
-	}
-
-	@media (min-width: 1200px)
-	.container {
-		max-width: 1500px;
-	}
-
-	body { 
-		height: 100%;
-	 	padding-top:75px;
-	 	/* background: linear-gradient(180deg,#B2EEFC 0%,#44c7f4 100%); */
-	 	background-repeat: no-repeat;
-	 	background-attachment: fixed;
-	 }
-
-	  .sidebar {
-	  	background-color: #f5f5f5;
-	  	border-radius: 10px;
-	  }
-
-	  .navbar-brand{
-	  	margin-right: 100px;
-	  }
-
-	  #brand-icon{
-	  	margin-right: 10px;
-	  }
-
-	  #loginMessage{
-	  	float: left;
-	  	margin-right: 15px;
-	  }
-
-	  .jumbotron{
-	  	/* color: #999; */
-	  	border-radius: 10px;
-	  	background-color: #f5f5f5;
-
-	  }
-
-	  main{
-	  	max-width: 1500px;
-	  }
-	</style>
 
 	 <!-- JS -->
 	 <!-- load angular and our custom application -->
@@ -83,29 +39,39 @@
 
 </head>
 
-<body class="container" ng-app="mainApp" ng-controller="mainController as main">
+<body class="container ng-scope" id="mainContainer" ng-app="mainApp" ng-controller="mainController as main">
 	<!-- HEADER AND NAVBAR -->
 	<header>
 		<nav class="navbar navbar-inverse navbar-fixed-top">
 
 		<div class="navbar-header">
-			<a class="navbar-brand" href="/"><span id="brand-icon"><i class="fa fa-user-md"></i></span>Elder CareView Home</a>
-		</div>
+			<a class="navbar-brand" href="/home"><span id="brand-icon"><i class="fa fa-user-md"></i></span>Elder CareView Home</a>
 
-			<ul class="nav navbar-nav">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+		</div>
+		<div class="navbar-collapse collapse">
+			<ul class="nav navbar-nav navbar-right">
 				<!-- <li><a href="/"><i class="fa fa-home"></i>Home</a></li> -->
 				<li ng-if="!main.loggedIn"><a href="/login"><i class="fa fa-sign-in"></i> Login </a></li>
 				<li ng-if="!main.loggedIn"><a href="/newUser"><i class="fa fa-user-plus"></i> New User </a></li>
-				<li ng-if="main.loggedIn"><a href="#" ng-click="main.doLogout()"><i class="fa fa-sign-out"></i>Logout</a></li>
+				<!--
 				<li ng-if="main.loggedIn"><a href="/home"><i class="fa fa-user"></i> Your Page </a></li>
+				-->
 				<li ng-if="main.loggedIn"><a href="/getTags"><i class="fa fa-spinner fa-spin"></i> Get Tags </a></li>
 				<li ng-if="main.loggedIn"><a href="/postTags"><i class="fa fa-cog fa-spin"></i> Post new Tags </a></li>
+				<li ng-if="main.loggedIn"><a href="#" ng-click="main.doLogout()"><i class="fa fa-sign-out"></i>Logout</a></li>
 			</ul>
+		</div>
 		</nav>
 	</header>
 
 	<!-- MAIN CONTENT AND INJECTED VIEWS -->
-<main class="body-wrap">
+<main class="body-wrap col-sm-12">
 	<div ng-view>
 	    
 	</div><!-- end container fluid -->

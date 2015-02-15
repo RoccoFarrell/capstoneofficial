@@ -20,10 +20,13 @@ module.exports = function(app, express) {
 		username: req.body.username
 	}).select('name username password').exec(function(err, user){
 
+		console.log("Authenticating: " + req.body.username);
+
 		if(err) throw err;
 
 		//no user with that username found
 		if(!user) {
+			console.log("Authentication of " + req.body.username + "failed: no user found");
 			res.json({
 				success: false,
 				message: 'Authetication failed. User not found.'
@@ -33,6 +36,7 @@ module.exports = function(app, express) {
 			//check if password matches
 			var validPassword = user.comparePassword(req.body.password);
 			if(!validPassword) {
+				console.log("Authentication of " + req.body.username + "failed: wrong password");
 				res.json({
 					success: false,
 					message: 'Authentication failed. Wrong password.'
