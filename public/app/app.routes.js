@@ -42,8 +42,14 @@ angular.module('app.routes', ['ngRoute'])
             controllerAs : 'login'
         })
 
+        .when('/', {
+            templateUrl: '../views/cover.html',
+            controller : 'mainController',
+            controllerAs : 'cover'
+        })
+
         .otherwise({
-            redirectTo: "/"
+            redirectTo: '/404'
         });
 
 

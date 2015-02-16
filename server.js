@@ -42,6 +42,10 @@ var apiRouter = require('./app/routes/api')(app, express);
 // all of our routes will be prefixed with /api
 app.use('/api', apiRouter);
 
+app.get('/404', function(req, res){
+	res.sendFile(path.join(__dirname + '/public/views/404.html'));
+	});
+
 // basic route for the home page
 app.get('*', function(req, res) {
 	res.sendFile(path.join(__dirname + '/public/views/index.html'));

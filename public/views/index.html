@@ -2,24 +2,30 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
 	<title>Elder Care View</title>
 
 	<base href="/">
 
 	<!-- CSS -->
-	<!-- load bootstrap and our stylesheet -->
-	<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
+	<!-- Bootstrap -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
 	<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.css">
 
 	<!-- Fonts -->
 	<link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
 
-	<link type="text/css" rel="stylesheet" href="../assets/css/style.css">
+	<!-- Favicon -->
 	<link rel="shortcut icon" href="../assets/img/favicon.ico">
 
-	 <!-- JS -->
-	 <!-- load angular and our custom application -->
+	<!-- Scripts -->
+	 <!-- jQuery-->
+	<script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
+	<script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+	<!-- Bootstrap JS -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+	<!--Angular-->
 	<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.8/angular.min.js"></script>
 	<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.8/angular-route.js"></script>
 
@@ -35,48 +41,48 @@
 	<!-- main app files -->
 	<script src="../app/app.routes.js"></script>
 	<script src="../app/app.js"></script> 
-	
 
+	<link type="text/css" rel="stylesheet" href="../assets/css/style.css">
+	
 </head>
 
-<body class="container ng-scope" id="mainContainer" ng-app="mainApp" ng-controller="mainController as main">
+<body class="ng-scope" id="mainContainer" ng-app="mainApp" ng-controller="mainController as main">
 	<!-- HEADER AND NAVBAR -->
 	<header>
-		<nav class="navbar navbar-inverse navbar-fixed-top">
+		<nav ng-if="main.loggedIn" class="navbar navbar-inverse navbar-fixed-top">
 
-		<div class="navbar-header">
-			<a class="navbar-brand" href="/home"><span id="brand-icon"><i class="fa fa-user-md"></i></span>Elder CareView Home</a>
+			<div class="navbar-header">
+				<a class="navbar-brand" href="/home"><span id="brand-icon"><i class="fa fa-user-md"></i></span>Elder CareView Home</a>
 
-			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-              </button>
-		</div>
-		<div class="navbar-collapse collapse">
-			<ul class="nav navbar-nav navbar-right">
-				<!-- <li><a href="/"><i class="fa fa-home"></i>Home</a></li> -->
-				<li ng-if="!main.loggedIn"><a href="/login"><i class="fa fa-sign-in"></i> Login </a></li>
-				<li ng-if="!main.loggedIn"><a href="/newUser"><i class="fa fa-user-plus"></i> New User </a></li>
-				<!--
-				<li ng-if="main.loggedIn"><a href="/home"><i class="fa fa-user"></i> Your Page </a></li>
-				-->
-				<li ng-if="main.loggedIn"><a href="/getTags"><i class="fa fa-spinner fa-spin"></i> Get Tags </a></li>
-				<li ng-if="main.loggedIn"><a href="/postTags"><i class="fa fa-cog fa-spin"></i> Post new Tags </a></li>
-				<li ng-if="main.loggedIn"><a href="#" ng-click="main.doLogout()"><i class="fa fa-sign-out"></i>Logout</a></li>
-			</ul>
-		</div>
+				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-menu">
+	                <span class="sr-only">Toggle navigation</span>
+	                <span class="icon-bar"></span>
+	                <span class="icon-bar"></span>
+	                <span class="icon-bar"></span>
+	              </button>
+			</div>
+			<div id="navbar-collapse-menu" class="navbar-collapse collapse">
+				<ul class="nav navbar-nav navbar-right">
+					<!-- <li><a href="/"><i class="fa fa-home"></i>Home</a></li> -->
+					<li ng-if="!main.loggedIn"><a href="/login"><i class="fa fa-sign-in"></i> Login </a></li>
+					<li ng-if="!main.loggedIn"><a href="/newUser"><i class="fa fa-user-plus"></i> New User </a></li>
+					<!--
+					<li ng-if="main.loggedIn"><a href="/home"><i class="fa fa-user"></i> Your Page </a></li>
+					-->
+					<li ng-if="main.loggedIn"><a href="/getTags"><i class="fa fa-spinner fa-spin"></i> Get Tags </a></li>
+					<li ng-if="main.loggedIn"><a href="/postTags"><i class="fa fa-cog fa-spin"></i> Post new Tags </a></li>
+					<li ng-if="main.loggedIn"><a href="#" ng-click="main.doLogout()"><i class="fa fa-sign-out"></i>Logout</a></li>
+				</ul>
+			</div>
 		</nav>
 	</header>
 
 	<!-- MAIN CONTENT AND INJECTED VIEWS -->
-<main class="body-wrap col-sm-12">
-	<div ng-view>
+
+	<div class="ngview-container" ng-view>
 	    
 	</div><!-- end container fluid -->
 
-</main>
 
 
 </body>
