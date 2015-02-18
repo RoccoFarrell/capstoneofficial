@@ -48,9 +48,6 @@ angular.module('mainApp', [
   }
 })
 
-
-
-
 //getTags controller
 .controller('getTagsController', function(tagsFactory){
 
@@ -67,8 +64,15 @@ angular.module('mainApp', [
       //console.log('get tags worked');
       //console.log('length: ' + vm.tags.length)
 
+      vm.counts = {};
+
       for(i=0; i< vm.tags.length; i++){
     
+        tagIDlocal = vm.tags[i].tagID;
+
+        typeof(vm.counts[tagIDlocal]) == "undefined" ? vm.counts[tagIDlocal] = 1 :
+        vm.counts[tagIDlocal] += 1;
+
         //console.log("tagScanDate to string: " + vm.tags[i].tagScanDate);
         //console.log("test if JSON date: ");
         //console.log(vm.tags[i].tagScanDate instanceof Date);
@@ -78,8 +82,14 @@ angular.module('mainApp', [
         date = new Date(vm.tags[i].tagScanDate);
         //console.log(date instanceof Date)
         //console.log(date);
-        vm.tags[i].tagScanDate = date.toString();
+        vm.tags[i].tagScanDateString = date.toString();
+        //console.log(vm.tags[i].tagScanDateString);
+
+        console.log("id: " + vm.tags[i].tagID);
+ 
       }
+
+      console.log(vm.counts);
 
 
     });

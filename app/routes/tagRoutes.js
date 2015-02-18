@@ -30,7 +30,7 @@ exports.getTags = function(req, res){
 	Tag.find(function(err, tags) {
 		if (err) res.send(err);
 			res.json(tags);
-			console.log("tags" + tags);
+			//console.log("tags" + tags);
 	});
 };
 

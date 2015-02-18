@@ -12,7 +12,7 @@ angular.module('tagsService', [])
 
 	//create new user
 	localTagsFactory.create = function(tagData){
-		console.log("tagData: " + tagData);
+		//console.log("tagData: " + tagData);
 		return $http.post('/api/tags', tagData);
 	};
 
