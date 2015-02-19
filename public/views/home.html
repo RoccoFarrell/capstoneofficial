@@ -1,6 +1,6 @@
 <div class="belowNav container-fluid">
     <div class="row">
-        <div class="col-sm-3 sidebar">
+        <div class="col-sm-2 sidebar">
           <ul class="nav nav-sidebar">
             <h3>Patient List</h3>
             <!-- 
@@ -10,6 +10,12 @@
             <li><a href="#">Export</a></li>
             -->
           </ul>
+
+            <select ng-model="selectedPatient">
+              <option ng-repeat="item in home.patients">{{item.patientName}}</option>
+            </select>
+
+            <p>The value selected is {{selectedPatient.value}}.</p>
          
           <ul ng-repeat="item in home.patients">
           <a href='#'>{{item.patientName}} </a>
@@ -37,7 +43,7 @@
          
         </div>
 
-        <div class="col-sm-9 main">
+        <div class="col-sm-10 main">
 			<div class="jumbotron">
 
 			<!-- display the message -->
