@@ -1,7 +1,7 @@
 Get Free Domain
-Add Patient Name to Tag Schema
-	Show in get tags
-Add get tags between time range call to API
+Add get tags stuff
+	Between time range call
+	Specific Patient
 Graphs
 Logic for building graphs
 Fix cover page bootstrap
