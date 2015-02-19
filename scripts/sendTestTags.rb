@@ -26,6 +26,7 @@ $http = Net::HTTP.new(uri.host, uri.port)
 
 $tagID_bedroom1 = "Bedroom-001"
 $tagID_bedroom2 = "Bedroom-002"
+$tagID_hallway = "Hallway"
 $tagID_kitchen = "Kitchen-001"
 $tagID_bathroom1 = "Bathroom-001"
 $tagID_bathroom2 = "Bathroom-002"
@@ -33,7 +34,15 @@ $tagID_lr = "LivingRoom-001"
 $tagID_front = "FrontEnt-001"
 $tagID_back = "BackEnt-001"
 
-count = 0
+$minute = 60
+$hour = 60 * $minute
+$day = $hour * 24
+$week = $day * 7
+$walkingConstant = 3 + rand(5)
+
+$currentLocation = " "
+
+$count = 0
 
 ##Function Prototype
 #def functionname(variable)
@@ -42,6 +51,7 @@ count = 0
 
 #Submit Tag Function, returns hash of HTTP response, use 'pp' to display
 def submitTag(tagID, tagScanDate)
+
 	tsdISO = tagScanDate.iso8601
 
 	request = Net::HTTP::Post.new($uri.request_uri)
@@ -51,8 +61,8 @@ def submitTag(tagID, tagScanDate)
 	#puts "Headers: #{request.to_hash.inspect}"
 
 	request.set_form_data({"tagID" => tagID, "tagScanDate" => tsdISO})
-	puts "tagID: " + tagID
-	puts "tagScanDate: " + tsdISO
+	puts "Submitted tag ---> tagID: " + tagID + " tagScanDate: " + tagScanDate.strftime("%I:%M:%S%p %m/%d/%y")
+	$count += 1
     
 	#response = http.request(request)
 	#my_hash = JSON.parse(response.body)
@@ -60,48 +70,273 @@ def submitTag(tagID, tagScanDate)
 	#return my_hash
 end
 
-#Bathroom visit, takes input time and bathroom ID as input, returns time after visit is completed
-def bathroomVisit(inputTime, bathroomNum)
+#Bathroom visit, takes input time, bathroom ID, bathroom function as input, returns time after visit is completed
+#bathroomFunc is a variable where '1' is a #1, '2' is a #2, '3' is a shower
+def bathroomVisit(inputTime, bathroomNum, bathroomFunc, source, destination)
 
-	timeEnter = inputTime
-
-	randomTimeInBath = 60+ rand(60*9)
-	#adding 60 in addition of one minute
-
-	tempTime = inputTime
 	if bathroomNum == 1 
-		response = submitTag($tagID_bathroom1, timeEnter)
+		submitBathroomID = $tagID_bathroom1
 	else
 		puts "Unregistered Bathroom"
 	end
-	
+
+	#enter bathroom
+	inputTime = houseTrip(inputTime, source, $tagID_bathroom1)
+
+	if bathroomFunc == 1
+		inputTime += ($minute + rand($minute*4))
+	elsif bathroomFunc == 2
+		inputTime += (5*$minute + rand($minute*5))
+	elsif bathroomFunc == 3
+		inputTime += (10*$minute + rand($minute*10))
+	end
+
+	#exit bathroom, another hallwayscan after random amount of time in bath ( ~5min)
+	#puts "At return --->>>> inputTime: " + inputTime.strftime("%I:%M:%S%p %m/%d/%y")
+	#puts "Now going from " + $tagID_bathroom1 + " to " + destination
+	#inputTime =  
+	#puts "inputTime: " + inputTime.inspect
+	return houseTrip(inputTime, $tagID_bathroom1, destination)
 end
 
-#loops through the week
-for i in 0..6
-	day = Time.new(2015, 2, 18)
-	dayConstant = i * (60*60*24)
+####################################
+########Living room visit###########
+####################################
+#lrFunc values are '1' for chillin, '2' for chillin hard, '3' for midday grandma nap on the couch
+def livingRoomVisit(inputTime, lrFunc, source, destination)
 
-	puts "Day " + i.inspect
-	puts "=========================="
+	inputTime = houseTrip(inputTime, source, $tagID_lr)
 
-	day += dayConstant
+	if lrFunc == 1
+		inputTime += $minute*15 + rand($minute*15)
+	elsif lrFunc == 2
+		inputTime += 30*$minute + rand($minute*30)
+	elsif lrFunc == 3
+		inputTime += 60*$minute + rand($hour*2)
+	end
 
-	#initial bed scans, random amount of bathroom trips in a night
+	#exit bathroom, another hallwayscan after random amount of time in bath ( ~5min)
+	#puts "At return --->>>> inputTime: " + inputTime.strftime("%I:%M:%S%p %m/%d/%y")
+	#puts "Now going from " + $tagID_bathroom1 + " to " + destination
+	#inputTime =  
+	#puts "inputTime: " + inputTime.inspect
+	return houseTrip(inputTime, $tagID_lr, destination)
+end
 
-	#leaving bedroom, go from bathroom to kitchen
+####################################
+########Kitchen visit###############
+####################################
+#kitchenFunc can be different meals, for now, 1 is a quick drink, 2 is a snack, 3 is a meal
+def kitchenVisit(inputTime, kitchenFunc, source, destination)
+
+	#enter bathroom
+	inputTime = houseTrip(inputTime, source, $tagID_kitchen)
+
+	if kitchenFunc == 1
+		inputTime += 30 + rand(30)
+	elsif kitchenFunc == 2
+		inputTime += 4*$minute + rand($minute*4)
+	elsif kitchenFunc == 3
+		inputTime += 15*$minute + rand($minute*15)
+	end
+
+	#exit bathroom, another hallwayscan after random amount of time in bath ( ~5min)
+	#puts "At return --->>>> inputTime: " + inputTime.strftime("%I:%M:%S%p %m/%d/%y")
+	#puts "Now going from " + $tagID_bathroom1 + " to " + destination
+	#inputTime =  
+	#puts "inputTime: " + inputTime.inspect
+	return houseTrip(inputTime, $tagID_kitchen, destination)
+end
+
+####################################
+#########Trip in house##############
+####################################
+def houseTrip(inputTime, source, destination)
+	puts "Going from " + source + " to " + destination
+	$currentLocation = destination
+	case destination
+
+	when source
+		return inputTime
+
+	when "Bathroom-001"
+		case source
+		when "Kitchen-001"
+			inputTime = houseTrip(inputTime, "Kitchen-001", "LivingRoom-001")
+			return houseTrip(inputTime, "LivingRoom-001", "Bathroom-001")
+		when "Bedroom-001" || "Bedroom-002" || "LivingRoom-001"
+			inputTime += $walkingConstant
+			submitTag($tagID_hallway, inputTime)
+			inputTime += $walkingConstant
+			submitTag($tagID_bathroom1, inputTime)
+			return inputTime
+		end
+
+	when "Bedroom-001"
+		case source
+		when "Kitchen-001"
+			inputTime = houseTrip(inputTime, "Kitchen-001", "LivingRoom-001")
+			return houseTrip(inputTime, "LivingRoom-001", "Bedroom-001")
+		when "Bathroom-001" || "Bedroom-002" || "LivingRoom-001"
+			inputTime += $walkingConstant
+			submitTag($tagID_hallway, inputTime)
+			inputTime += $walkingConstant
+			submitTag($tagID_bedroom1, inputTime)
+			return inputTime
+		end
+
+	when "Bedroom-002"
+		case source
+		when "Kitchen-001"
+			inputTime = houseTrip(inputTime, "Kitchen-001", "LivingRoom-001")
+			return houseTrip(inputTime, "LivingRoom-001", "Bedroom-002")
+		when "Bathroom-001" || "Bedroom-002" || "LivingRoom-001"
+			inputTime += $walkingConstant
+			submitTag($tagID_hallway, inputTime)
+			inputTime += $walkingConstant
+			submitTag($tagID_bedroom2, inputTime)
+			return inputTime
+		end
+
+	when "Kitchen-001"
+		case source
+		when "LivingRoom-001"
+			inputTime += $walkingConstant
+			submitTag($tagID_kitchen, inputTime)
+			return inputTime
+		when "Bathroom-001"
+			inputTime += $walkingConstant
+			submitTag($tagID_hallway, inputTime)
+			inputTime += $walkingConstant
+			submitTag($tagID_lr, inputTime)
+			return houseTrip(inputTime, $tagID_lr, $tagID_kitchen)
+		when "Bedroom-001"
+			inputTime += $walkingConstant
+			submitTag($tagID_hallway, inputTime)
+			inputTime += $walkingConstant
+			submitTag($tagID_lr, inputTime)
+			return houseTrip(inputTime, $tagID_lr, $tagID_kitchen)
+		when "Bedroom-002"
+			inputTime += $walkingConstant
+			submitTag($tagID_hallway, inputTime)
+			inputTime += $walkingConstant
+			submitTag($tagID_lr, inputTime)
+			return houseTrip(inputTime, $tagID_lr, $tagID_kitchen)
+		end
+
+	when "LivingRoom-001"
+		case source
+		when "Kitchen-001"
+			inputTime += $walkingConstant
+			submitTag($tagID_lr, inputTime)
+			return inputTime
+		when "Bedroom-001" || "Bedroom-002" || "Bathroom-001"
+			inputTime += $walkingConstant
+			submitTag($tagID_hallway, inputTime)
+			inputTime += $walkingConstant
+			submitTag($tagID_lr, inputTime)
+			return inputTime
+		end
+
+	else
+		puts "houseTrip error"
+	end
+end
+
+####################################
+#######Main Day Loop################
+####################################
+$timeOfDay = Time.new()
+
+
+def singleDayGen()
+
+	#Random Nighttime bathroom visit from midnight to 4am, 25% chance to occur on any given night
+	if rand(100) > 75
+		puts "Uh oh! Midnight incontinence strikes!"
+		$timeOfDay = bathroomVisit($timeOfDay + rand($hour*4), 1, 1, $tagID_bedroom1, $tagID_bedroom1)
+	end
+
+	#wakeup time
+	$timeOfDay += ($hour*6) + rand($hour*2)
+
+	#random bedtime
+	bedTime = $timeOfDay + ($hour * 13) + rand($hour*1 + (30 * $minute))
+
+	puts "Wake time: " + $timeOfDay.strftime("%I:%M:%S%p %m/%d/%y")
+	
+	#leaving bedroom in morning, go to bathroom most days (~90%)
+	if rand(100) > 10
+		#shower or not (~%80 chance to shower)
+		if rand(100) > 20
+			#getting out of bed for shower
+			$timeOfDay += (2*$minute) + rand($minute*3)
+			puts "Shower at " + $timeOfDay.strftime("%I:%M:%S%p %m/%d/%y")
+			$timeOfDay = bathroomVisit($timeOfDay, 1, 3, $tagID_bedroom1, $tagID_bedroom1)
+			#getting dressed
+			$timeOfDay += (2*$minute) + rand($minute*3)
+		elsif
+			#getting out of bed / dressed
+			$timeOfDay += (2*$minute) + rand($minute*6)
+			puts "#2 at " + $timeOfDay.strftime("%I:%M:%S%p %m/%d/%y") 
+			$timeOfDay = bathroomVisit($timeOfDay, 1, 2, $tagID_bedroom1, $tagID_bathroom1)
+		end
+	else
+		puts "We'll skip shower for today"
+	end
+
+	#eat breakfast, 100% chance to occur after waking, 30% chance to eat in living room
+	if rand(100) > 30
+		puts "Eating breakfast in the kitchen today"
+		$timeOfDay = kitchenVisit($timeOfDay, 3, $tagID_bedroom1, $tagID_kitchen)
+	else
+		puts "Eating breakfast in the living room today"
+		$timeOfDay = kitchenVisit($timeOfDay, 3, $tagID_bedroom1, $tagID_lr)
+	end
+
+	while($timeOfDay < bedTime)
+		puts "Now " + $timeOfDay
+		.strftime("%I:%M:%S%p %m/%d/%y")
+
+		lrFunc = 1+ rand(3)
+		brFunc = 1 + rand(3)
+		$timeOfDay = livingRoomVisit($timeOfDay, lrFunc, $currentLocation, $tagID_bathroom1)
+		$timeOfDay = bathroomVisit($timeOfDay, 1, brFunc, $currentLocation, $tagID_lr)
+
+		$timeOfDay += $hour
+
+	end
+
+	puts "Going to sleep at around" + bedTime.strftime("%I:%M:%S%p %m/%d/%y")
+
+	##########################################
 
 	#random movement between kitchen, living room, bathroom
 
 	#five bathroom trips a day
-	for i in 0..5
-		randomTimeOfDay = rand(60*60*24)
-		
-		bathroomVisit(day + randomTimeOfDay, 1)
 
-		count += 2		
-	end
+	puts " "
+
 
 end
 
-puts count.inspect + " tags entered into DB"
+#######Main loop ##########
+#loops through the week
+for i in 0..6
+	startDay = Time.new(2015, 2, 18)
+	dayConstant = i * ($day)
+
+	#Day starts at midnight 
+
+	puts "=========================="
+	puts "Day " + i.inspect
+	puts "=========================="
+
+	$timeOfDay = startDay + dayConstant
+
+	singleDayGen()
+
+	
+end
+
+puts $count.inspect + " tags entered into DB"

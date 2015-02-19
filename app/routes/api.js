@@ -105,8 +105,11 @@ module.exports = function(app, express) {
 
 	apiRouter.route('/tags')
 		.post(tagRoutes.postTags)
-		.get(tagRoutes.getTags)
+		.get(tagRoutes.getAllTags)
 		.delete(tagRoutes.deleteTags);
+
+	apiRouter.route('/tags/timeRange')
+		.get(tagRoutes.getTimeRangeTags);
 
 	apiRouter.route('/users')
 		//.post(userRoutes.postUsers)

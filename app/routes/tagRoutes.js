@@ -1,4 +1,5 @@
 var Tag = require('../models/tag');
+var url = require('url');
 
 exports.postTags = function(req, res){
 
@@ -24,7 +25,24 @@ exports.postTags = function(req, res){
 	});
 };
 
-exports.getTags = function(req, res){
+
+exports.getTimeRangeTags = function(req, res){
+
+	var URL_parts = url.parse(req.url, true);
+	console.log("req.url: " + req.url)
+	var query = URL_parts.query;
+	console.log("query: " + query);
+	console.log("startDate: " + query.startDate);
+	console.log("endDate: " + query.endDate);
+	Tag.find({ $and: [{ tagScanDate: { $gte: query.startDate }}, { tagScanDate: { $lte: query.endDate }} ]},
+	 function(err, tags){
+		if(err) res.send(err);
+		console.log(tags);
+		res.json(tags);
+	});
+};
+
+exports.getAllTags = function(req, res){
 
 	Tag.find(function(err, tags) {
 		if (err) res.send(err);
