@@ -19,9 +19,8 @@ exports.postTags = function(req, res){
 				errCode = err.code;
 				return res.json({ success: false, message: 'err: ' + errCode});
 			}
-
 		}
-			res.json({ message: 'Tag entry created!'});
+			res.json({ message: 'Tag entry created!'})
 	});
 };
 

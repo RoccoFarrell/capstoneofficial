@@ -5,7 +5,8 @@ var Schema = mongoose.Schema;
 // tag schema
 var tagSchema = new Schema({
 	tagID: { type: String, required: true},
-	tagScanDate: {type: Date, required: true}
+	tagScanDate: {type: Date, required: true},
+	tagPatient: {type: String, required: true}
 });
 
 // return the model

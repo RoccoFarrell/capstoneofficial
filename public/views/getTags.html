@@ -4,22 +4,16 @@
 	<table class="table table-bordered">
 		<thead>
 			<tr>
-				<td>tag id</td>
-				<td>tag scan date</td>
-				<!--
-				<td>poop</td>
-				<td>__v</td>
-				-->
+				<td>Tag ID:</td>
+				<td>Tag Scan Date:</td>
+				<td>Patient:</td>
 			</tr>
 		</thead>
 		<tbody class="tagDisplay">
 			<tr ng-repeat="item in getTags.tags">
 				<td>{{ item.tagID }}</td>
 				<td>{{ item.tagScanDateString }}</td>
-				<!--
-				<td>{{ item._id }}</td>
-				<td>{{ item.__V }}</td>
-				-->
+				<td>{{ item.tagPatient }}</td>
 			</tr>
 		</tbody>
 	</table>

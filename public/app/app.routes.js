@@ -21,6 +21,11 @@ angular.module('app.routes', ['ngRoute'])
             controllerAs: 'newUser'
         })
 
+        .when('/newPatient', {
+            templateUrl: '../views/newPatient.html',
+            controller: 'newPatientController',
+            controllerAs: 'newPatient'
+        })
 
         //route for get tags
         .when('/getTags', {

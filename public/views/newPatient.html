@@ -1,0 +1,29 @@
+<div class="row col-sm-6 col-sm-offset-3">
+	<div class="jumbotron">
+		<h1>Register</h1>
+
+		<form class="form-inline" ng-submit="newPatient.savePatient()">
+			<input type="text" class="form-control" placeholder="Name" ng-model="newPatient.userData.patientName">
+			<input type="text" class="form-control" placeholder="Age" ng-model="newPatient.userData.patientAge">
+			<input type="text" class="form-control" placeholder="Caretaker" ng-model="newPatient.userData.patientCaretaker">
+			<input type="text" class="form-control" placeholder="Street" ng-model="newPatient.userData.patientAddress.street">
+			<input type="text" class="form-control" placeholder="City" ng-model="newPatient.userData.patientAddress.city">
+			<input type="text" class="form-control" placeholder="State" ng-model="newPatient.userData.patientAddress.state">
+			<input type="text" class="form-control" placeholder="Zipcode" ng-model="newPatient.userData.patientAddress.zipcode">
+			
+			<!-- <button type="submit" class="btn btn-success">Add Entry</button> -->
+			<button type="submit" class="btn btn-success">Add Patient</button>		
+		</form>
+
+		<div class="row show-hide-message" ng-show="login.message">
+			<div class="col-sm-6 col-sm-offset-3">
+
+				<div class="alert alert-info">
+					{{ login.message }}
+				</div>
+
+			</div>
+		</div>
+
+	</div>
+</div>

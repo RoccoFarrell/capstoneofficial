@@ -17,6 +17,13 @@
             <li>Caretaker: {{item.patientCaretaker}}</li>
             <!-- <li>Address: {{item.patientAddress}}</li> -->
             <li> Address </li>
+            <ul>
+              <li>Street: {{item.patientAddress.street}}</li>
+              <li>City: {{item.patientAddress.city}}</li>
+              <li>State: {{item.patientAddress.state}}</li>
+              <li>Zipcode: {{item.patientAddress.zipcode}}</li>
+            </ul>
+            <!--
             <li class="nestedList">
               <ul ng-repeat="item2 in item.patientAddress">
                 <li>Street: {{item2.street}}</li>
@@ -25,7 +32,7 @@
                 <li>Zip: {{item2.zipcode}}</li>
               </ul>
             </li>
-            
+            -->
           </ul> 
          
         </div>

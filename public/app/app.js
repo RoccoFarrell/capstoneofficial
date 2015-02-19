@@ -25,10 +25,9 @@ angular.module('mainApp', [
   });
 })
 
-//login controller
+//new user controller
 .controller('newUserController', function(userFactory){
   var vm = this;
-  //vm.message = 'logging in';
 
   vm.saveUser = function(){
     vm.processing = true;
@@ -43,6 +42,28 @@ angular.module('mainApp', [
       vm.userData = {};
       vm.message = data.message;
       console.log('post user worked');
+    });
+
+  }
+})
+
+//new user controller
+.controller('newPatientController', function(patientFactory){
+  var vm = this;
+
+  vm.savePatient = function(){
+    vm.processing = true;
+    vm.message = ' ';
+
+    patientFactory.create(vm.userData)
+
+    .success(function(data){
+
+      vm.processing = false;
+
+      vm.userData = {};
+      vm.message = data.message;
+      console.log('Created new patient!');
     });
 
   }
@@ -90,12 +111,7 @@ angular.module('mainApp', [
       }
 
       console.log(vm.counts);
-
-
     });
-
-
-
 })
 
 //postTags controller
@@ -119,12 +135,3 @@ angular.module('mainApp', [
   }
 });
   
-/*.controller('getPatientsController', function(patientsFactory){
-  var vm = this;
-
-  patientsFactory.all()
-    .success(function(data){
-      vm.patients = data;
-      console.log('Get patients worked!');
-    });
-});*/
