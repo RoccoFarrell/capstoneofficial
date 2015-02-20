@@ -21,6 +21,13 @@ angular.module('mainApp', [
   patientFactory.all()
   .success(function(data){
     vm.patients = data;
+
+    vm.options = vm.patients;
+    //vm.options =[{patientName: "hello"}, {patientName: "test"}];
+    vm.selectedPatient = vm.options[0].patientName;
+
+    console.log("vm.options: " + JSON.stringify(vm.options));
+    
     console.log('Get patients worked!');
   });
 })

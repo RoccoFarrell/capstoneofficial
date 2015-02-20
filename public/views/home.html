@@ -11,11 +11,11 @@
             -->
           </ul>
 
-            <select ng-model="selectedPatient">
-              <option ng-repeat="item in home.patients">{{item.patientName}}</option>
+            <!-- <select ng-model="selectedValue" ng-options="opt.patientName for opt in home.options track by home.options.patientName"> -->
+            <select ng-model="selectedValue" ng-options="opt.patientName for opt in home.options">
             </select>
 
-            <p>The value selected is {{selectedPatient.value}}.</p>
+            <p>The value selected is {{selectedValue.patientName}}.</p>
          
           <ul ng-repeat="item in home.patients">
           <a href='#'>{{item.patientName}} </a>
