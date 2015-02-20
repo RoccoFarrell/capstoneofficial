@@ -7,6 +7,7 @@ exports.postTags = function(req, res){
 
 	tag.tagID = req.body.tagID;
 	tag.tagScanDate = req.body.tagScanDate;
+	tag.tagPatient = req.body.tagPatient;
 
 	console.log('tag data getting transmitted to API: ' + req.body.tagID);
 
