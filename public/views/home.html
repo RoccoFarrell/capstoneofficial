@@ -12,35 +12,33 @@
           </ul>
 
             <!-- <select ng-model="selectedValue" ng-options="opt.patientName for opt in home.options track by home.options.patientName"> -->
-            <select ng-model="selectedValue" ng-options="opt.patientName for opt in home.options">
+            <select ng-model="selectedValue" ng-options="opt.patientName for opt in home.options" selected="opt[0].patientName">
             </select>
 
-            <p>The value selected is {{selectedValue.patientName}}.</p>
+            <ul ng-if="selectedValue">
+              <li>Age: {{selectedValue.patientAge}}</li>
+              <li>Caretaker: {{selectedValue.patientCaretaker}}</li>
+              <li>Address </li>
+              <ul>
+                <li>Street: {{selectedValue.patientAddress.street}}</li>
+                <li>City: {{selectedValue.patientAddress.city}}</li>
+                <li>State: {{selectedValue.patientAddress.state}}</li>
+                <li>Zipcode: {{selectedValue.patientAddress.zipcode}}</li>
+              </ul>
+            </ul>
          
-          <ul ng-repeat="item in home.patients">
+          <!--<ul ng-repeat="item in home.patients">
           <a href='#'>{{item.patientName}} </a>
           	<li>Age: {{item.patientAge}}</li>
             <li>Caretaker: {{item.patientCaretaker}}</li>
-            <!-- <li>Address: {{item.patientAddress}}</li> -->
             <li> Address </li>
             <ul>
               <li>Street: {{item.patientAddress.street}}</li>
               <li>City: {{item.patientAddress.city}}</li>
               <li>State: {{item.patientAddress.state}}</li>
               <li>Zipcode: {{item.patientAddress.zipcode}}</li>
-            </ul>
-            <!--
-            <li class="nestedList">
-              <ul ng-repeat="item2 in item.patientAddress">
-                <li>Street: {{item2.street}}</li>
-                <li>City: {{item2.city}}</li>
-                <li>State: {{item2.state}}</li>
-                <li>Zip: {{item2.zipcode}}</li>
-              </ul>
-            </li>
-            -->
+            </ul>-->
           </ul> 
-         
         </div>
 
         <div class="col-sm-10 main">

@@ -1,8 +1,18 @@
 Get Free Domain
 Add get tags stuff
-	Between time range call
 	Specific Patient
+Add form for time call
 Graphs
 Logic for building graphs
 Fix cover page bootstrap
 Fix patient display
+
+Bugs:
+-No default patient
+-Patient window without selected patient has no bottom border
+-Zipcodes are not showing leading 0's
+-Forms look bad
+-Cover page text
+-Change login to new user
+-Margins on home page
+-Way to get back to cover from login/new user
