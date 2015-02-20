@@ -53,6 +53,7 @@
 
 			<div class="navbar-header">
 				<a class="navbar-brand" href="/home"><span id="brand-icon"><i class="fa fa-user-md"></i></span>Elder CareView Home</a>
+				<span class="nav navbar-right" style="color:white;">Welcome, {{main.user.username}}. </span>
 
 				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-menu">
 	                <span class="sr-only">Toggle navigation</span>
@@ -66,9 +67,6 @@
 					<!-- <li><a href="/"><i class="fa fa-home"></i>Home</a></li> -->
 					<li ng-if="!main.loggedIn"><a href="/login"><i class="fa fa-sign-in"></i> Login </a></li>
 					<li ng-if="!main.loggedIn"><a href="/newUser"><i class="fa fa-user-plus"></i> New User </a></li>
-					<!--
-					<li ng-if="main.loggedIn"><a href="/home"><i class="fa fa-user"></i> Your Page </a></li>
-					-->
 					<li ng-if="main.loggedIn"><a href="/newPatient"><i class="fa fa-user-plus"></i> New Patient </a></li>
 					<li ng-if="main.loggedIn"><a href="/getTags"><i class="fa fa-spinner fa-spin"></i> Get Tags </a></li>
 					<li ng-if="main.loggedIn"><a href="/postTags"><i class="fa fa-cog fa-spin"></i> Post new Tags </a></li>
