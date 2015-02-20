@@ -1,36 +1,22 @@
 // name our angular app
 angular.module('mainApp', [
+  'ngResource',
   'app.routes',
   'authService',
   'mainCtrl',
+  'homeCtrl',
   'tagsService',
   'patientService',
-  'userService'  
+  'userService'
   ])
 
 .config(function($httpProvider){
   $httpProvider.interceptors.push('AuthInterceptor');
 })
 
-//home controller
-.controller('homeController', function(patientFactory){
-  var vm = this;
-
-  vm.message = 'home';
-
-  patientFactory.all()
-  .success(function(data){
-    vm.patients = data;
-
-    vm.options = vm.patients;
-    //vm.selectedPatient = vm.options[0].patientName;
-    console.log(vm.options[0].patientName);
-
-    //console.log("vm.options: " + JSON.stringify(vm.options));
-    
-    console.log('Get patients worked!');
-  });
-})
+.config(['$resourceProvider', function($resourceProvider){
+  $resourceProvider.defaults.stripTrailingSlashes = false;
+}])
 
 //new user controller
 .controller('newUserController', function(userFactory){
