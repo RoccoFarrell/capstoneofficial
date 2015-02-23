@@ -15,6 +15,12 @@ angular.module('app.routes', ['ngRoute'])
             controllerAs: 'home'
         })
 
+        .when('/patients', {
+            templateUrl: '../views/patients.html',
+            controller: 'patientsController',
+            controllerAs: 'patient'
+        })
+
         .when('/newUser', {
             templateUrl: '../views/newUser.html',
             controller: 'newUserController',
