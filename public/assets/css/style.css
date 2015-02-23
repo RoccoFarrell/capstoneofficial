@@ -5,6 +5,8 @@ html{
 	-moz-background-size: cover;
 	-o-background-size: cover;
 	background-size: cover;
+
+	box-shadow: inset 0 0 50px rgba(0,0,0,.2);
 }
 
 body { 
@@ -13,7 +15,7 @@ body {
 	/* background: linear-gradient(180deg,#B2EEFC 0%,#44c7f4 100%); */
 	
 	background-color: #C1ECFF;
-	box-shadow: inset 0 0 100px rgba(0,0,0,.2);
+	/* box-shadow: inset 0 0 100px rgba(0,0,0,.2); */
 
 	font-family: 'Open Sans', sans-serif;
 }
@@ -24,6 +26,9 @@ body {
 	display: inline;
 }
 
+#chart_div{
+
+}
 .ngview-container{
 	display: inline;
 } 

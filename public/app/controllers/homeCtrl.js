@@ -50,11 +50,13 @@ angular.module('homeCtrl', ['tagsService', 'patientService'])
 	    ]);
 	}
 
+	var color = $(".jumbotron").css("background-color");
+
     // Set chart options
     var options = {'title':'Tag Data Frequency',
                    'width':500,
                    'height':400,
-                   'backgroundColor': 'E4E4E4'
+                   'backgroundColor': color
                    //'backgroundColor': $('.jumbotron').backgroundColor
                		};
 
