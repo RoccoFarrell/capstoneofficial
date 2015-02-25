@@ -16,6 +16,11 @@ angular.module('patientService', [])
 		return $http.post('/api/patients', patientData)
 	};
 
+	//patientFac.edit = function(patientData) {
+	//	console.log("PatientData: " + patientData);
+	//	return $http.put('/')
+	//};
+
 	return patientFac;
 
 });

@@ -6,9 +6,9 @@ Graphs
 Logic for building graphs
 Fix cover page bootstrap
 Fix patient display
+SINGLE PATIENT PUT IS BROKEN FOR ADDRESS (commented out currently)
 
 Bugs:
--No default patient
 -Patient window without selected patient has no bottom border
 -Zipcodes are not showing leading 0's
 -Forms look bad

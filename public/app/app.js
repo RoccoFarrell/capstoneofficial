@@ -7,7 +7,8 @@ angular.module('mainApp', [
   'homeCtrl',
   'tagsService',
   'patientService',
-  'userService'
+  'userService',
+  'SPCtrl'
   ])
 
 .config(function($httpProvider){
@@ -43,13 +44,14 @@ angular.module('mainApp', [
 .controller('patientsController', function(patientFactory){
   var vm = this;
 
-  vm.test = function() {
-    alert('here');
+  vm.edit = function(current) {
+    alert(current);
   }
 
   patientFactory.all()
   .success(function(data){
     vm.patients = data;
+
   })
 
 })

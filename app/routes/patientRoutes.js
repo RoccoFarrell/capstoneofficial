@@ -36,3 +36,41 @@ exports.deletePatients = function(req,res){
 		res.json({message: 'Successfully cleared all patients'});
 	});
 };
+
+exports.getOnePatient = function(req,res){
+	Patient.findById(req.params.patient_id, function(err, patient){
+		if (err) return res.send(err);
+
+		res.json(patient);
+	});
+};
+
+exports.deleteOnePatient = function(req,res){
+	Patient.remove({_id: req.params.patient_id}, function(err,patient){
+		if (err) return res.send(err);
+
+		res.json({message: "Successfully deleted that patient"});
+	});
+};
+
+exports.editOnePatient = function(req,res){
+	Patient.findById(req.params.patient_id, function(err,patient){
+		if (err) return res.send(err);
+
+		//Update info only if new
+		if (req.body.patientName) patient.patientName = req.body.patientName;
+		if (req.body.patientAge) patient.patientAge = req.body.patientAge;
+		if (req.body.patientCaretaker) patient.patientCaretaker = req.body.patientCaretaker;
+		//if (req.body.patientAddress.street) patient.patientAddress.street = req.body.patientAddress.street;
+		//if (req.body.patientAddress.city) patient.patientAddress.city = req.body.patientAddress.city;
+		//if (req.body.patientAddress.state) patient.patientAddress.state = req.body.patientAddress.state;
+		//if (req.body.patientAddress.zipcode) patient.patientAddress.zipcode = req.body.patientAddress.zipcode;
+
+		//save patient
+		patient.save(function(err) {
+			if (err) return res.send(err);
+
+			res.json({message: "Patient updated!"});
+		});
+	});
+};

@@ -96,11 +96,6 @@ module.exports = function(app, express) {
 		//next();
 	});
 
-	// test route to make sure everything is working
-	/* apiRouter.get('/', function(req, res) {
-		res.json({ message: 'API' });
-		}); */
-
 	// more routes for our API will happen here
 
 	apiRouter.route('/tags')
@@ -119,6 +114,11 @@ module.exports = function(app, express) {
 		.post(patientRoutes.postPatients)
 		.get(patientRoutes.getPatients)
 		.delete(patientRoutes.deletePatients);
+
+	apiRouter.route('/patients/:patient_id')
+		.get(patientRoutes.getOnePatient)
+		.put(patientRoutes.editOnePatient)
+		.delete(patientRoutes.deleteOnePatient);
 
 	apiRouter.route('/me').get(function(req,res){
 		res.send(req.decoded);
