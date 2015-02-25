@@ -56,7 +56,8 @@ angular.module('homeCtrl', ['tagsService', 'patientService'])
     var options = {'title':'Tag Data Frequency',
                    'width':500,
                    'height':400,
-                   'backgroundColor': color
+                   'backgroundColor': color,
+                   'legend': 'none'
                    //'backgroundColor': $('.jumbotron').backgroundColor
                		};
 
@@ -81,7 +82,7 @@ angular.module('homeCtrl', ['tagsService', 'patientService'])
   	var day = hour * 24;
   	var week = day * 7;
 
-  	var startDate = new Date(endDate - day - hour*6);
+  	var startDate = new Date(endDate - day*6);
 
   	console.log("end date: " + endDate);
   	console.log("start date: " + startDate);
@@ -99,10 +100,12 @@ angular.module('homeCtrl', ['tagsService', 'patientService'])
     
 	        tagIDlocal = vm.tags[i].tagID;
 
+	      	if(tagIDlocal != "Hallway-001"){
 	        typeof(vm.counts[tagIDlocal]) == "undefined" ? vm.counts[tagIDlocal] = 1 :
 	        vm.counts[tagIDlocal] += 1;
 	        date = new Date(vm.tags[i].tagScanDate);
 	        vm.tags[i].tagScanDateString = date.toString();
+	    	}
 
 	        //console.log("id: " + vm.tags[i].tagID);
  
@@ -113,4 +116,55 @@ angular.module('homeCtrl', ['tagsService', 'patientService'])
   	});
 
   	};
+
+  vm.getOneDay = function(){
+
+    console.log("Get 1 day");
+
+    var endDate = new Date();
+    endDate.setHours(0);
+    endDate.setMinutes(0);
+    endDate.setSeconds(0);
+    endDate.setMilliseconds(0);
+
+    var second = 1000;
+    var minute = 60 * second;
+    var hour = minute * 60;
+    var day = hour * 24;
+    var week = day * 7;
+
+    var startDate = new Date(endDate - day);
+
+    console.log("end date: " + endDate);
+    console.log("start date: " + startDate);
+
+    tagsFactory.timeRange(startDate, endDate)
+    .success(function(data){
+      console.log("factory data: " + data);
+      console.log("call success");
+
+      vm.tags = data;
+      vm.counts = {};
+
+      for(i=0; i< vm.tags.length; i++)
+      {
+    
+          tagIDlocal = vm.tags[i].tagID;
+
+          if(tagIDlocal != "Hallway-001"){
+          typeof(vm.counts[tagIDlocal]) == "undefined" ? vm.counts[tagIDlocal] = 1 :
+          vm.counts[tagIDlocal] += 1;
+          date = new Date(vm.tags[i].tagScanDate);
+          vm.tags[i].tagScanDateString = date.toString();
+        }
+
+          //console.log("id: " + vm.tags[i].tagID);
+ 
+        }
+        console.log(vm.counts);
+
+        drawChart(vm.counts);
+    });
+
+    };
 });
