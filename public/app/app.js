@@ -43,12 +43,15 @@ angular.module('mainApp', [
 .controller('patientsController', function(patientFactory){
   var vm = this;
 
-  vm.message = 'patients';
+  vm.test = function() {
+    alert('here');
+  }
 
   patientFactory.all()
   .success(function(data){
     vm.patients = data;
   })
+
 })
 
 //new user controller
