@@ -15,11 +15,11 @@ angular.module('tagsService', [])
 		return $http.post('/api/tags', tagData);
 	};
 
-	localTagsFactory.timeRange = function(sDate, eDate){
+	localTagsFactory.timeRange = function(sDate, eDate, pName){
 
-		//console.log("factory: startdate: " + startDate + " end date: " + endDate);
+		//console.log("factory: startdate: " + sDate + " end date: " + eDate + " patientName: " + pName);
 
-		return $http.get('/api/tags/timeRange', {params: {startDate: sDate, endDate: eDate}});
+		return $http.get('/api/tags/timeRange', {params: {startDate: sDate, endDate: eDate, patientName: pName}});
 
 	}
 

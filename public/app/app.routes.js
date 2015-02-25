@@ -23,8 +23,8 @@ angular.module('app.routes', ['ngRoute'])
 
         .when('/patients/:patient_id', {
             templateUrl: '../views/singlePatient.html',
-            controller: 'singlePatientController',
-            controllerAs: 'SPController'
+            controller: 'SPController',
+            controllerAs: 'singlePatient'
         })
 
         .when('/newUser', {

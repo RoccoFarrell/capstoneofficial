@@ -7,9 +7,14 @@
           {{ main.user.username }}
           -->
           <h2>Patient:</h2>
-          <button ng-click="home.getOneWeek()" class="btn btn-default btn-warning">
+          <button ng-click="singlePatient.graph_bar_oneWeek()" class="btn btn-default btn-warning">
           <!-- <span ><i class="fa fa-spinner fa-spin"></i>1 Week</span> --> 
             <span>1 Week</span>
+          </button>
+
+          <button ng-click="singlePatient.graph_bar_oneDay()" class="btn btn-default btn-warning">
+          <!-- <span ><i class="fa fa-spinner fa-spin"></i>1 Week</span> --> 
+            <span>1 Day</span>
           </button>
 
           <h2>Graph</h2>
@@ -19,7 +24,11 @@
         </div>
 			</div>
 
-      <div id="chart_div">
+      <div id="chart_div_line_activity">
+
+      </div>
+
+      <div id="chart_div_bar">
             
       </div>
 

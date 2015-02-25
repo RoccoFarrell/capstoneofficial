@@ -32,9 +32,11 @@ exports.getTimeRangeTags = function(req, res){
 	var URL_parts = url.parse(req.url, true);
 	var query = URL_parts.query;
 
+	//console.log(query.patientName);
+
 	Tag.find({ $and: [{ tagScanDate: { $gte: query.startDate }}, 
 		{ tagScanDate: { $lte: query.endDate }},
-		//{ tagPatient: } 
+		{ tagPatient: query.patientName } 
 
 		]},
 	 function(err, tags){

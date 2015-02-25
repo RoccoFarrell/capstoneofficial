@@ -16,6 +16,9 @@ angular.module('patientService', [])
 		return $http.post('/api/patients', patientData)
 	};
 
+	patientFac.get = function(id){
+		return $http.get('/api/patients/' + id);
+	};
 	//patientFac.edit = function(patientData) {
 	//	console.log("PatientData: " + patientData);
 	//	return $http.put('/')
