@@ -8,7 +8,7 @@ require "time"
 ##################
 ##Authentication##
 ##################
-uri = URI.parse("http://localhost/api/authenticate")
+uri = URI.parse("http://104.236.38.217/api/authenticate")
 username = "capstone"
 password = "capstone"
 $http = Net::HTTP.new(uri.host, uri.port)
@@ -21,7 +21,7 @@ $token = my_hash['token']
 ################
 ####Get Tags####
 ################
-$uri = URI.parse("http://localhost:3000/api/tags")
+$uri = URI.parse("http://104.236.38.217/api/tags")
 $http = Net::HTTP.new(uri.host, uri.port)
 
 $tagID_bedroom1 = "Bedroom-001"
@@ -60,7 +60,7 @@ def submitTag(tagID, tagScanDate)
 	request = Net::HTTP::Post.new($uri.request_uri)
 	request['x-access-token'] = $token
 
-	patientName = "Josh Suckzacodin"
+	patientName = "Steve Rolphoson"
 	#request.to_hash['x-access-token']    # => Array
 	#puts "Headers: #{request.to_hash.inspect}"
 
