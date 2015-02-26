@@ -8,7 +8,7 @@ require "time"
 ##################
 ##Authentication##
 ##################
-uri = URI.parse("http://localhost:3000/api/authenticate")
+uri = URI.parse("http://localhost/api/authenticate")
 username = "capstone"
 password = "capstone"
 $http = Net::HTTP.new(uri.host, uri.port)
@@ -70,7 +70,7 @@ def submitTag(tagID, tagScanDate)
     
 	response = $http.request(request)
 	my_hash = JSON.parse(response.body)
-	pp my_hash
+	#pp my_hash
 	return my_hash
 end
 
@@ -338,8 +338,13 @@ end
 ####################################
 $timeOfDay = Time.new()
 
-
 def singleDayGen()
+
+	
+	wakeTime = $timeOfDay + ($hour*6) + rand($hour*2) + rand($minute * 60)
+	bedTimeLimit = $timeOfDay + ($hour*21 + rand($minute*45))
+
+	puts "Bed time limit: " + bedTimeLimit.strftime("%I:%M:%S%p %m/%d/%y")
 
 	#Random Nighttime bathroom visit from midnight to 4am, 25% chance to occur on any given night
 	if rand(100) > 75
@@ -348,12 +353,18 @@ def singleDayGen()
 	end
 
 	#wakeup time
-	$timeOfDay += ($hour*6) + rand($hour*2)
+	$timeOfDay = wakeTime
 
 	#random bedtime
-	bedTime = $timeOfDay + ($hour * 13) + rand($hour*1 + (30 * $minute))
+	bedTimeActual = $timeOfDay + ($hour * 13) + rand($hour*1 + (30 * $minute))
 
-	puts "Wake time: " + $timeOfDay.strftime("%I:%M:%S%p %m/%d/%y")
+	puts "Wake time actual: " + $timeOfDay.strftime("%I:%M:%S%p %m/%d/%y")
+
+	while(bedTimeActual > bedTimeLimit) 
+		bedTimeActual -= 30*$minute
+	end 
+
+	puts "Bed time actual: " + bedTimeActual.strftime("%I:%M:%S%p %m/%d/%y")
 	
 	#leaving bedroom in morning, go to bathroom most days (~90%)
 	if rand(100) > 10
@@ -385,8 +396,12 @@ def singleDayGen()
 		$timeOfDay = kitchenVisit($timeOfDay, 3, $tagID_bedroom1, $tagID_lr)
 	end
 
-	while($timeOfDay < bedTime)
+	while($timeOfDay < bedTimeActual)
 		#puts "Now " + $timeOfDay.strftime("%I:%M:%S%p %m/%d/%y")
+
+		lrFunc = 1 + rand(3)
+		brFunc = 1 + rand(3)
+		middayRandom = rand(100)
 
 		if $hungerLevel > 70
 			puts "Hunger strikes at " + $timeOfDay.inspect
@@ -394,16 +409,12 @@ def singleDayGen()
 			$timeOfDay = bathroomVisit($timeOfDay, 1, 2, $currentLocation, $tagID_lr)
 		end
 
-		lrFunc = 1 + rand(3)
-		brFunc = 1 + rand(3)
-		#puts "Current Location: " + $currentLocation
-
-		middayRandom = rand(100)
-		if middayRandom > 70
-			$timeOfDay = livingRoomVisit($timeOfDay, lrFunc, $currentLocation, $tagID_bathroom1)
-		elsif middayRandom > 45
+		case middayRandom
+		when 80..100 
+			$timeOfDay = bathroomVisit($timeOfDay, 1, brFunc, $currentLocation, $tagID_lr)
+		when 55..79
 			$timeOfDay = bedroomVisit($timeOfDay, 1, 3, $currentLocation, $tagID_lr)
-		elsif middayRandom > 25
+		when 30..54
 			$timeOfDay = bedroomVisit($timeOfDay, 2, 3, $currentLocation, $tagID_lr)
 		else
 			$timeOfDay = livingRoomVisit($timeOfDay, lrFunc, $currentLocation, $tagID_lr)
@@ -417,12 +428,17 @@ def singleDayGen()
 			$hungerLevel += 20 + rand(2)*30
 		end
 
-		$timeOfDay += $hour
+		#printHour = $timeOfDay
+		#printHourplus = $timeOfDay + $hour
+		#puts "adding hour from " + printHour.strftime("%I:%M:%S%p %m/%d/%y") + " to " + printHourplus.strftime("%I:%M:%S%p %m/%d/%y")
+		if($timeOfDay < bedTimeActual)
+			$timeOfDay += $hour
+		end
 
 	end
 
-	puts "Going to sleep at around" + bedTime.strftime("%I:%M:%S%p %m/%d/%y")
-	$timeofDay = houseTrip($timeOfDay, $currentLocation, $tagID_bedroom1)
+	puts "Going to sleep at around" + bedTimeActual.strftime("%I:%M:%S%p %m/%d/%y")
+	$timeofDay = bathroomVisit($timeOfDay, 1, 1, $currentLocation, $tagID_bedroom1)
 
 	##########################################
 
@@ -437,8 +453,8 @@ end
 
 #######Main loop ##########
 #loops through the week
-for i in 0..6
-	startDay = Time.new(2015, 2, 20)
+for i in 0..13
+	startDay = Time.new(2015, 2, 18)
 	dayConstant = i * ($day)
 
 	#Day starts at midnight 

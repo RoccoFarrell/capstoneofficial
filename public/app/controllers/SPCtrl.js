@@ -51,12 +51,21 @@ angular.module('SPCtrl', ['tagsService', 'patientService'])
     var data2 = new google.visualization.DataTable();
     data2.addColumn('number','Room');
     for(var key2 in vm.counts_line_oneWeek){
+      console.log("adding column: " + key2);
       data2.addColumn('number', key2);
     }
 
     //for()
     for(key2 in vm.counts_line_oneWeek){
-      data2.addRow('number', key2);
+      data2.addRow([1, 
+        vm.counts_line_oneWeek[0],
+        vm.counts_line_oneWeek[1],
+        vm.counts_line_oneWeek[2],
+        vm.counts_line_oneWeek[3],
+        vm.counts_line_oneWeek[4],
+        vm.counts_line_oneWeek[5]]
+
+        );
     }
 
 	  var color = $(".jumbotron").css("background-color");
