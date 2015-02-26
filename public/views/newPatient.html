@@ -1,29 +1,68 @@
 <div class="row col-sm-6 col-sm-offset-3">
-	<div class="jumbotron">
-		<h2>Create New Patient</h2>
+	<ol style="visibility:hidden;"><li>&nbsp;</li><li></li><li></li></ol>
+		<div class="jumbotron">
+			<h2 class="dark-grey text-center">New Patient Registration</h2>
+			<div class="container-fluid">
+			    <section class="container">
+					<div class="container-page">	
+						<div class="col-md-12">
+							<form class="form" ng-submit="newPatient.savePatient()">
+								<h4>Patient Information</h4>
+								<div class="form-group col-lg-12">
+									<label>Patient Name</label>
+									<input type="text" class="form-control" placeholder="Name" ng-model="newPatient.userData.patientName">
+								</div>
+							
+								<div class="form-group col-lg-6">
+									<label>Patient Age</label>
+									<input type="text" class="form-control" placeholder="Age" ng-model="newPatient.userData.patientAge">
+								</div>
+							
+								<div class="form-group col-lg-6">
+									<label>Caretaker Name</label>
+									<input type="text" class="form-control" placeholder="Caretaker" ng-model="newPatient.userData.patientCaretaker">
+								</div>
+											
+								<ol style="visibility:hidden;"><li>&nbsp;</li></ol>
+								<h4>Patient Address</h4>
+								<div class="form-group col-lg-12">
+									<label>Street Address</label>
+									<input type="text" class="form-control" placeholder="Street" ng-model="newPatient.userData.patientAddress.street">
+								</div>
+							
+								<div class="form-group col-lg-6">
+									<label>City</label>
+									<input type="text" class="form-control" placeholder="City" ng-model="newPatient.userData.patientAddress.city">
+								</div>	
+							
+								<div class="form-group col-lg-3">
+									<label>State</label>
+									<input type="text" class="form-control" placeholder="State" ng-model="newPatient.userData.patientAddress.state">
+								</div>
+							
+								<div class="form-group col-lg-3">
+									<label>Zip Code</label>
+									<input type="text" class="form-control" placeholder="Zip" ng-model="newPatient.userData.patientAddress.zipcode">
+								</div>
+							
+								<div class="text-center"> 
+									<button type="submit" class="btn btn-success">Register Patient</button> 
+									<a href="/patients" class="btn btn-warning"> Back </a>
+								</div>
 
-		<form class="form-inline" ng-submit="newPatient.savePatient()">
-			<input type="text" class="form-control" placeholder="Name" ng-model="newPatient.userData.patientName">
-			<input type="text" class="form-control" placeholder="Age" ng-model="newPatient.userData.patientAge">
-			<input type="text" class="form-control" placeholder="Caretaker" ng-model="newPatient.userData.patientCaretaker">
-			<input type="text" class="form-control" placeholder="Street" ng-model="newPatient.userData.patientAddress.street">
-			<input type="text" class="form-control" placeholder="City" ng-model="newPatient.userData.patientAddress.city">
-			<input type="text" class="form-control" placeholder="State" ng-model="newPatient.userData.patientAddress.state">
-			<input type="text" class="form-control" placeholder="Zipcode" ng-model="newPatient.userData.patientAddress.zipcode">
-			
-			<!-- <button type="submit" class="btn btn-success">Add Entry</button> -->
-			<button type="submit" class="btn btn-success">Add Patient</button>		
-		</form>
+							</form>
+						</div>
+					</div>
+				</section>
+				<div class="row show-hide-message" ng-show="login.message">
+					<div class="col-sm-6 col-sm-offset-3">
 
-		<div class="row show-hide-message" ng-show="login.message">
-			<div class="col-sm-6 col-sm-offset-3">
+						<div class="alert alert-info">
+							{{ login.message }}
+						</div>
 
-				<div class="alert alert-info">
-					{{ login.message }}
+					</div>
 				</div>
-
 			</div>
 		</div>
-
-	</div>
 </div>
