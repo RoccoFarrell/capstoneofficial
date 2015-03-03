@@ -13,8 +13,8 @@ angular.module('SPCtrl', ['tagsService', 'patientService'])
   });
 
 
-  google.load('visualization', '1.0',{
-  	'packages':['corechart', 'timeline'],
+  google.load('visualization', '1.1',{
+  	'packages':['corechart', 'timeline', 'bar'],
   	callback: function() {
   		drawChart();
   	}
@@ -100,13 +100,13 @@ angular.module('SPCtrl', ['tagsService', 'patientService'])
     var options3 = {
                     'height': 300,
                     timeline: { colorByRowLabel: true },
-                    title: '24-Hour Patient Time Line', //not available for timeline
-                    backgroundColor: '#ffd',
-                    hAxis: {title: 'Time',  titleTextStyle: {color: 'red'}}//not available for timeline
+                    'title': '24-Hour Patient Time Line', //not available for timeline
+                    'backgroundColor': '#ffd',
+                    'hAxis': {title: 'Time',  titleTextStyle: {color: 'red'}}//not available for timeline
                   };
 
     // Instantiate and draw our chart, passing in some options.
-    var chart = new google.visualization.ColumnChart(document.getElementById('chart_div_bar'));
+    var chart = new google.charts.Bar(document.getElementById('chart_div_bar'));
     chart.draw(data, options);
 
     var chart2 = new google.visualization.LineChart(document.getElementById('chart_div_line_activity')); 
