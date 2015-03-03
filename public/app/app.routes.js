@@ -15,13 +15,13 @@ angular.module('app.routes', ['ngRoute'])
             controllerAs: 'home'
         })
 
-        .when('/patients', {
+        /*.when('/patients', {
             templateUrl: '../views/patients.html',
             controller: 'patientsController',
             controllerAs: 'patient'
-        })
+        })*/
 
-        .when('/patients/:patient_id', {
+        .when('/home/:patient_id', {
             templateUrl: '../views/singlePatient.html',
             controller: 'SPController',
             controllerAs: 'singlePatient'
