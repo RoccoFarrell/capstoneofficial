@@ -44,8 +44,8 @@ angular.module('mainApp', [
 .controller('patientsController', function(patientFactory){
   var vm = this;
 
-  vm.edit = function(current) {
-    alert(current);
+  vm.edit = function() {
+    console.log(vm.userData);
   }
 
   patientFactory.all()
