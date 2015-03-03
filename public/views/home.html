@@ -1,8 +1,45 @@
 <div class="belowNav container-fluid">
+      <div class="col-sm-12 main">
+        <h3>Patients:</h3>
+
+        <div ng-repeat="patient in home.patients" class="jumbotron">
+          <div class="row">
+            <div class="col-sm-3 main">
+              <table class="table table-striped">
+                <tbody>
+                  <tr> Name: {{patient.patientName}} </tr>
+                  <tr> Age: {{patient.patientAge}} </tr>
+                  <tr> Street: {{patient.patientAddress.street}} </tr>
+                  <tr> City: {{patient.patientAddress.city}} </tr>
+                  <tr> State: {{patient.patientAddress.state}} </tr>
+                  <tr> Zipcode: {{patient.patientAddress.zipcode}} </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="col-sm-7 main">
+              <p>STATS:</p>
+            </div>
+            <div class="col-sm-2 main">
+              <a ng-href="/home/{{patient._id}}" class="btn btn-lg btn-success pull-right"><i class="fa fa-line-chart fa-5x"></i> </a>
+            </div>
+          </div>
+        </div>
+
+
+        <a class="btn btn-block btn-warning" href="/newPatient"></span>New Patient</a>
+
+        <!--<a class="btn btn-block btn-warning" ng-href="/patients/{{selectedPatient._id}}"></span>More Info</a>-->
+
+      </div>
+
+</div><!-- end container fluid -->
+
+<!--
+OLD
+<div class="belowNav container-fluid">
       <div class="col-sm-2 sidebar">
         <h3>Patient:</h3>
 
-        <!--<select ng-model="selectedValue" ng-options="opt.patientName for opt in home.options">-->
         <select ng-model="selectedValue" ng-options="opt.patientName for opt in home.options">
         </select>
 
@@ -22,17 +59,11 @@
     <div class="col-sm-10 main">
 			<div class="jumbotron">
         <div>
-          <!--
-          <span id="loginMessage"><i class="fa fa-user-plus"></i></span><h2>You are now logged in.</h2>
-          {{ main.user.username }}
-          -->
           <h2>Patient: {{selectedValue.patientName}}</h2>
           <button ng-click="home.getOneWeek()" class="btn btn-default btn-warning">
-          <!-- <span ><i class="fa fa-spinner fa-spin"></i>1 Week</span> --> 
             <span>1 Week</span>
           </button>
           <button ng-click="home.getOneDay()" class="btn btn-default btn-warning">
-          <!-- <span ><i class="fa fa-spinner fa-spin"></i>1 Week</span> --> 
             <span>1 Day</span>
           </button>
 
@@ -48,4 +79,4 @@
       </div>
 
 	  </div>
-</div><!-- end container fluid -->
+</div>-->

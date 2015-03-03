@@ -4,7 +4,7 @@ angular.module('mainApp', [
   'app.routes',
   'authService',
   'mainCtrl',
-  'homeCtrl',
+  //'homeCtrl',
   'tagsService',
   'patientService',
   'userService',
@@ -41,11 +41,11 @@ angular.module('mainApp', [
   }
 })
 
-.controller('patientsController', function(patientFactory){
+.controller('homeController', function(patientFactory){
   var vm = this;
 
-  vm.edit = function(current) {
-    alert(current);
+  vm.edit = function() {
+    console.log(vm.userData);
   }
 
   patientFactory.all()

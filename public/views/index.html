@@ -3,7 +3,7 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
-	<title>Elder Care View</title>
+	<title>ElderCareView</title>
 
 	<base href="/">
 
@@ -20,7 +20,7 @@
 	<script type="text/javascript" src="https://www.google.com/jsapi"></script>
 
 	<!-- Favicon -->
-	<link rel="shortcut icon" href="../assets/img/favicon.ico">
+	<!--<link rel="shortcut icon" href="../assets/img/favicon.ico">-->
 
 	<!-- Scripts -->
 	 <!-- jQuery-->
@@ -36,7 +36,7 @@
 
 	<!-- controllers -->
 	<script src="../app/controllers/mainCtrl.js"></script>
-	<script src="../app/controllers/homeCtrl.js"></script>
+	<!--<script src="../app/controllers/homeCtrl.js"></script>-->
 	<script src="../app/controllers/SPCtrl.js"></script>
 
 	<!-- services -->
@@ -63,7 +63,7 @@
 					<span class="sr-only">Toggle navigation</span>
 					<span class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand" href="/patients"><span id="brand-icon"><i class="fa fa-user-md"></i></span>ElderCareView</a>
+				<a class="navbar-brand" href="/home"><span id="brand-icon"><i class="fa fa-user-md"></i></span>ElderCareView</a>
 	        </div>
 			
 			<!-- Navbar-->
@@ -74,7 +74,7 @@
 		                    <ul class="dropdown-menu">
 								<!--<li ng-if="!main.loggedIn"><a href="/login"><i class="fa fa-sign-in"></i> Login </a></li>
 								<li ng-if="!main.loggedIn"><a href="/newUser"><i class="fa fa-user-plus"></i> New User </a></li>-->
-								<li ng-if="main.loggedIn"><a href="/patients"><i class="fa fa-user"></i> Patients </a></li>
+								<li ng-if="main.loggedIn"><a href="/home"><i class="fa fa-user"></i> Patient Dashboard </a></li>
 								<!--<li ng-if="main.loggedIn"><a href="/newPatient"><i class="fa fa-user-plus"></i> New Patient </a></li>-->
 								<li ng-if="main.loggedIn"><a href="/getTags"><i class="fa fa-spinner fa-spin"></i> Get Tags </a></li>
 								<li ng-if="main.loggedIn"><a href="/postTags"><i class="fa fa-cog fa-spin"></i> Post new Tags </a></li>
@@ -84,25 +84,6 @@
 				</ul>	
 			</div>
 		</nav>	 
-		<!-- OLD NAV
-		<nav ng-if="main.loggedIn" class="navbar navbar-inverse navbar-fixed-top">
-
-			<div class="navbar-header">
-				<a class="navbar-brand" href="/home"><span id="brand-icon"><i class="fa fa-user-md"></i></span>Elder CareView Home</a>
-				
-				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-menu">
-	                <span class="sr-only">Toggle navigation</span>
-	                <span class="icon-bar"></span>
-	                <span class="icon-bar"></span>
-	                <span class="icon-bar"></span>
-	              </button>
-			</div>
-
-			
-			<span class="nav navbar-left" style="color:white"> Welcome, {{main.user.username}}. </span>
-			
-		</nav>
-		-->
 	</header>
 
 	<!-- MAIN CONTENT AND INJECTED VIEWS -->
