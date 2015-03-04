@@ -103,8 +103,26 @@ html, body {
 }
 
 .myjumbo {
-  padding: 15px 15px;
-  margin-bottom: 30px;
-  color: inherit;
-  background-color: #eee;
+  padding: 24px;
+}
+
+.borderless td, tr, tbody, table {
+     border: none;
+}
+
+.borderless{
+	margin-bottom: 0px; 
+}
+
+.testpanel h3 {
+	border-top: none;
+	margin: 0px;
+}
+
+.testpanel {
+	margin-bottom: 0px;
+}
+
+.testpanelbody {
+	padding-bottom: 0px;
 }

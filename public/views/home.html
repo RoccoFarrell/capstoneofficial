@@ -2,19 +2,40 @@
       <div class="col-sm-12 main">
         <h3>Patients:</h3>
 
-        <div ng-repeat="patient in home.patients" class="jumbotron">
+        <div class="jumbotron myjumbo" ng-repeat="patient in home.patients">
           <div class="row">
             <div class="col-sm-3 main">
-              <table class="table table-striped">
+          
+              <div class="panel panel-success testpanel">
+                <h3 class="panel-heading">{{patient.patientName}}</h3>
+                <div class="panel-body testpanelbody">
+                  <table class="table borderless">
+                    <tbody>
+                      <tr><td>Age: {{patient.patientAge}}</td></tr>
+                      <tr><td>Street: {{patient.patientAddress.street}}</td></tr>
+                      <tr><td>City: {{patient.patientAddress.city}}</td></tr>
+                      <tr><td>State: {{patient.patientAddress.state}}</td></tr>
+                      <tr><td>Zipcode: {{patient.patientAddress.zipcode}}</td></tr>
+                    </tbody>
+                  </table>
+                </div>
+
+
+              </div>
+
+          <!--
+          <div class="row">
+            <div class="col-sm-3 main">
+              <table class="table">
                 <tbody>
-                  <tr> Name: {{patient.patientName}} </tr>
-                  <tr> Age: {{patient.patientAge}} </tr>
-                  <tr> Street: {{patient.patientAddress.street}} </tr>
-                  <tr> City: {{patient.patientAddress.city}} </tr>
-                  <tr> State: {{patient.patientAddress.state}} </tr>
-                  <tr> Zipcode: {{patient.patientAddress.zipcode}} </tr>
+                  <tr> <td> {{patient.patientName}} </td> </tr>
+                  <tr> <td> Age: {{patient.patientAge}} </tr>
+                  <tr> <td> Street: {{patient.patientAddress.street}} </td> </tr>
+                  <tr> <td> City: {{patient.patientAddress.city}} </td> </tr>
+                  <tr> <td> State: {{patient.patientAddress.state}} </td> </tr>
+                  <tr> <td> Zipcode: {{patient.patientAddress.zipcode}} </td> </tr>
                 </tbody>
-              </table>
+              </table>-->
             </div>
             <div class="col-sm-7 main">
               <p>STATS:</p>

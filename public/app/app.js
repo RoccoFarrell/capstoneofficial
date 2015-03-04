@@ -44,10 +44,6 @@ angular.module('mainApp', [
 .controller('homeController', function(patientFactory){
   var vm = this;
 
-  vm.edit = function() {
-    console.log(vm.userData);
-  }
-
   patientFactory.all()
   .success(function(data){
     vm.patients = data;
@@ -83,8 +79,6 @@ angular.module('mainApp', [
 
   var vm = this;
   var date;
-
-  //vm.message = 'get tags yeah';
 
   tagsFactory.all()
 
