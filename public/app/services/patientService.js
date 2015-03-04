@@ -20,6 +20,10 @@ angular.module('patientService', [])
 		return $http.get('/api/patients/' + id);
 	};
 
+	patientFac.deletePatient = function(id){
+		return $http.delete('/api/patients/' + id);
+	};
+
 	return patientFac;
 
 });

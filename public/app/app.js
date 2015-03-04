@@ -47,8 +47,20 @@ angular.module('mainApp', [
   patientFactory.all()
   .success(function(data){
     vm.patients = data;
+  });
 
-  })
+  vm.deletePatient = function(patient) {
+    console.log(patient._id);
+    patientFactory.deletePatient(patient._id)
+    .success(function(){
+      console.log("Deleted Patient!");
+    });
+
+    patientFactory.all()
+    .success(function(data){
+      vm.patients = data;
+    });
+  }
 
 })
 
