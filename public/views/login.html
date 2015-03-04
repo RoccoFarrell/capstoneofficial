@@ -1,35 +1,42 @@
-<div id="loginContainer" class="row col-sm-8 col-sm-offset-2">
+<div id="loginContainer" class="col-sm-4 col-sm-offset-4">
 	<div id="loginBox" class="jumbotron">
-		<h1>Login</h1>
+		<h2 class="dark-grey text-center">Login</h2>
 
-		<form ng-submit="login.doLogin()">
+		<form class="form-horizontal" ng-submit="login.doLogin()">
 			<div class="form-group">
-				<label>Username</label>
-				<input type="text" class="form-control" ng-model="login.loginData.username">
+				<label for="username" class="col-lg-4 control-label">User Name</label>
+				<div class="col-lg-8">
+				<input type="text" class="form-control" id="username" placeholder="User Name" ng-model="login.loginData.username">
+				</div>
 			</div>
-			<div>
-				<label>Password</label>
-				<input type="password" class="form-control" ng-model="login.loginData.password">
+				
+			<div class="form-group">
+				<label for ="password" class="col-lg-4 control-label">Password</label>
+				<div class="col-lg-8">
+				<input type="password" class="form-control" id="password" placeholder="Password" ng-model="login.loginData.password">
+				</div>
 			</div>
-
+		</form>
+		<form class="form" ng-submit="login.doLogin()">
 			
 			<!--error-->
 			<div class="alert alert-danger" ng-if="login.error">
 				{{ login.error }}
 			</div>
 
-			<div class="form-group login-submit">
+			<div class="form-group login-submit col-xs-6 col-lg-5 col-lg-offset-1">
 
 			<!-- <button type="submit" class="btn btn-success">Add Entry</button> -->
 				<button type="submit" class="btn btn-block btn-primary">
 					<span ng-if="!login.processing">Login</span>
 					<span ng-if="login.processing"><i class="fa fa-spinner fa-spin"></i></span>
 				</button>
-
+			</div>
+			
+			<div class="form-group login-submit col-xs-6 col-lg-5">
 				<a class="btn btn-block btn-warning" href="/"></i></span>Back</a>
-
-			</div>		
-
+			</div>
+			
 		</form>
 
 	</div>

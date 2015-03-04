@@ -1,15 +1,28 @@
-<div class="row col-sm-6 col-sm-offset-3">
+<div class="belowNav row col-sm-6 col-sm-offset-3">
+	
 	<div class="jumbotron">
-		<h1>Register</h1>
+		<h2 class="dark-grey text-center">Caretaker Registration</h2>
 
-		<form class="form-inline" ng-submit="newUser.saveUser()">
-			<input type="text" class="form-control" placeholder="Name" ng-model="newUser.userData.name">
-			<input type="text" class="form-control" placeholder="User Name" ng-model="newUser.userData.username">
-			<input type="text" class="form-control" placeholder="Password" ng-model="newUser.userData.password">
+		<form class="form" ng-submit="newUser.saveUser()">
+			<div class="form-group col-lg-12">
+				<label>Caretaker Name</label>
+				<input type="text" class="form-control" placeholder="Name" ng-model="newUser.userData.name">
+			</div>
 			
-			<!-- <button type="submit" class="btn btn-success">Add Entry</button> -->
-			<button type="submit" class="btn btn-success">New User</button>
-			<a class="btn btn-block btn-warning" href="/"></i></span>Back</a>		
+			<div class="form-group col-lg-6">
+				<label>User Name</label>
+				<input type="text" class="form-control" placeholder="User Name" ng-model="newUser.userData.username">
+			</div>
+			
+			<div class="form-group col-lg-6">
+				<label>Password</label>
+				<input type="password" class="form-control" placeholder="Password" ng-model="newUser.userData.password">
+			</div>
+			
+			<div class="form-group text-center"> 
+			<button type="submit" class="btn btn-success">Register Caretaker</button>
+			<a class="btn btn-warning" href="/">Back</a>	
+			</div>
 		</form>
 
 		<div class="row show-hide-message" ng-show="login.message">
@@ -21,6 +34,6 @@
 
 			</div>
 		</div>
-
+		
 	</div>
 </div>
