@@ -23,16 +23,26 @@ angular.module('mainCtrl', [])
 
 		vm.error = '';
 
-		Auth.login(vm.loginData.username, vm.loginData.password)
-			.success(function(data){
+		if(vm.loginData.username && vm.loginData.password)
+		{
 
-				vm.processing = false;
+			Auth.login(vm.loginData.username, vm.loginData.password)
+				.success(function(data){
 
-				if(data.success)
-					$location.path('/home');
-				else
-					vm.error = data.message;
-			});
+					vm.processing = false;
+
+					if(data.success)
+						$location.path('/home');
+					else
+						vm.error = data.message;
+				});
+
+		}
+		else
+		{
+			vm.error = "Either no username or password provided!"
+			vm.processing = false;
+		}
 
 
 	};
