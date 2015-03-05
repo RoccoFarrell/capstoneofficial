@@ -42,7 +42,7 @@ angular.module('homeCtrl', ['tagsService', 'patientService', 'googlechart'])
 
     endTime = endTime - 2*day;
     endTime = new Date(endTime);
-    var startTime = new Date(endTime - 10*minute);
+    var startTime = new Date(endTime - day);
 
     console.log(endTime);
     console.log(startTime);
