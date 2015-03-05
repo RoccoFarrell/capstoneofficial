@@ -11,8 +11,8 @@
 
                 <div class="col-sm-3 main">
                   <div class="panel panel-primary testpanel">
-                    <h3 class="panel-heading">{{patient.patientName}}</h3>
-                    <div class="panel-body testpanelbody">
+                    <h3 class="panel-heading" ng-click="patientInfo = !patientInfo">{{patient.patientName}}</h3>
+                    <div class="panel-body testpanelbody cssSlideUp" ng-show="patientInfo" id="patientInfo">
                       <table class="table borderless">
                         <tbody>
                           <tr><td>Age: {{patient.patientAge}}</td></tr>
@@ -28,17 +28,18 @@
 
                 <div class="col-sm-7 main">
                   <div class="panel panel-primary testpanel">
-                    <h3 class="panel-heading">Stats:</h3>
-                    <div class="panel-body testpanelbody">
+                    <h3 class="panel-heading" ng-click="patientData = !patientData">Stats & information</h3>
+                    <div class="panel-body testpanelbody cssSlideUp" ng-show="patientData" id="patientData">
                     </div>
                   </div>
                 </div>
 
                 <div class="col-sm-2 main">
                   <div class="panel panel-primary testpanel">
-                    <div class="panel-body testpanelbody">
-                      <a ng-href="/home/{{patient._id}}" class="btn btn-lg btn-primary pull-right"><i class="fa fa-line-chart fa-5x"></i> </a>
-                      <button ng-click="home.deletePatient(patient)" class="btn btn-danger pull-right">
+                    <h3 class="panel-heading" ng-click="patientOptions = !patientOptions">Options</h3>
+                    <div class="panel-body testpanelbody cssSlideUp text-center" ng-show="patientOptions" id="patientOptions">
+                      <a ng-href="/home/{{patient._id}}" class="btn btn-lg btn-primary chartIcon"><i class="fa fa-line-chart fa-5x"></i> </a>
+                      <button ng-click="home.deletePatient(patient)" class="btn btn-danger">
                         <span>Delete Patient</span>
                       </button>
                     </div>

@@ -8,7 +8,8 @@ angular.module('mainApp', [
   'tagsService',
   'patientService',
   'userService',
-  'SPCtrl'
+  'SPCtrl',
+  'ngAnimate'
   ])
 
 .config(function($httpProvider){
