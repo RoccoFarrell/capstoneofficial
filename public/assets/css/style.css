@@ -179,7 +179,7 @@ html, body {
 
 .cssSlideUp {
     transition: .3s linear all;
-    height: 200px;
+    height: 300px;
     overflow: hidden;
 }
 .cssSlideUp.ng-hide {

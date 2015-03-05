@@ -65,6 +65,14 @@ angular.module('mainApp', [
     });
   }
 
+  vm.editPatient = function() {
+    console.log("Edit here.");
+  }
+
+    vm.alertPatient = function() {
+    console.log("Alert here.");
+  }
+
 })
 
 //new user controller
