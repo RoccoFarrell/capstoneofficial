@@ -16,13 +16,23 @@
 
         <div ng-repeat="patient in home.patients">
           <div class="row patientRow">
-            <div class="panel patientPanel">
-              <div class="panel-body">
+            <div class="panel panel-primary patientPanel">
+              <h2 class="panel-heading" ng-click="patientInfo = !patientInfo">{{patient.patientName}}</h2>
+              <div class="panel-body cssSlideUp" ng-show="patientInfo" id="patientInfo">
+
+                <div class="col-sm-7 main">
+                  <div class="panel panel-primary testpanel">
+                    <h5 class="panel-heading">Graphs and Stats</h5>
+                    <div class="panel-body testpanelbody">
+                      <a ng-href="/home/{{patient._id}}" class="btn btn-lg btn-primary chartIcon"><i class="fa fa-line-chart fa-5x"></i> </a>
+                    </div>
+                  </div>
+                </div>
 
                 <div class="col-sm-3 main">
                   <div class="panel panel-primary testpanel">
-                    <h3 class="panel-heading" ng-click="patientInfo = !patientInfo">{{patient.patientName}}</h3>
-                    <div class="panel-body testpanelbody cssSlideUp" ng-show="patientInfo" id="patientInfo">
+                    <h5 class="panel-heading">Information</h5>
+                    <div class="panel-body testpanelbody">
                       <table class="table borderless">
                         <tbody>
                           <tr><td>Age: {{patient.patientAge}}</td></tr>
@@ -36,21 +46,18 @@
                   </div>
                 </div>
 
-                <div class="col-sm-7 main">
-                  <div class="panel panel-primary testpanel">
-                    <h3 class="panel-heading" ng-click="patientData = !patientData">Stats & information</h3>
-                    <div class="panel-body testpanelbody cssSlideUp" ng-show="patientData" id="patientData">
-                    </div>
-                  </div>
-                </div>
-
                 <div class="col-sm-2 main">
                   <div class="panel panel-primary testpanel">
-                    <h3 class="panel-heading" ng-click="patientOptions = !patientOptions">Options</h3>
-                    <div class="panel-body testpanelbody cssSlideUp text-center" ng-show="patientOptions" id="patientOptions">
-                      <a ng-href="/home/{{patient._id}}" class="btn btn-lg btn-primary chartIcon"><i class="fa fa-line-chart fa-5x"></i> </a>
+                    <h5 class="panel-heading">Options</h5>
+                    <div class="panel-body testpanelbody text-center">
                       <button ng-click="home.deletePatient(patient)" class="btn btn-danger">
-                        <span>Delete Patient</span>
+                        <span>Delete</span>
+                      </button>
+                      <button ng-click="home.editPatient()" class="btn btn-warning">
+                        <span>Edit</span>
+                      </button>
+                      <button ng-click="home.alertPatient()" class="btn btn-success">
+                        <span>Alert</span>
                       </button>
                     </div>
                   </div>
