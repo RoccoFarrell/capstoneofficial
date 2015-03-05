@@ -11,104 +11,68 @@ angular.module('SPCtrl', ['tagsService', 'patientService', 'googlechart'])
 
     console.log(vm.patient);
 
-    
+    /*
     computeData(function(){
       drawChart();
+
     });
-    
+    */
   
   });
 
-  var chart1 ={};
+  //Sample Chart for use with Google Graphs Directive
+    var chart1 ={};
+    chart1.type = "ColumnChart";
+    chart1.cssStyle = "height:175px; width:250px;";
+    chart1.data = {"cols": [
+          {id: "month", label: "Month", type: "string"},
+          {id: "laptop-id", label: "Laptop", type: "number"},
+          {id: "desktop-id", label: "Desktop", type: "number"},
+          {id: "server-id", label: "Server", type: "number"},
+          {id: "cost-id", label: "Shipping", type: "number"}
+      ], "rows": [
+          {c: [
+              {v: "January"},
+              {v: 19, f: "42 items"},
+              {v: 12, f: "Ony 12 items"},
+              {v: 7, f: "7 servers"},
+              {v: 4}
+          ]},
+          {c: [
+              {v: "February"},
+              {v: 13},
+              {v: 1, f: "1 unit (Out of stock this month)"},
+              {v: 12},
+              {v: 2}
+          ]},
+          {c: [
+              {v: "March"},
+              {v: 24},
+              {v: 0},
+              {v: 11},
+              {v: 6}
 
-  chart1.type = "ColumnChart";
-  chart1.cssStyle = "height:175px; width:250px;";
-  chart1.data = {"cols": [
-        {id: "month", label: "Month", type: "string"},
-        {id: "laptop-id", label: "Laptop", type: "number"},
-        {id: "desktop-id", label: "Desktop", type: "number"},
-        {id: "server-id", label: "Server", type: "number"},
-        {id: "cost-id", label: "Shipping", type: "number"}
-    ], "rows": [
-        {c: [
-            {v: "January"},
-            {v: 19, f: "42 items"},
-            {v: 12, f: "Ony 12 items"},
-            {v: 7, f: "7 servers"},
-            {v: 4}
-        ]},
-        {c: [
-            {v: "February"},
-            {v: 13},
-            {v: 1, f: "1 unit (Out of stock this month)"},
-            {v: 12},
-            {v: 2}
-        ]},
-        {c: [
-            {v: "March"},
-            {v: 24},
-            {v: 0},
-            {v: 11},
-            {v: 6}
-
-        ]}
-    ]};
+          ]}
+      ]};
 
     chart1.options = {
-        "title": "Sales per month",
-        "isStacked": "true",
-        "fill": 20,
-        "displayExactValues": true,
-        "vAxis": {
-            "title": "Sales unit", "gridlines": {"count": 6}
-        },
-        "hAxis": {
-            "title": "Date"
-        }
-    };
-
-    chart1.formatters = {};
-
-    $scope.chart = chart1;
-
-    console.log("vm.chart: " + vm.chart);
-
-    /*
-    var dataTable1 = new google.visualization.DataTable();
-    dataTable1.addColumn('string', 'Room');
-    dataTable1.addColumn('number', 'Reads');
-    for (var key in inputData_bar) {
-      dataTable1.addRows([
-        [key, inputData_bar[key]]
-      ]);
-    }
-    */
-
-    var chart_barCounts = {};
-
-    chart_barCounts.type = "BarChart";
-    chart_barCounts.cssStyle = "height:175px; width:250px;";
-    chart_barCounts.data = { "cols": [
-      {id: "roomID", label: "Room", type: "string"},
-      {id: "tagCounts", label: "Reads", type: "number"}
-      ], "rows":[{c: {v: 12}}, {c: {v: 15}}, {c: {v: 25}}]
+          "title": "Sales per month",
+          "isStacked": "true",
+          "fill": 20,
+          "displayExactValues": true,
+          "vAxis": {
+              "title": "Sales unit", "gridlines": {"count": 6}
+          },
+          "hAxis": {
+              "title": "Date"
+          }
       };
-
-    chart_barCounts.options = {
-        "title": "Sales per month",
-        "fill": 20,
-        "displayExactValues": true,
-        "vAxis": {
-            "title": "Sales unit", "gridlines": {"count": 6}
-        },
-        "hAxis": {
-            "title": "Date"
-        }
-    };
-
     chart1.formatters = {};
-
-    $scope.chart_barCounts = chart_barCounts;
+    $scope.chart = chart1;
+    console.log("vm.chart: " + vm.chart);
+  //End sample chart
+    
+    
 
 
   function computeData(){
@@ -137,7 +101,7 @@ angular.module('SPCtrl', ['tagsService', 'patientService', 'googlechart'])
     var day = hour * 24;
     var week = day * 7;
 
-    var endDate = endDate - day;
+    var endDate = endDate - 2*day;
     var startDateDay = new Date(endDate - day);
     var startDateWeek = new Date(endDate - week);
 
@@ -151,7 +115,6 @@ angular.module('SPCtrl', ['tagsService', 'patientService', 'googlechart'])
       //console.log("call success");
 
       vm.tagDataDay = data;
-
       vm.counts_bar_oneDay = {};
 
       for(i=0; i < vm.tagDataDay.length; i++)
@@ -174,6 +137,38 @@ angular.module('SPCtrl', ['tagsService', 'patientService', 'googlechart'])
 
       chartSelect = 1;
       drawChart();
+
+      var chart_barCounts_data = [];
+
+      for (var key in vm.counts_bar_oneDay) {
+        chart_barCounts_data.push({
+          c: [{v: key}, {v: vm.counts_bar_oneDay[key]}]
+        });
+      }
+
+      console.log(chart_barCounts_data); 
+
+      var chart_barCounts = {};
+
+      chart_barCounts.type = "Bar";
+      chart_barCounts.cssStyle = "height:250px; width:325px; padding: 10px;";
+      chart_barCounts.data = { "cols": [
+          {id: "roomID", label: "Room", type: "string"},
+          {id: "tagCounts", label: "Reads", type: "number"}
+          ], "rows": chart_barCounts_data
+        };
+
+      chart_barCounts.options = {
+        chart: {
+          title:'Tag Scan Frequency',
+          subtitle: 'Last 24 Hours',
+        },
+        legend: { position: "none" }
+      };
+
+      chart1.formatters = {};
+      $scope.chart_barCounts = chart_barCounts;
+
     });
 
     tagsFactory.timeRange(startDateWeek, endDate, vm.patient.patientName)
@@ -231,17 +226,7 @@ angular.module('SPCtrl', ['tagsService', 'patientService', 'googlechart'])
   		keys[i]=key;
   		i++;
     	//console.log(inputData_bar[key]);
-    }
-
-    // Create the data table.
-    var dataTable1 = new google.visualization.DataTable();
-    dataTable1.addColumn('string', 'Room');
-    dataTable1.addColumn('number', 'Reads');
-    for (var key in inputData_bar) {
-	    dataTable1.addRows([
-	      [key, inputData_bar[key]]
-	    ]);
-	  }
+    }    
 
     var data2 = new google.visualization.DataTable();
     data2.addColumn('number','Room');
@@ -276,19 +261,6 @@ angular.module('SPCtrl', ['tagsService', 'patientService', 'googlechart'])
 
 	  var color = $(".jumbotron").css("background-color");
 
-    // Set chart options
-    var options = {
-                   chart: {
-                    title:'Tag Scan Frequency',
-                    subtitle: 'Last 24 Hours',
-                    },
-                    legend: { position: "none" },
-                    'width': 400,
-                    'height': 300
-
-                   //'backgroundColor': color
-               		};
-
     var options2 = {'title':'Tag Data Frequencys',
                    'width':1000,
                    'height':500,
@@ -305,8 +277,6 @@ angular.module('SPCtrl', ['tagsService', 'patientService', 'googlechart'])
                   };
 
     // Instantiate and draw our chart, passing in some options.
-    var chart = new google.charts.Bar(document.getElementById('chart_div_bar'));
-    chart.draw(dataTable1, options);
     /*
     var chart2 = new google.visualization.LineChart(document.getElementById('chart_div_line_activity')); 
     chart2.draw(data2, options2);
@@ -314,7 +284,6 @@ angular.module('SPCtrl', ['tagsService', 'patientService', 'googlechart'])
     var chart3 = new google.visualization.Timeline(document.getElementById('chart_div_line_activity'));
     chart3.draw(dataTable, options3);
     */
-
   }
 
   /*

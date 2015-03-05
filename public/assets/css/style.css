@@ -35,14 +35,6 @@ html, body {
 	display: inline;
 }
 
-#chart_div_bar{
-	padding: 10px;
-	width: 420px;
-	height: 320px;
-	display: block;
-	margin-left: auto;
-	margin-right: auto;
-}
 .ngview-container{
 	display: inline;
 } 
@@ -154,7 +146,10 @@ html, body {
 	margin-left: 10px;
 }
 
-/* Single Patient CSS */
+/*---------------------------*/
+/*-----Single Patient CSS----*/
+/*---------------------------*/
+
 .spHeader{
 	font-weight: bold;
 	
@@ -168,6 +163,26 @@ html, body {
 	padding-right: 10px;
 	padding-bottom: 10px;
 }
+
+#chart_div_bar{
+	padding: 10px;
+	width: 420px;
+	height: 320px;
+	display: block;
+	margin-left: auto;
+}
+
+#graphPanel{
+	background-color: rgba(255,255,255,0.25);;
+}
+
+.indivGraphPanel{
+	margin: 10px;
+}
+
+/*---------------------------*/
+/*---------------------------*/
+/*---------------------------*/
 
 .patientRow {
 	margin-bottom: 20px;

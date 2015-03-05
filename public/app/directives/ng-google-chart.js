@@ -14,7 +14,7 @@
         .value('googleChartApiConfig', {
             version: '1',
             optionalSettings: {
-                packages: ['corechart']
+                packages: ['corechart', 'bar']
             }
         })
 
