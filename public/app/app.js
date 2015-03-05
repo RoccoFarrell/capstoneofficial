@@ -5,7 +5,7 @@ angular.module('mainApp', [
   'authService',
   'mainCtrl',
   'SPCtrl',
-  //'homeCtrl',
+  'homeCtrl',
   'tagsService',
   'patientService',
   'userService',
@@ -44,7 +44,7 @@ angular.module('mainApp', [
   }
 })
 
-.controller('homeController', function(patientFactory){
+/*.controller('homeController', function(patientFactory){
   var vm = this;
 
   patientFactory.all()
@@ -73,7 +73,7 @@ angular.module('mainApp', [
     console.log("Alert here.");
   }
 
-})
+})*/
 
 //new user controller
 .controller('newPatientController', function(patientFactory){
