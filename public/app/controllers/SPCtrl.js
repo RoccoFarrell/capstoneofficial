@@ -204,6 +204,7 @@ angular.module('SPCtrl', ['tagsService', 'patientService', 'googlechart'])
       //console.log(vm.counts_bar_oneWeek);
 
       //chartSelect = 0;
+      
 
       var sortable = [];
       for (var key in vm.counts_bar_oneWeek)
@@ -279,14 +280,19 @@ angular.module('SPCtrl', ['tagsService', 'patientService', 'googlechart'])
 
       //chartSelect = 0;
 
+      vm.monthSum = 0;
+
       var sortable = [];
-      for (var key in vm.counts_bar_oneMonth)
-      sortable.push([key, vm.counts_bar_oneMonth[key]]);
+      for (var key in vm.counts_bar_oneMonth){
+        sortable.push([key, vm.counts_bar_oneMonth[key]]);
+        vm.monthSum += vm.counts_bar_oneMonth[key];
+      }
       sortable.sort(function(a, b) {return b[1] - a[1]});
 
      // console.log(sortable);
 
       var chart_barCounts_data = [];
+
 
       for(i=0; i < sortable.length; i++){
         chart_barCounts_data.push({
