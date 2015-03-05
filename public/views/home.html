@@ -1,8 +1,18 @@
 <div class="belowNav container-fluid">
       <div class="col-sm-12 main">
         <div class="page-header">
-          <h1>Patient List: <small><!--<input type="text" class="form-control col-sm-6" placeholder="Search for...">--></small></h1>
+          <h1>Patient List: <small><!--<input type="text" class="form-control col-sm-6" ng-model="searchText" placeholder="Search by name...">--></small></h1>
         </div>
+
+        <!--
+        <p><input type="text" ng-model="searchText"></p>
+        <ul>
+          <li ng-repeat="patient in home.patients | filter:searchText">
+            {{patient.patientName}}
+          </li>
+        </ul>
+      -->
+
 
         <div ng-repeat="patient in home.patients">
           <div class="row patientRow">
@@ -50,7 +60,6 @@
             </div>
           </div>
         </div>
-
 
         <a class="btn btn-block btn-warning" href="/newPatient"></span>New Patient</a>
 

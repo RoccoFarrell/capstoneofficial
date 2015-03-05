@@ -131,12 +131,11 @@ html, body {
 }
 
 .ng-hide-add, .ng-hide-remove {
-    /* ensure visibility during the transition */
-    display: block !important; /* yes, important */
+    display: block !important;
 }
 
 .cssSlideUp {
-    transition: .5s linear all;
+    transition: .3s linear all;
     height: 200px;
     overflow: hidden;
 }
@@ -146,4 +145,9 @@ html, body {
 
 .chartIcon {
 	margin-bottom: 10px;
+}
+
+.panel-heading {
+	cursor: pointer; 
+	cursor: hand;
 }
