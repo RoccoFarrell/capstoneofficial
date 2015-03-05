@@ -454,7 +454,7 @@ end
 #######Main loop ##########
 #loops through the week
 for i in 0..13
-	startDay = Time.new(2015, 2, 18)
+	startDay = Time.new(2015, 2, 26)
 	dayConstant = i * ($day)
 
 	#Day starts at midnight 

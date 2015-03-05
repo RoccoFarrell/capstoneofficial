@@ -43,7 +43,7 @@ exports.getTimeRangeTags = function(req, res){
 		if(err) res.send(err);
 	
 		res.json(tags);
-	});
+	}).sort({tagScanDate: 1});
 };
 
 exports.getAllTags = function(req, res){
