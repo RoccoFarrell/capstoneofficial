@@ -42,8 +42,8 @@ angular.module('homeCtrl', ['tagsService', 'patientService', 'googlechart'])
     var day = hour * 24;
     var week = day * 7;
 
-    endTime = endTime - 2*day;
-    endTime = new Date(endTime);
+    //endTime = endTime - 2*day;
+    //endTime = new Date(endTime);
     var startTime = new Date(endTime - day);
 
     tagsFactory.timeRange(startTime, endTime, name)
