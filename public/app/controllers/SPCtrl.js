@@ -96,9 +96,11 @@ angular.module('SPCtrl', ['tagsService', 'patientService', 'googlechart'])
     var day = hour * 24;
     var week = day * 7;
 
-    var endDate = endDate - 2*day;
+    //fudging cheating
+    //var endDate = endDate - 2*day;
     var startDateDay = new Date(endDate - day);
     var startDateWeek = new Date(endDate - week);
+    var startDateMonth = new Date(endDate - week*4);
 
     console.log("end date: " + endDate);
     console.log("start date: " + startDateDay);
@@ -126,31 +128,45 @@ angular.module('SPCtrl', ['tagsService', 'patientService', 'googlechart'])
           //console.log("id: " + vm.tags[i].tagID);
       }
 
-      //console.log(vm.counts_bar_oneDay);
+      console.log(vm.counts_bar_oneDay);
 
       chartSelect = 1;
 
+      var sortable = [];
+      for (var key in vm.counts_bar_oneDay)
+      sortable.push([key, vm.counts_bar_oneDay[key]]);
+      sortable.sort(function(a, b) {return b[1] - a[1]});
+
+      console.log(sortable);
+
       var chart_barCounts_data = [];
 
-      for (var key in vm.counts_bar_oneDay) {
+      for(i=0; i < sortable.length; i++){
+        chart_barCounts_data.push({
+          c: [{v: sortable[i][0]}, {v: sortable[i][1]}]
+        });
+      }
+
+      /*
+      for (var key in vm.counts_bar_oneDay){
         chart_barCounts_data.push({
           c: [{v: key}, {v: vm.counts_bar_oneDay[key]}]
         });
       }
-
+      */
       console.log(chart_barCounts_data); 
 
-      var chart_barCounts = {};
+      var chart_barCounts_day = {};
 
-      chart_barCounts.type = "Bar";
-      chart_barCounts.cssStyle = "height:250px; width:325px; padding: 10px;";
-      chart_barCounts.data = { "cols": [
+      chart_barCounts_day.type = "Bar";
+      chart_barCounts_day.cssStyle = "height:250px; width:325px; padding: 10px; vertical-align: middle; display: table-cell;";
+      chart_barCounts_day.data = { "cols": [
           {id: "roomID", label: "Room", type: "string"},
           {id: "tagCounts", label: "Reads", type: "number"}
           ], "rows": chart_barCounts_data
         };
 
-      chart_barCounts.options = {
+      chart_barCounts_day.options = {
         chart: {
           title:'Tag Scan Frequency',
           subtitle: 'Last 24 Hours',
@@ -158,8 +174,8 @@ angular.module('SPCtrl', ['tagsService', 'patientService', 'googlechart'])
         legend: { position: "none" }
       };
 
-      chart1.formatters = {};
-      $scope.chart_barCounts = chart_barCounts;
+      chart_barCounts_day.formatters = {};
+      $scope.chart_barCounts_day = chart_barCounts_day;
 
     });
 
@@ -185,10 +201,129 @@ angular.module('SPCtrl', ['tagsService', 'patientService', 'googlechart'])
           //console.log("id: " + vm.tags[i].tagID);
       }
 
-      console.log(vm.counts_bar_oneWeek);
+      //console.log(vm.counts_bar_oneWeek);
 
-      chartSelect = 0;
-      console.log("drawing timeline chart");
+      //chartSelect = 0;
+
+      var sortable = [];
+      for (var key in vm.counts_bar_oneWeek)
+      sortable.push([key, vm.counts_bar_oneWeek[key]]);
+      sortable.sort(function(a, b) {return b[1] - a[1]});
+
+     // console.log(sortable);
+
+      var chart_barCounts_data = [];
+
+      for(i=0; i < sortable.length; i++){
+        chart_barCounts_data.push({
+          c: [{v: sortable[i][0]}, {v: sortable[i][1]}]
+        });
+      }
+
+      /*
+      for (var key in vm.counts_bar_oneWeek){
+        chart_barCounts_data.push({
+          c: [{v: key}, {v: vm.counts_bar_oneWeek[key]}]
+        });
+      }
+      */
+      console.log(chart_barCounts_data); 
+
+
+      var chart_barCounts_week = {};
+
+      chart_barCounts_week.type = "Bar";
+      chart_barCounts_week.cssStyle = "height:250px; width:325px; padding: 10px; vertical-align: middle; display: table-cell;";
+      chart_barCounts_week.data = { "cols": [
+          {id: "roomID", label: "Room", type: "string"},
+          {id: "tagCounts", label: "Reads", type: "number"}
+          ], "rows": chart_barCounts_data
+        };
+
+      chart_barCounts_week.options = {
+        chart: {
+          title:'Tag Scan Frequency',
+          subtitle: 'Last Week',
+        },
+        legend: { position: "none" }
+      };
+
+      chart_barCounts_week.formatters = {};
+      $scope.chart_barCounts_week = chart_barCounts_week;
+    
+    });
+
+    tagsFactory.timeRange(startDateMonth, endDate, vm.patient.patientName)
+    .success(function(data){
+      //console.log("factory data: " + data);
+      //console.log("call success");
+
+      vm.tagDataMonth = data;
+
+      vm.counts_bar_oneMonth = {};
+
+      for(i=0; i< vm.tagDataMonth.length; i++){
+    
+          tagIDlocal = vm.tagDataMonth[i].tagID;
+
+          if(tagIDlocal != "Hallway-001"){
+            typeof(vm.counts_bar_oneMonth[tagIDlocal]) == "undefined" ? vm.counts_bar_oneMonth[tagIDlocal] = 1 :
+            vm.counts_bar_oneMonth[tagIDlocal] += 1;
+            date = new Date(vm.tagDataMonth[i].tagScanDate);
+            vm.tagDataMonth[i].tagScanDateString = date.toString();
+          }
+          //console.log("id: " + vm.tags[i].tagID);
+      }
+
+      //console.log(vm.counts_bar_oneMonth);
+
+      //chartSelect = 0;
+
+      var sortable = [];
+      for (var key in vm.counts_bar_oneMonth)
+      sortable.push([key, vm.counts_bar_oneMonth[key]]);
+      sortable.sort(function(a, b) {return b[1] - a[1]});
+
+     // console.log(sortable);
+
+      var chart_barCounts_data = [];
+
+      for(i=0; i < sortable.length; i++){
+        chart_barCounts_data.push({
+          c: [{v: sortable[i][0]}, {v: sortable[i][1]}]
+        });
+      }
+
+      /*
+      for (var key in vm.counts_bar_oneMonth){
+        chart_barCounts_data.push({
+          c: [{v: key}, {v: vm.counts_bar_oneMonth[key]}]
+        });
+      }
+      */
+      console.log(chart_barCounts_data); 
+
+
+      var chart_barCounts_month = {};
+
+      chart_barCounts_month.type = "Bar";
+      chart_barCounts_month.cssStyle = "height:250px; width:325px; padding: 10px; vertical-align: middle; display: table-cell;";
+      chart_barCounts_month.data = { "cols": [
+          {id: "roomID", label: "Room", type: "string"},
+          {id: "tagCounts", label: "Reads", type: "number"}
+          ], "rows": chart_barCounts_data
+        };
+
+      chart_barCounts_month.options = {
+        chart: {
+          title:'Tag Scan Frequency',
+          subtitle: 'Last Month',
+        },
+        legend: { position: "none" }
+      };
+
+      chart_barCounts_month.formatters = {};
+      $scope.chart_barCounts_month = chart_barCounts_month;
     
     });
   }

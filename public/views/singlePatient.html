@@ -1,4 +1,4 @@
-<div class="belowNav container-fluid">
+<div class="belowNavSP container-fluid" >
     <div class="col-sm-12 spMainContent">
 			
         <div>
@@ -14,62 +14,85 @@
           </div>
 
           <div class="panel panel-default">
-            <h3 style="padding-top: 15px; padding-bottom: 15px; width: 800px; margin-left: auto; margin-right: auto;">Quick Stats Quick Stats Quick Stats Quick Stats Quick Stats</h3>
+            <h3 style="padding-top: 15px; padding-bottom: 15px; width: 500px; margin-left: auto; margin-right: auto;">Josh has been scanned a total of <b>763</b> times</h3>
           </div>
 
+          <!--
           <div class="spHeader">
             <h3>Graphs</h3>
             <span>
               <button ng-click="singlePatient.graph_bar_oneWeek()" class="btn btn-success">
-              <!-- <span ><i class="fa fa-spinner fa-spin"></i>1 Week</span> --> 
+              
                 <span>1 Week</span>
               </button>
 
               <button ng-click="singlePatient.graph_bar_oneDay()" class="btn btn-success">
-              <!-- <span ><i class="fa fa-spinner fa-spin"></i>1 Week</span> --> 
+              
                 <span>1 Day</span>
               </button>
             </span>
          
           </div>
+          -->
 
+          <!-- Individual Graph -->
           <div class="panel panel-default graphPanel">
-              <div class="col-sm-4 indivGraphPanel panel panel-default">
+              <div class="col-sm-4 indivGraphPanel">
 
-                <div google-chart chart="chart_barCounts" style="{{chart_barCounts.cssStyle}}" />
-
-              </div>
-              
-              <!--
-              <div class="col-sm-3 panel panel-default">
-                <div class="panel-heading">Panel Heading</div>
-
-                <div class="panel-body" google-chart chart="chart" style="{{chart.cssStyle}}" />
+                <div google-chart chart="chart_barCounts_day" style="{{chart_barCounts_day.cssStyle}}" />
 
               </div>
-              
-              <div class="col-sm-3 panel panel-default">
-
-                <div google-chart chart="chart" style="{{chart.cssStyle}}" />
-
+              <div class="col-sm-1">
+              </div>
+              <div class="col-sm-7" style="border-left: 1px dashed grey; height: 100%;">
+              <div>
+                <h1> Day Specific Stats</h1>
+                <p>Other day specific stats will go here.</p>
               </div>
 
-              <div class="col-sm-3 panel panel-default">
-
-              <div google-chart chart="chart" style="{{chart.cssStyle}}" />
-
-              </div>
-              -->
-              <!--
-              <div id="chart_div_line_activity">
-
-              </div>
-              -->
-              <div id="chart_div_bar">
-                    
               </div>
           </div>
+          <!-- End Individual Graph Panel -->
 
+          <!-- Individual Graph -->
+          <div class="panel panel-default graphPanel">
+              <div class="col-sm-4 indivGraphPanel">
+
+                <div google-chart chart="chart_barCounts_week" style="{{chart_barCounts_week.cssStyle}}" />
+
+              </div>
+              <div class="col-sm-1">
+              </div>
+              <div class="col-sm-7" style="border-left: 1px dashed grey; height: 100%;">
+              <div>
+                <h1>Week Specific Stats</h1>
+                <p>Other week specific stats will go here.</p>
+              </div>
+
+              </div>
+          </div>
+          <!-- End Individual Graph Panel -->
+
+          <!-- Individual Graph -->
+          <div class="panel panel-default graphPanel">
+              <div class="col-sm-4 indivGraphPanel">
+
+                <div google-chart chart="chart_barCounts_month" style="{{chart_barCounts_month.cssStyle}}" />
+
+              </div>
+              <div class="col-sm-1">
+              </div>
+              <div class="col-sm-7" style="border-left: 1px dashed grey; height: 100%;">
+              <div>
+                <h1>Month Specific Stats</h1>
+                <p>Other month specific stats will go here.</p>
+              </div>
+
+              </div>
+          </div>
+          <!-- End Individual Graph Panel -->
+
+          
 			</div>
 
       
