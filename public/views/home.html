@@ -25,6 +25,9 @@
                     <h5 class="panel-heading">Graphs and Stats</h5>
                     <div class="panel-body testpanelbody">
                       <a ng-href="/home/{{patient._id}}" class="btn btn-lg btn-primary chartIcon"><i class="fa fa-line-chart fa-5x"></i> </a>
+                      <button ng-click="home.getlast10tags(patient.patientName)" class="btn btn-success">
+                        <span>Last 10 Tags</span>
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -76,50 +79,3 @@
     </div>
 
 </div><!-- end container fluid -->
-
-<!--
-OLD
-<div class="belowNav container-fluid">
-      <div class="col-sm-2 sidebar">
-        <h3>Patient:</h3>
-
-        <select ng-model="selectedValue" ng-options="opt.patientName for opt in home.options">
-        </select>
-
-        <ul ng-if="selectedValue">
-          <li>Age: {{selectedValue.patientAge}}</li>
-          <li>Caretaker: {{selectedValue.patientCaretaker}}</li>
-          <li>Address </li>
-          <ul>
-            <li>Street: {{selectedValue.patientAddress.street}}</li>
-            <li>City: {{selectedValue.patientAddress.city}}</li>
-            <li>State: {{selectedValue.patientAddress.state}}</li>
-            <li>Zipcode: {{selectedValue.patientAddress.zipcode}}</li>
-          </ul>
-        </ul>
-      </div>
-
-    <div class="col-sm-10 main">
-			<div class="jumbotron">
-        <div>
-          <h2>Patient: {{selectedValue.patientName}}</h2>
-          <button ng-click="home.getOneWeek()" class="btn btn-default btn-warning">
-            <span>1 Week</span>
-          </button>
-          <button ng-click="home.getOneDay()" class="btn btn-default btn-warning">
-            <span>1 Day</span>
-          </button>
-
-          <h2>Graph</h2>
-          
-
-
-        </div>
-			</div>
-
-      <div id="chart_div">
-            
-      </div>
-
-	  </div>
-</div>-->
