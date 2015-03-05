@@ -9,8 +9,9 @@ angular.module('mainApp', [
   'tagsService',
   'patientService',
   'userService',
-  'googlechart'
-
+  'googlechart',
+  'SPCtrl',
+  'ngAnimate'
   ])
 
 .config(function($httpProvider){

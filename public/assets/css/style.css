@@ -168,3 +168,29 @@ html, body {
 	padding-right: 10px;
 	padding-bottom: 10px;
 }
+
+.patientRow {
+	margin-bottom: 20px;
+}
+
+.ng-hide-add, .ng-hide-remove {
+    display: block !important;
+}
+
+.cssSlideUp {
+    transition: .3s linear all;
+    height: 200px;
+    overflow: hidden;
+}
+.cssSlideUp.ng-hide {
+    height:0;
+}
+
+.chartIcon {
+	margin-bottom: 10px;
+}
+
+.panel-heading {
+	cursor: pointer; 
+	cursor: hand;
+}

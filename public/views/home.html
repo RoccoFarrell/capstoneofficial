@@ -20,37 +20,66 @@
                       <tr><td>Zipcode: {{patient.patientAddress.zipcode}}</td></tr>
                     </tbody>
                   </table>
+        <div class="page-header">
+          <h1>Patient List: <small><!--<input type="text" class="form-control col-sm-6" ng-model="searchText" placeholder="Search by name...">--></small></h1>
+        </div>
+
+        <!--
+        <p><input type="text" ng-model="searchText"></p>
+        <ul>
+          <li ng-repeat="patient in home.patients | filter:searchText">
+            {{patient.patientName}}
+          </li>
+        </ul>
+      -->
+
+
+        <div ng-repeat="patient in home.patients">
+          <div class="row patientRow">
+            <div class="panel patientPanel">
+              <div class="panel-body">
+
+                <div class="col-sm-3 main">
+                  <div class="panel panel-primary testpanel">
+                    <h3 class="panel-heading" ng-click="patientInfo = !patientInfo">{{patient.patientName}}</h3>
+                    <div class="panel-body testpanelbody cssSlideUp" ng-show="patientInfo" id="patientInfo">
+                      <table class="table borderless">
+                        <tbody>
+                          <tr><td>Age: {{patient.patientAge}}</td></tr>
+                          <tr><td>Street: {{patient.patientAddress.street}}</td></tr>
+                          <tr><td>City: {{patient.patientAddress.city}}</td></tr>
+                          <tr><td>State: {{patient.patientAddress.state}}</td></tr>
+                          <tr><td>Zipcode: {{patient.patientAddress.zipcode}}</td></tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
                 </div>
 
+                <div class="col-sm-7 main">
+                  <div class="panel panel-primary testpanel">
+                    <h3 class="panel-heading" ng-click="patientData = !patientData">Stats & information</h3>
+                    <div class="panel-body testpanelbody cssSlideUp" ng-show="patientData" id="patientData">
+                    </div>
+                  </div>
+                </div>
 
+                <div class="col-sm-2 main">
+                  <div class="panel panel-primary testpanel">
+                    <h3 class="panel-heading" ng-click="patientOptions = !patientOptions">Options</h3>
+                    <div class="panel-body testpanelbody cssSlideUp text-center" ng-show="patientOptions" id="patientOptions">
+                      <a ng-href="/home/{{patient._id}}" class="btn btn-lg btn-primary chartIcon"><i class="fa fa-line-chart fa-5x"></i> </a>
+                      <button ng-click="home.deletePatient(patient)" class="btn btn-danger">
+                        <span>Delete Patient</span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
               </div>
 
-          <!--
-          <div class="row">
-            <div class="col-sm-3 main">
-              <table class="table">
-                <tbody>
-                  <tr> <td> {{patient.patientName}} </td> </tr>
-                  <tr> <td> Age: {{patient.patientAge}} </tr>
-                  <tr> <td> Street: {{patient.patientAddress.street}} </td> </tr>
-                  <tr> <td> City: {{patient.patientAddress.city}} </td> </tr>
-                  <tr> <td> State: {{patient.patientAddress.state}} </td> </tr>
-                  <tr> <td> Zipcode: {{patient.patientAddress.zipcode}} </td> </tr>
-                </tbody>
-              </table>-->
-            </div>
-            <div class="col-sm-7 main">
-              <p>STATS:</p>
-            </div>
-            <div class="col-sm-2 main">
-              <a ng-href="/home/{{patient._id}}" class="btn btn-lg btn-success pull-right"><i class="fa fa-line-chart fa-5x"></i> </a>
-              <button ng-click="home.deletePatient(patient)" class="btn btn-danger pull-right">
-                <span>Delete Patient</span>
-              </button>
             </div>
           </div>
         </div>
-
 
         <a class="btn btn-block btn-warning" href="/newPatient"></span>New Patient</a>
 
