@@ -4,11 +4,13 @@ angular.module('mainApp', [
   'app.routes',
   'authService',
   'mainCtrl',
+  'SPCtrl',
   //'homeCtrl',
   'tagsService',
   'patientService',
   'userService',
-  'SPCtrl'
+  'googlechart'
+
   ])
 
 .config(function($httpProvider){

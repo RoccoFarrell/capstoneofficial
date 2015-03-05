@@ -1,40 +1,77 @@
 <div class="belowNav container-fluid">
-    <div class="col-sm-12 main">
+    <div class="col-sm-12 spMainContent">
 			
         <div>
           <!--
           <span id="loginMessage"><i class="fa fa-user-plus"></i></span><h2>You are now logged in.</h2>
           {{ main.user.username }}
           -->
-          <h2>Patient:</h2>
-          <button ng-click="singlePatient.graph_bar_oneWeek()" class="btn btn-default btn-warning">
-          <!-- <span ><i class="fa fa-spinner fa-spin"></i>1 Week</span> --> 
-            <span>1 Week</span>
-          </button>
-
-          <button ng-click="singlePatient.graph_bar_oneDay()" class="btn btn-default btn-warning">
-          <!-- <span ><i class="fa fa-spinner fa-spin"></i>1 Week</span> --> 
-            <span>1 Day</span>
-          </button>
-
-          <button ng-click="singlePatient.graph_line_oneWeek()" class="btn btn-default btn-success">
-          <!-- <span ><i class="fa fa-spinner fa-spin"></i>1 Week</span> --> 
-            <span>Line 1 Week</span>
-          </button>
-
-          <button ng-click="singlePatient.graph_timeline_oneDay()" class="btn btn-default btn-success">
-          <!-- <span ><i class="fa fa-spinner fa-spin"></i>1 Week</span> --> 
-            <span>Timeline 1 Day</span>
-          </button>
-
-          <h2>Graph</h2>
-          
-          <div id="chart_div_line_activity">
-
+          <div class="spHeader">
+            <h1> {{singlePatient.patient.patientName}} </h1>
           </div>
 
-          <div id="chart_div_bar">
-                
+          <h3>Quick Stats</h3>
+
+          <div class="panel panel-primary">
+            <div class="panel-heading">
+              Statssssssssss
+            </div>
+
+            <div class="panel-body">
+              Statssssssssssssssssssssssss
+            </div>
+            
+          </div>
+
+          <div class="spHeader">
+            <h3>Graphs</h3>
+            <span>
+              <button ng-click="singlePatient.graph_bar_oneWeek()" class="btn btn-success">
+              <!-- <span ><i class="fa fa-spinner fa-spin"></i>1 Week</span> --> 
+                <span>1 Week</span>
+              </button>
+
+              <button ng-click="singlePatient.graph_bar_oneDay()" class="btn btn-success">
+              <!-- <span ><i class="fa fa-spinner fa-spin"></i>1 Week</span> --> 
+                <span>1 Day</span>
+              </button>
+            </span>
+         
+          </div>
+
+          <div class="panel panel-default">
+              <div class="col-sm-3 panel panel-default">
+
+                <div google-chart chart="chart" style="{{chart.cssStyle}}" />
+
+              </div>
+              
+              <div class="col-sm-3 panel panel-default">
+                <div class="panel-heading">Panel Heading</div>
+
+                <div class="panel-body" google-chart chart="chart" style="{{chart.cssStyle}}" />
+
+              </div>
+              
+              <div class="col-sm-3 panel panel-default">
+
+                <div google-chart chart="chart" style="{{chart.cssStyle}}" />
+
+              </div>
+
+              <div class="col-sm-3 panel panel-default">
+
+              <div google-chart chart="chart" style="{{chart.cssStyle}}" />
+
+              </div>
+              <!--
+              <div id="chart_div_line_activity">
+
+              </div>
+              -->
+              <div id="chart_div_bar">
+                    
+              </div>
           </div>
 
 			</div>

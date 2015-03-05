@@ -1,13 +1,15 @@
 <div class="belowNav container-fluid">
       <div class="col-sm-12 main">
-        <h3>Patients:</h3>
+        <div class="patientsHeader">
+          <i class="fa fa-users" style="font-size: 20pt; float: left; padding-right: 10px;"></i><h3>Patients</h3>
+        </div>
 
         <div class="jumbotron myjumbo" ng-repeat="patient in home.patients">
           <div class="row">
             <div class="col-sm-3 main">
           
               <div class="panel panel-success testpanel">
-                <h3 class="panel-heading">{{patient.patientName}}</h3>
+                <h3 class="panel-heading" style="color: black;">{{patient.patientName}}</h3>
                 <div class="panel-body testpanelbody">
                   <table class="table borderless">
                     <tbody>
