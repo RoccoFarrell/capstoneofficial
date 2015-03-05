@@ -11,13 +11,8 @@ angular.module('SPCtrl', ['tagsService', 'patientService', 'googlechart'])
 
     console.log(vm.patient);
 
-    /*
-    computeData(function(){
-      drawChart();
-
-    });
-    */
-  
+    
+    computeData();
   });
 
   //Sample Chart for use with Google Graphs Directive
@@ -128,15 +123,12 @@ angular.module('SPCtrl', ['tagsService', 'patientService', 'googlechart'])
             date = new Date(vm.tagDataDay[i].tagScanDate);
             vm.tagDataDay[i].tagScanDateString = date.toString();
           }
-
           //console.log("id: " + vm.tags[i].tagID);
-
       }
 
       //console.log(vm.counts_bar_oneDay);
 
       chartSelect = 1;
-      drawChart();
 
       var chart_barCounts_data = [];
 
@@ -197,15 +189,14 @@ angular.module('SPCtrl', ['tagsService', 'patientService', 'googlechart'])
 
       chartSelect = 0;
       console.log("drawing timeline chart");
-      drawChart();
+    
     });
-
-    //drawChart();
   }
 
   //--------------------------------------
 
-
+  //Old chart Stuff
+  /*
   google.load('visualization', '1.1',{
     'packages':['corechart', 'timeline', 'bar'],
     callback: function() {
@@ -284,8 +275,8 @@ angular.module('SPCtrl', ['tagsService', 'patientService', 'googlechart'])
     var chart3 = new google.visualization.Timeline(document.getElementById('chart_div_line_activity'));
     chart3.draw(dataTable, options3);
     */
-  }
-
+  //}
+  
   /*
   vm.graph_timeline_oneDay = function(){
 
