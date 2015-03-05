@@ -3,6 +3,8 @@ angular.module('homeCtrl', ['tagsService', 'patientService', 'googlechart'])
 .controller('homeController', function(patientFactory, tagsFactory, $routeParams, $scope){
   var vm = this;
 
+  vm.last10tags = [];
+
   patientFactory.all()
   .success(function(data){
     vm.patients = data;
@@ -29,7 +31,7 @@ angular.module('homeCtrl', ['tagsService', 'patientService', 'googlechart'])
     console.log("Alert here.");
   }
 
-  vm.getlast10min = function(name) {
+  vm.getlast10tags = function(name) {
     console.log("get last");
 
     var endTime = new Date();
@@ -44,45 +46,19 @@ angular.module('homeCtrl', ['tagsService', 'patientService', 'googlechart'])
     endTime = new Date(endTime);
     var startTime = new Date(endTime - day);
 
-    console.log(endTime);
-    console.log(startTime);
-    console.log(name);
-
     tagsFactory.timeRange(startTime, endTime, name)
     .success(function(data){
-      console.log("factory data: " + data);
       vm.last10data = data;
+
+      for (i=(vm.last10data.length-10); i<vm.last10data.length; i++ )
+      {
+        vm.last10tags.push(vm.last10data[i]);
+      }
+      console.log(vm.last10tags);
+      vm.last10tags = [];
+
     });
 
   }
-
-
-
-
-  /*tagsFactory.timeRange(startTime, endTime, vm.patient.patientName)
-    .success(function(data){
-      console.log("factory data: " + data);
-      //console.log("call success");
-
-      vm.tagDataDay = data;
-      vm.counts_bar_oneDay = {};
-
-      for(i=0; i < vm.tagDataDay.length; i++)
-      {
-
-          tagIDlocal = vm.tagDataDay[i].tagID;
-
-          if(tagIDlocal != "Hallway-001"){
-            typeof(vm.counts_bar_oneDay[tagIDlocal]) == "undefined" ? vm.counts_bar_oneDay[tagIDlocal] = 1 :
-            vm.counts_bar_oneDay[tagIDlocal] += 1;
-            date = new Date(vm.tagDataDay[i].tagScanDate);
-            vm.tagDataDay[i].tagScanDateString = date.toString();
-          }
-          //console.log("id: " + vm.tags[i].tagID);
-      }
-
-      //console.log(vm.counts_bar_oneDay);
-*/
-
   
 });
