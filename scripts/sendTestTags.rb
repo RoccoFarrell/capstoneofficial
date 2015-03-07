@@ -5,25 +5,6 @@ require "pp"
 require "bson"
 require "time"
 
-##################
-##Authentication##
-##################
-uri = URI.parse("http://104.236.38.217/api/authenticate")
-username = "capstone"
-password = "capstone"
-$http = Net::HTTP.new(uri.host, uri.port)
-request = Net::HTTP::Post.new(uri.request_uri)
-request.set_form_data({"username" => username, "password" => password})
-response = $http.request(request)
-my_hash = JSON.parse(response.body)
-$token = my_hash['token']
-
-################
-####Get Tags####
-################
-$uri = URI.parse("http://104.236.38.217/api/tags")
-$http = Net::HTTP.new(uri.host, uri.port)
-
 $tagID_bedroom1 = "Bedroom-001"
 $tagID_bedroom2 = "Bedroom-002"
 $tagID_hallway = "Hallway-001"
@@ -47,31 +28,99 @@ $hungerLevel = 0
 
 $count = 0
 
+$patientName=""
+$postDestination=""
+
 ##Function Prototype
 #def functionname(variable)
 #   return <value>
 #end
+def initialSetup()
+
+	puts "Which user will you be tracking today?"
+	puts "0: Enter new name"
+	puts "1: Steve Rolphoson"
+	puts "2: Jessica Silver"
+	nameSelect = gets.chomp
+
+	if(nameSelect == "1")
+		$patientName = "Steve Rolphoson"
+	elsif(nameSelect == "2")
+		$patientName = "Jessica Silver"
+	elsif(nameSelect == "0")
+		puts "Enter patient name now: "
+		$patientName = gets.chomp
+	else
+		puts "Invalid input"
+	end
+
+	puts "Which server will we be posting to today?"
+	puts "1: Print to console"
+	puts "2: Localhost"
+	puts "3: DigitalOcean"
+	postSelect = gets.chomp
+
+	if(postSelect == "1")
+		$postDestination = nil
+	elsif(postSelect == "2")
+		$postDestination = "http://localhost"
+	elsif(postSelect == "3")
+		$postDestination = "http://104.236.38.217"
+	else
+		puts "Invalid input to post destination"
+	end
+
+	$numDays = 0
+	puts "How many days would you like to generate?"
+	$numDays = gets.chomp
+
+	puts "Welcome " + $patientName + ". Posting to " + $postDestination.inspect + ". Generating " + $numDays + " days."
+
+	##################
+	##Authentication##
+	##################
+	if($postDestination != nil)
+		uri = URI.parse($postDestination + "/api/authenticate")
+		username = "capstone"
+		password = "capstone"
+		$http = Net::HTTP.new(uri.host, uri.port)
+		request = Net::HTTP::Post.new(uri.request_uri)
+		request.set_form_data({"username" => username, "password" => password})
+		response = $http.request(request)
+		my_hash = JSON.parse(response.body)
+		$token = my_hash['token']
+
+		$uri = URI.parse($postDestination + "/api/tags")
+		$http = Net::HTTP.new(uri.host, uri.port)
+	end
+end
+
+initialSetup()
 
 #Submit Tag Function, returns hash of HTTP response, use 'pp' to display
 def submitTag(tagID, tagScanDate)
 
 	tsdISO = tagScanDate.iso8601
-
-	request = Net::HTTP::Post.new($uri.request_uri)
-	request['x-access-token'] = $token
-
-	patientName = "Steve Rolphoson"
-	#request.to_hash['x-access-token']    # => Array
-	#puts "Headers: #{request.to_hash.inspect}"
-
-	request.set_form_data({"tagID" => tagID, "tagScanDate" => tsdISO, "tagPatient" => patientName})
-	puts "-----> Submitted tag   tagID: " + tagID + " tagScanDate: " + tagScanDate.strftime("%I:%M:%S%p %m/%d/%y")
 	$count += 1
-    
-	response = $http.request(request)
-	my_hash = JSON.parse(response.body)
+	puts "-----> Submitted tag   tagID: " + tagID + " tagScanDate: " + tagScanDate.strftime("%I:%M:%S%p %m/%d/%y")
+
+	if($postDestination != nil)
+		request = Net::HTTP::Post.new($uri.request_uri)
+		request['x-access-token'] = $token
+
+		#request.to_hash['x-access-token']    # => Array
+		#puts "Headers: #{request.to_hash.inspect}"
+
+		request.set_form_data({"tagID" => tagID, "tagScanDate" => tsdISO, "tagPatient" => $patientName})
+	
+		response = $http.request(request)
+		my_hash = JSON.parse(response.body)
+		return my_hash
+	else return "Posted to console"
+	end
+
 	#pp my_hash
-	return my_hash
+	
 end
 
 #Bathroom visit, takes input time, bathroom ID, bathroom function as input, returns time after visit is completed
@@ -453,22 +502,23 @@ end
 
 #######Main loop ##########
 #loops through the week
-for i in 0..13
-	startDay = Time.new(2015, 2, 26)
+$numDays = $numDays.to_i
+$numDays.times do |i|
+	currentTime = Time.new()
+	startDay = currentTime - $week
+	
 	dayConstant = i * ($day)
 
 	#Day starts at midnight 
-
-	puts "=========================="
-	puts "Day " + i.inspect
-	puts "=========================="
-
 	$timeOfDay = startDay + dayConstant
+	puts "=========================="
+	puts "Day " + (i+1).inspect
+	puts "=========================="
+	#puts "year: " + $timeOfDay.year.inspect + " month: " + $timeOfDay.month.inspect + " day: " + $timeOfDay.day.inspect
+	#puts "start time: " + $timeOfDay.inspect
 
 	singleDayGen()
 	#submitTag("test", Time.new(2015,2,18))
-
-	
 end
 
 puts $count.inspect + " tags entered into DB"
