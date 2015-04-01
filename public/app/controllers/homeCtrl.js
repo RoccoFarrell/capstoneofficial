@@ -3,11 +3,47 @@ angular.module('homeCtrl', ['tagsService', 'patientService', 'googlechart'])
 .controller('homeController', function(patientFactory, tagsFactory, $routeParams, $scope){
   var vm = this;
 
-  vm.last10tags = [];
-
   patientFactory.all()
   .success(function(data){
     vm.patients = data;
+
+    for (i=0; i<vm.patients.length; i++ )
+      {
+
+        vm.patients[i].last10 = [];
+
+        var endTime = new Date();
+        var second = 1000;
+        var minute = 60 * second;
+        var hour = minute * 60;
+        var day = hour * 24;
+        var week = day * 7;
+        var startTime = new Date(endTime - day);
+        console.log("before call: " + vm.patients[i]);
+
+        tagsFactory.timeRange(startTime, endTime, vm.patients[i].patientName)
+        .success(function(data){
+          //console.log(data);
+          vm.last10tags = [];
+          vm.tempdata = data;
+          console.log("realfirst: " + vm.patients[i]);
+
+          for (k=(vm.tempdata.length-10); k<vm.tempdata.length; k++ )
+          {
+            vm.last10tags.push(vm.tempdata[k]);
+          }
+          console.log("last10tags: " + vm.last10tags);
+          console.log("first: " + vm.patients[i]);
+          console.log("vm.last10tags: " + vm.last10tags);
+          //vm.patients[i].last10 = vm.last10tags;
+          console.log("second: " + vm.patients[i]);
+        });
+        //console.log(vm.last10tagsarray);
+        //vm.patients[i].last10 = vm.last10tags;
+        //console.log("outside api call: " + vm.patients[i].last10);
+
+      }
+
   });
 
   vm.deletePatient = function(patient) {
@@ -29,36 +65,6 @@ angular.module('homeCtrl', ['tagsService', 'patientService', 'googlechart'])
 
   vm.alertPatient = function() {
     console.log("Alert here.");
-  }
-
-  vm.getlast10tags = function(name) {
-    console.log("get last");
-
-    var endTime = new Date();
-
-    var second = 1000;
-    var minute = 60 * second;
-    var hour = minute * 60;
-    var day = hour * 24;
-    var week = day * 7;
-
-    //endTime = endTime - 2*day;
-    //endTime = new Date(endTime);
-    var startTime = new Date(endTime - day);
-
-    tagsFactory.timeRange(startTime, endTime, name)
-    .success(function(data){
-      vm.last10data = data;
-
-      for (i=(vm.last10data.length-10); i<vm.last10data.length; i++ )
-      {
-        vm.last10tags.push(vm.last10data[i]);
-      }
-      console.log(vm.last10tags);
-      vm.last10tags = [];
-
-    });
-
   }
   
 });
