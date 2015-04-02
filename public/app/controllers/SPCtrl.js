@@ -27,7 +27,7 @@ angular.module('SPCtrl', ['tagsService', 'patientService', 'googlechart'])
     console.log(vm.patient.patientName);
     tagsFactory.timeRange(startDateDay, endDate, vm.patient.patientName)
     .success(function(data){
-      console.log("factory data: " + data);
+      //console.log("factory data: " + data);
 
       vm.weekTrendData = data;
       var i=0;
@@ -114,7 +114,7 @@ angular.module('SPCtrl', ['tagsService', 'patientService', 'googlechart'])
     console.log(vm.patient.patientName);
     tagsFactory.timeRange(startDateDay, endDate, vm.patient.patientName)
     .success(function(data){
-      console.log("factory data: " + data);
+      //console.log("factory data: " + data);
 
       vm.monthTrendData = data;
       var i=0;
@@ -201,44 +201,50 @@ angular.module('SPCtrl', ['tagsService', 'patientService', 'googlechart'])
     console.log(vm.patient.patientName);
     tagsFactory.timeRange(startDateDay, endDate, vm.patient.patientName)
     .success(function(data){
-      console.log("factory data: " + data);
 
       vm.sixmonthTrendData = data;
-      var i=0;
-      var dayCounter=0;
+      var weekCounter=0;
       var count=0;
       vm.sixmonthTrendRoomData = {};
-
-      var currentDate;
-      date = new Date(vm.sixmonthTrendData[i].tagScanDate);
-      currentDate = date;
-      console.log(currentDate.getDate());
-
-      //console.log(currentDate);
-      //console.log(currentDate.getDate);
+      var newWeek0=0;
+      var newWeek1=0;
 
       for(i=0; i < vm.sixmonthTrendData.length; i++)
       {
         var tempDate;
         date = new Date(vm.sixmonthTrendData[i].tagScanDate);
         tempDate = date;
+        //console.log(tempDate.getDay());
 
-        if (tempDate.getDate() == currentDate.getDate())
+        if (newWeek1==1 && newWeek0==1) {
+          count = 1;
+          weekCounter++;
+          newWeek0=0;
+          newWeek1=0;
+        }
+
+        if (tempDate.getDay() == 0)
         {
+          newWeek0=1;
           if(vm.sixmonthTrendData[i].tagID == vm.sixmonthTrendRoom)
           {
             count++;
-            vm.sixmonthTrendRoomData[dayCounter] = count;
+            vm.sixmonthTrendRoomData[weekCounter] = count;
           }
         }
-        else {
-          currentDate = tempDate;
-          count = 1;
-          dayCounter++;
+        else
+        {
+          newWeek1 = 1;
+          newWeek0 = 0;
+          if(vm.sixmonthTrendData[i].tagID == vm.sixmonthTrendRoom)
+          {
+            count++;
+            vm.sixmonthTrendRoomData[weekCounter] = count;
+          }
         }
       }
 
-      console.log(vm.sixmonthTrendRoomData);
+      console.log("SIXMONTH: " + vm.sixmonthTrendRoomData);
 
       var chart_barTrend_data_sixmonth = [];
 
@@ -256,7 +262,7 @@ angular.module('SPCtrl', ['tagsService', 'patientService', 'googlechart'])
       chart_barTrend_sixmonth.type = "Bar";
       chart_barTrend_sixmonth.cssStyle = "height:250px; width:325px; padding: 10px; vertical-align: middle; display: table-cell;";
       chart_barTrend_sixmonth.data = { "cols": [
-          {id: "roomID", label: "Day", type: "string"},
+          {id: "roomID", label: "Week", type: "string"},
           {id: "tagCounts", label: "Reads", type: "number"}
           ], "rows": chart_barTrend_data_sixmonth
         };
