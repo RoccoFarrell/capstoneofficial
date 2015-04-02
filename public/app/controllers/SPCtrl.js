@@ -15,60 +15,59 @@ angular.module('SPCtrl', ['tagsService', 'patientService', 'googlechart'])
     computeData();
   });
 
-  //Sample Chart for use with Google Graphs Directive
-    var chart1 ={};
-    chart1.type = "ColumnChart";
-    chart1.cssStyle = "height:175px; width:250px;";
-    chart1.data = {"cols": [
-          {id: "month", label: "Month", type: "string"},
-          {id: "laptop-id", label: "Laptop", type: "number"},
-          {id: "desktop-id", label: "Desktop", type: "number"},
-          {id: "server-id", label: "Server", type: "number"},
-          {id: "cost-id", label: "Shipping", type: "number"}
-      ], "rows": [
-          {c: [
-              {v: "January"},
-              {v: 19, f: "42 items"},
-              {v: 12, f: "Ony 12 items"},
-              {v: 7, f: "7 servers"},
-              {v: 4}
-          ]},
-          {c: [
-              {v: "February"},
-              {v: 13},
-              {v: 1, f: "1 unit (Out of stock this month)"},
-              {v: 12},
-              {v: 2}
-          ]},
-          {c: [
-              {v: "March"},
-              {v: 24},
-              {v: 0},
-              {v: 11},
-              {v: 6}
+  vm.weekTrend = function() {
+    console.log("in function");
+    var endDate = new Date();
+    var second = 1000;
+    var minute = 60 * second;
+    var hour = minute * 60;
+    var day = hour * 24;
+    var week = day * 7;
+    var startDateDay = new Date(endDate - week);
+    console.log(vm.patient.patientName);
+    tagsFactory.timeRange(startDateDay, endDate, vm.patient.patientName)
+    .success(function(data){
+      console.log("factory data: " + data);
 
-          ]}
-      ]};
+      vm.weekTrendData = data;
+      var i=0;
+      var dayCounter=0;
+      var count=0;
+      vm.weekTrendKitchen = {};
 
-    chart1.options = {
-          "title": "Sales per month",
-          "isStacked": "true",
-          "fill": 20,
-          "displayExactValues": true,
-          "vAxis": {
-              "title": "Sales unit", "gridlines": {"count": 6}
-          },
-          "hAxis": {
-              "title": "Date"
+      var currentDate;
+      date = new Date(vm.weekTrendData[i].tagScanDate);
+      currentDate = date;
+      console.log(currentDate.getDate());
+
+      //console.log(currentDate);
+      //console.log(currentDate.getDate);
+
+      for(i=0; i < vm.weekTrendData.length; i++)
+      {
+        var tempDate;
+        date = new Date(vm.weekTrendData[i].tagScanDate);
+        tempDate = date;
+
+        if (tempDate.getDate() == currentDate.getDate())
+        {
+          if(vm.weekTrendData[i].tagID == "Kitchen-001")
+          {
+            count++;
+            vm.weekTrendKitchen[dayCounter] = count;
           }
-      };
-    chart1.formatters = {};
-    $scope.chart = chart1;
-    console.log("vm.chart: " + vm.chart);
-  //End sample chart
-    
-    
+        }
+        else {
+          currentDate = tempDate;
+          count = 1;
+          dayCounter++;
+        }
+      }
 
+      console.log(vm.weekTrendKitchen);
+
+    }); 
+  }
 
   function computeData(){
 
@@ -96,8 +95,6 @@ angular.module('SPCtrl', ['tagsService', 'patientService', 'googlechart'])
     var day = hour * 24;
     var week = day * 7;
 
-    //fudging cheating
-    //var endDate = endDate - 2*day;
     var startDateDay = new Date(endDate - day);
     var startDateWeek = new Date(endDate - week);
     var startDateMonth = new Date(endDate - week*4);
@@ -333,179 +330,5 @@ angular.module('SPCtrl', ['tagsService', 'patientService', 'googlechart'])
     
     });
   }
-
-  //--------------------------------------
-
-  //Old chart Stuff
-  /*
-  google.load('visualization', '1.1',{
-    'packages':['corechart', 'timeline', 'bar'],
-    callback: function() {
-      computeData();
-    }
-  });
-
-  chartSelect = 0;
-  
-  function drawChart(){
-
-    if (chartSelect == 0) inputData_bar=vm.counts_bar_oneWeek;
-    if (chartSelect == 1) inputData_bar=vm.counts_bar_oneDay;
-
-  	var i = 0;
-  	var keys = [];
-  	for (var key in inputData_bar) {
-  		keys[i]=key;
-  		i++;
-    	//console.log(inputData_bar[key]);
-    }    
-
-    var data2 = new google.visualization.DataTable();
-    data2.addColumn('number','Room');
-    for(var key2 in vm.counts_line_oneWeek){
-      console.log("adding column: " + key2);
-      data2.addColumn('number', key2);
-    }
-
-    //for()
-    for(key2 in vm.counts_line_oneWeek){
-      data2.addRow([1, 
-        vm.counts_line_oneWeek[0],
-        vm.counts_line_oneWeek[1],
-        vm.counts_line_oneWeek[2],
-        vm.counts_line_oneWeek[3],
-        vm.counts_line_oneWeek[4],
-        vm.counts_line_oneWeek[5]]
-
-        );
-    }
-
-    var dataTable = new google.visualization.DataTable();
-    dataTable.addColumn({ type: 'string', id: 'Room' });
-    dataTable.addColumn({ type: 'date', id: 'Start' });
-    dataTable.addColumn({ type: 'date', id: 'End' });
-    dataTable.addRows(vm.tagDataDay.length-1);
-    for(var i=0; i< vm.tagDataDay.length-1; i++){
-      dataTable.setValue(i, 0, vm.tagDataDay[i].tagID)
-      dataTable.setValue(i, 1, new Date(vm.tagDataDay[i].tagScanDate))
-      dataTable.setValue(i, 2, new Date(vm.tagDataDay[i+1].tagScanDate))
-    }
-
-	  var color = $(".jumbotron").css("background-color");
-
-    var options2 = {'title':'Tag Data Frequencys',
-                   'width':1000,
-                   'height':500,
-                   'backgroundColor': color
-                   //'backgroundColor': $('.jumbotron').backgroundColor
-                  };
-
-    var options3 = {
-                    'height': 300,
-                    timeline: { colorByRowLabel: true },
-                    'title': '24-Hour Patient Time Line', //not available for timeline
-                    'backgroundColor': '#ffd',
-                    'hAxis': {title: 'Time',  titleTextStyle: {color: 'red'}}//not available for timeline
-                  };
-
-    // Instantiate and draw our chart, passing in some options.
-    /*
-    var chart2 = new google.visualization.LineChart(document.getElementById('chart_div_line_activity')); 
-    chart2.draw(data2, options2);
-
-    var chart3 = new google.visualization.Timeline(document.getElementById('chart_div_line_activity'));
-    chart3.draw(dataTable, options3);
-    */
-  //}
-  
-  /*
-  vm.graph_timeline_oneDay = function(){
-
-    console.log("Graph line 1 week");
-
-    var endDate = new Date();
-    endDate.setHours(0);
-    endDate.setMinutes(0);
-    endDate.setSeconds(0);
-    endDate.setMilliseconds(0);
-
-    var second = 1000;
-    var minute = 60 * second;
-    var hour = minute * 60;
-    var day = hour * 24;
-    var week = day * 7;
-
-    var startDate = new Date(endDate - day);
-
-    console.log("end date: " + endDate);
-    console.log("start date: " + startDate);
-
-    tagsFactory.timeRange(startDate, endDate, vm.patient.patientName)
-    .success(function(data){
-      console.log("factory data: " + data);
-      console.log("call success");
-
-      vm.tagData = data;
-    });
-  };
-
-
-  vm.graph_line_oneWeek = function(){
-
-    console.log("Graph line 1 week");
-
-    var endDate = new Date();
-    endDate.setHours(0);
-    endDate.setMinutes(0);
-    endDate.setSeconds(0);
-    endDate.setMilliseconds(0);
-
-    var second = 1000;
-    var minute = 60 * second;
-    var hour = minute * 60;
-    var day = hour * 24;
-    var week = day * 7;
-
-    var startDate = new Date(endDate - week);
-
-    console.log("end date: " + endDate);
-    console.log("start date: " + startDate);
-
-    tagsFactory.timeRange(startDate, endDate, vm.patient.patientName)
-    .success(function(data){
-      console.log("factory data: " + data);
-      console.log("call success");
-
-      vm.tags = data;
-      vm.counts_line_oneWeek = {};
-
-      for(i=0; i< vm.tags.length; i++)
-      {
-    
-          tagIDlocal = vm.tags[i].tagID;
-
-          typeof(vm.counts_line_oneWeek[tagIDlocal]) == "undefined" ? vm.counts_line_oneWeek[tagIDlocal] = 1 :
-          vm.counts_line_oneWeek[tagIDlocal] += 1;
-          date = new Date(vm.tags[i].tagScanDate);
-          vm.tags[i].tagScanDateString = date.toString();
-
-          //console.log("id: " + vm.tags[i].tagID);
- 
-        }
-        console.log(vm.counts_line_oneWeek);
-    });
-  };
-  */
-
-  vm.graph_bar_oneWeek = function(){
-      chartSelect = 0;
-      drawChart();
-  };
-
-  vm.graph_bar_oneDay = function(){
-
-    chartSelect = 1;
-    drawChart();
-  };
   
 });
