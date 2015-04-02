@@ -14,6 +14,361 @@ angular.module('SPCtrl', ['tagsService', 'patientService', 'googlechart'])
     computeData();
   });
 
+  vm.weekTrend = function() {
+    console.log("Input: " + vm.weekTrendRoom);
+    var endDate = new Date();
+    var second = 1000;
+    var minute = 60 * second;
+    var hour = minute * 60;
+    var day = hour * 24;
+    var week = day * 7;
+    var startDateDay = new Date(endDate - week);
+    console.log(vm.patient.patientName);
+    tagsFactory.timeRange(startDateDay, endDate, vm.patient.patientName)
+    .success(function(data){
+      //console.log("factory data: " + data);
+
+      vm.weekTrendData = data;
+      var i=0;
+      var dayCounter=0;
+      var count=0;
+      vm.weekTrendRoomData = {};
+
+      var currentDate;
+      date = new Date(vm.weekTrendData[i].tagScanDate);
+      currentDate = date;
+      console.log(currentDate.getDate());
+
+      //console.log(currentDate);
+      //console.log(currentDate.getDate);
+
+      for(i=0; i < vm.weekTrendData.length; i++)
+      {
+        var tempDate;
+        date = new Date(vm.weekTrendData[i].tagScanDate);
+        tempDate = date;
+
+        if (tempDate.getDate() == currentDate.getDate())
+        {
+          if(vm.weekTrendData[i].tagID == vm.weekTrendRoom)
+          {
+            count++;
+            vm.weekTrendRoomData[dayCounter] = count;
+          }
+        }
+        else {
+          currentDate = tempDate;
+          count = 1;
+          dayCounter++;
+        }
+      }
+
+      console.log(vm.weekTrendRoomData);
+
+      var chart_barTrend_data = [];
+
+      for(i=0; i < 7; i++){
+        console.log(vm.weekTrendRoomData[i]);
+        chart_barTrend_data.push({
+          c: [{v: (i+1)}, {v: vm.weekTrendRoomData[i]}]
+        });
+      }
+
+      console.log(chart_barTrend_data);
+
+      var chart_barTrend_week = {};
+
+      chart_barTrend_week.type = "Bar";
+      chart_barTrend_week.cssStyle = "height:250px; width:325px; padding: 10px; vertical-align: middle; display: table-cell;";
+      chart_barTrend_week.data = { "cols": [
+          {id: "roomID", label: "Day", type: "string"},
+          {id: "tagCounts", label: "Reads", type: "number"}
+          ], "rows": chart_barTrend_data
+        };
+
+      chart_barTrend_week.options = {
+        chart: {
+          title: vm.weekTrendRoom + ' Trend Over One Week',
+          subtitle: 'Last 7 Days',
+        },
+        legend: { position: "none" }
+      };
+
+      chart_barTrend_week.formatters = {};
+      $scope.chart_barTrend_week = chart_barTrend_week;
+
+    }); 
+  }
+
+  vm.monthTrend = function() {
+    console.log("Input: " + vm.monthTrendRoom);
+    var endDate = new Date();
+    var second = 1000;
+    var minute = 60 * second;
+    var hour = minute * 60;
+    var day = hour * 24;
+    var week = day * 7;
+    var month = day * 30;
+    var startDateDay = new Date(endDate - month);
+    console.log(vm.patient.patientName);
+    tagsFactory.timeRange(startDateDay, endDate, vm.patient.patientName)
+    .success(function(data){
+      //console.log("factory data: " + data);
+
+      vm.monthTrendData = data;
+      var i=0;
+      var dayCounter=0;
+      var count=0;
+      vm.monthTrendRoomData = {};
+
+      var currentDate;
+      date = new Date(vm.monthTrendData[i].tagScanDate);
+      currentDate = date;
+      console.log(currentDate.getDate());
+
+      //console.log(currentDate);
+      //console.log(currentDate.getDate);
+
+      for(i=0; i < vm.monthTrendData.length; i++)
+      {
+        var tempDate;
+        date = new Date(vm.monthTrendData[i].tagScanDate);
+        tempDate = date;
+
+        if (tempDate.getDate() == currentDate.getDate())
+        {
+          if(vm.monthTrendData[i].tagID == vm.monthTrendRoom)
+          {
+            count++;
+            vm.monthTrendRoomData[dayCounter] = count;
+          }
+        }
+        else {
+          currentDate = tempDate;
+          count = 1;
+          dayCounter++;
+        }
+      }
+
+      console.log(vm.monthTrendRoomData);
+
+      var chart_barTrend_data_month = [];
+
+      for(i=0; i < 30; i++){
+        console.log(vm.monthTrendRoomData[i]);
+        chart_barTrend_data_month.push({
+          c: [{v: (i+1)}, {v: vm.monthTrendRoomData[i]}]
+        });
+      }
+
+      console.log(chart_barTrend_data_month);
+
+      var chart_barTrend_month = {};
+
+      chart_barTrend_month.type = "Bar";
+      chart_barTrend_month.cssStyle = "height:250px; width:325px; padding: 10px; vertical-align: middle; display: table-cell;";
+      chart_barTrend_month.data = { "cols": [
+          {id: "roomID", label: "Day", type: "string"},
+          {id: "tagCounts", label: "Reads", type: "number"}
+          ], "rows": chart_barTrend_data_month
+        };
+
+      chart_barTrend_month.options = {
+        chart: {
+          title: vm.monthTrendRoom + ' Trend Over One Month',
+          subtitle: 'Last month',
+        },
+        legend: { position: "none" }
+      };
+
+      chart_barTrend_month.formatters = {};
+      $scope.chart_barTrend_month = chart_barTrend_month;
+
+    }); 
+  }
+
+  vm.sixmonthTrend = function() {
+    console.log("Input: " + vm.sixmonthTrendRoom);
+    var endDate = new Date();
+    var second = 1000;
+    var minute = 60 * second;
+    var hour = minute * 60;
+    var day = hour * 24;
+    var week = day * 7;
+    var month = day * 30;
+    var startDateDay = new Date(endDate - week*26);
+    console.log(vm.patient.patientName);
+    tagsFactory.timeRange(startDateDay, endDate, vm.patient.patientName)
+    .success(function(data){
+
+      vm.sixmonthTrendData = data;
+      var weekCounter=0;
+      var count=0;
+      vm.sixmonthTrendRoomData = {};
+      var newWeek0=0;
+      var newWeek1=0;
+
+      for(i=0; i < vm.sixmonthTrendData.length; i++)
+      {
+        var tempDate;
+        date = new Date(vm.sixmonthTrendData[i].tagScanDate);
+        tempDate = date;
+        //console.log(tempDate.getDay());
+
+        if (newWeek1==1 && newWeek0==1) {
+          count = 1;
+          weekCounter++;
+          newWeek0=0;
+          newWeek1=0;
+        }
+
+        if (tempDate.getDay() == 0)
+        {
+          newWeek0=1;
+          if(vm.sixmonthTrendData[i].tagID == vm.sixmonthTrendRoom)
+          {
+            count++;
+            vm.sixmonthTrendRoomData[weekCounter] = count;
+          }
+        }
+        else
+        {
+          newWeek1 = 1;
+          newWeek0 = 0;
+          if(vm.sixmonthTrendData[i].tagID == vm.sixmonthTrendRoom)
+          {
+            count++;
+            vm.sixmonthTrendRoomData[weekCounter] = count;
+          }
+        }
+      }
+
+      var chart_barTrend_data_sixmonth = [];
+
+      for(i=0; i < 26; i++){
+        console.log(vm.sixmonthTrendRoomData[i]);
+        chart_barTrend_data_sixmonth.push({
+          c: [{v: (i+1)}, {v: vm.sixmonthTrendRoomData[i]}]
+        });
+      }
+
+      console.log(chart_barTrend_data_sixmonth);
+
+      var chart_barTrend_sixmonth = {};
+
+      chart_barTrend_sixmonth.type = "Bar";
+      chart_barTrend_sixmonth.cssStyle = "height:250px; width:325px; padding: 10px; vertical-align: middle; display: table-cell;";
+      chart_barTrend_sixmonth.data = { "cols": [
+          {id: "roomID", label: "Week", type: "string"},
+          {id: "tagCounts", label: "Reads", type: "number"}
+          ], "rows": chart_barTrend_data_sixmonth
+        };
+
+      chart_barTrend_sixmonth.options = {
+        chart: {
+          title: vm.sixmonthTrendRoom + ' Trend Over Six Months',
+          subtitle: 'Last 6 months',
+        },
+        legend: { position: "none" }
+      };
+
+      chart_barTrend_sixmonth.formatters = {};
+      $scope.chart_barTrend_sixmonth = chart_barTrend_sixmonth;
+
+    }); 
+  }
+
+  vm.yearTrend = function() {
+    console.log("Input: " + vm.yearTrendRoom);
+    var endDate = new Date();
+    var second = 1000;
+    var minute = 60 * second;
+    var hour = minute * 60;
+    var day = hour * 24;
+    var week = day * 7;
+    var month = day * 30;
+    var startDateDay = new Date(endDate - week*52);
+    console.log(vm.patient.patientName);
+    tagsFactory.timeRange(startDateDay, endDate, vm.patient.patientName)
+    .success(function(data){
+
+      vm.yearTrendData = data;
+      var weekCounter=0;
+      var count=0;
+      vm.yearTrendRoomData = {};
+      var newWeek0=0;
+      var newWeek1=0;
+
+      for(i=0; i < vm.yearTrendData.length; i++)
+      {
+        var tempDate;
+        date = new Date(vm.yearTrendData[i].tagScanDate);
+        tempDate = date;
+        //console.log(tempDate.getDay());
+
+        if (newWeek1==1 && newWeek0==1) {
+          count = 1;
+          weekCounter++;
+          newWeek0=0;
+          newWeek1=0;
+        }
+
+        if (tempDate.getDay() == 0)
+        {
+          newWeek0=1;
+          if(vm.yearTrendData[i].tagID == vm.yearTrendRoom)
+          {
+            count++;
+            vm.yearTrendRoomData[weekCounter] = count;
+          }
+        }
+        else
+        {
+          newWeek1 = 1;
+          newWeek0 = 0;
+          if(vm.yearTrendData[i].tagID == vm.yearTrendRoom)
+          {
+            count++;
+            vm.yearTrendRoomData[weekCounter] = count;
+          }
+        }
+      }
+
+      var chart_barTrend_data_year = [];
+
+      for(i=0; i < 52; i++){
+        console.log(vm.yearTrendRoomData[i]);
+        chart_barTrend_data_year.push({
+          c: [{v: (i+1)}, {v: vm.yearTrendRoomData[i]}]
+        });
+      }
+
+      console.log(chart_barTrend_data_year);
+
+      var chart_barTrend_year = {};
+
+      chart_barTrend_year.type = "Bar";
+      chart_barTrend_year.cssStyle = "height:250px; width:325px; padding: 10px; vertical-align: middle; display: table-cell;";
+      chart_barTrend_year.data = { "cols": [
+          {id: "roomID", label: "Week", type: "string"},
+          {id: "tagCounts", label: "Reads", type: "number"}
+          ], "rows": chart_barTrend_data_year
+        };
+
+      chart_barTrend_year.options = {
+        chart: {
+          title: vm.yearTrendRoom + ' Trend Over One Year',
+          subtitle: 'Last year',
+        },
+        legend: { position: "none" }
+      };
+
+      chart_barTrend_year.formatters = {};
+      $scope.chart_barTrend_year = chart_barTrend_year;
+
+    }); 
+  }
+
   function computeData(){
 
     var chartSelect = 0;
@@ -40,11 +395,11 @@ angular.module('SPCtrl', ['tagsService', 'patientService', 'googlechart'])
     var day = hour * 24;
     var week = day * 7;
 
-    //endDate -= day;
-
     var startDateDay = new Date(endDate - day);
     var startDateWeek = new Date(endDate - week);
     var startDateMonth = new Date(endDate - week*4);
+    var startDate6Month = new Date(endDate - week*26);
+    var startDateYear = new Date(endDate - week*52);
 
     console.log("end date: " + endDate);
     console.log("start date: " + startDateDay);
@@ -318,4 +673,161 @@ angular.module('SPCtrl', ['tagsService', 'patientService', 'googlechart'])
     
     });
   }
+
+  tagsFactory.timeRange(startDate6Month, endDate, vm.patient.patientName)
+  .success(function(data){
+      //console.log("factory data: " + data);
+      //console.log("call success");
+
+      vm.tagDataSixMonth = data;
+
+      vm.counts_bar_sixMonth = {};
+
+      for(i=0; i< vm.tagDataSixMonth.length; i++){
+    
+          tagIDlocal = vm.tagDataSixMonth[i].tagID;
+
+          if(tagIDlocal != "Hallway-001"){
+            typeof(vm.counts_bar_sixMonth[tagIDlocal]) == "undefined" ? vm.counts_bar_sixMonth[tagIDlocal] = 1 :
+            vm.counts_bar_sixMonth[tagIDlocal] += 1;
+            date = new Date(vm.tagDataSixMonth[i].tagScanDate);
+            vm.tagDataSixMonth[i].tagScanDateString = date.toString();
+          }
+          //console.log("id: " + vm.tags[i].tagID);
+      }
+
+      //console.log(vm.counts_bar_oneMonth);
+
+      //chartSelect = 0;
+
+      vm.sixmonthSum = 0;
+
+      var sortable = [];
+      for (var key in vm.counts_bar_sixMonth){
+        sortable.push([key, vm.counts_bar_sixMonth[key]]);
+        vm.sixmonthSum += vm.counts_bar_sixMonth[key];
+      }
+      sortable.sort(function(a, b) {return b[1] - a[1]});
+
+     // console.log(sortable);
+
+      var chart_barCounts_data = [];
+
+
+      for(i=0; i < sortable.length; i++){
+        chart_barCounts_data.push({
+          c: [{v: sortable[i][0]}, {v: sortable[i][1]}]
+        });
+      }
+
+      /*
+      for (var key in vm.counts_bar_oneMonth){
+        chart_barCounts_data.push({
+          c: [{v: key}, {v: vm.counts_bar_oneMonth[key]}]
+        });
+      }
+      */
+      console.log(chart_barCounts_data); 
+
+
+      var chart_barCounts_sixmonth = {};
+
+      chart_barCounts_sixmonth.type = "Bar";
+      chart_barCounts_sixmonth.cssStyle = "height:250px; width:325px; padding: 10px; vertical-align: middle; display: table-cell;";
+      chart_barCounts_sixmonth.data = { "cols": [
+          {id: "roomID", label: "Room", type: "string"},
+          {id: "tagCounts", label: "Reads", type: "number"}
+          ], "rows": chart_barCounts_data
+        };
+
+      chart_barCounts_sixmonth.options = {
+        chart: {
+          title:'Tag Scan Frequency',
+          subtitle: 'Last  6 Months',
+        },
+        legend: { position: "none" }
+      };
+
+      chart_barCounts_sixmonth.formatters = {};
+      $scope.chart_barCounts_sixmonth = chart_barCounts_sixmonth;
+  });
+
+  tagsFactory.timeRange(startDateYear, endDate, vm.patient.patientName)
+  .success(function(data){
+      //console.log("factory data: " + data);
+      //console.log("call success");
+
+      vm.tagDataYear = data;
+
+      vm.counts_bar_Year = {};
+
+      for(i=0; i< vm.tagDataYear.length; i++){
+    
+          tagIDlocal = vm.tagDataYear[i].tagID;
+
+          if(tagIDlocal != "Hallway-001"){
+            typeof(vm.counts_bar_Year[tagIDlocal]) == "undefined" ? vm.counts_bar_Year[tagIDlocal] = 1 :
+            vm.counts_bar_Year[tagIDlocal] += 1;
+            date = new Date(vm.tagDataYear[i].tagScanDate);
+            vm.tagDataYear[i].tagScanDateString = date.toString();
+          }
+          //console.log("id: " + vm.tags[i].tagID);
+      }
+
+      //console.log(vm.counts_bar_oneMonth);
+
+      //chartSelect = 0;
+
+      vm.YearSum = 0;
+
+      var sortable = [];
+      for (var key in vm.counts_bar_Year){
+        sortable.push([key, vm.counts_bar_Year[key]]);
+        vm.YearSum += vm.counts_bar_Year[key];
+      }
+      sortable.sort(function(a, b) {return b[1] - a[1]});
+
+     // console.log(sortable);
+
+      var chart_barCounts_data = [];
+
+
+      for(i=0; i < sortable.length; i++){
+        chart_barCounts_data.push({
+          c: [{v: sortable[i][0]}, {v: sortable[i][1]}]
+        });
+      }
+
+      /*
+      for (var key in vm.counts_bar_oneMonth){
+        chart_barCounts_data.push({
+          c: [{v: key}, {v: vm.counts_bar_oneMonth[key]}]
+        });
+      }
+      */
+      console.log(chart_barCounts_data); 
+
+
+      var chart_barCounts_Year = {};
+
+      chart_barCounts_Year.type = "Bar";
+      chart_barCounts_Year.cssStyle = "height:250px; width:325px; padding: 10px; vertical-align: middle; display: table-cell;";
+      chart_barCounts_Year.data = { "cols": [
+          {id: "roomID", label: "Room", type: "string"},
+          {id: "tagCounts", label: "Reads", type: "number"}
+          ], "rows": chart_barCounts_data
+        };
+
+      chart_barCounts_Year.options = {
+        chart: {
+          title:'Tag Scan Frequency',
+          subtitle: 'Last  Year',
+        },
+        legend: { position: "none" }
+      };
+
+      chart_barCounts_Year.formatters = {};
+      $scope.chart_barCounts_Year = chart_barCounts_Year;
+  });
+  
 });
