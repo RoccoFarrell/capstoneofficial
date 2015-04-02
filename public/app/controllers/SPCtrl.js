@@ -176,7 +176,7 @@ angular.module('SPCtrl', ['tagsService', 'patientService', 'googlechart'])
 
       chart_barTrend_month.options = {
         chart: {
-          title: vm.weekTrendRoom + ' Trend Over One Month',
+          title: vm.monthTrendRoom + ' Trend Over One Month',
           subtitle: 'Last month',
         },
         legend: { position: "none" }
