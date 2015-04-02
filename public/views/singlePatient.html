@@ -163,6 +163,52 @@
               </div>
           </div>
 
+          <!-- Individual Graph -->
+          <div class="panel panel-default graphPanel">
+              <div class="col-sm-4 indivGraphPanel">
+
+                <div google-chart chart="chart_barCounts_sixmonth" style="{{chart_barCounts_sixmonth.cssStyle}}" />
+
+              </div>
+              <div class="col-sm-1">
+              </div>
+              <div class="col-sm-7" style="border-left: 1px dashed grey; height: 100%;">
+              <div>
+                <h1>Six Month Specific Stats</h1>
+                <p>Other six month specific stats will go here.</p>
+              </div>
+
+              </div>
+          </div>
+          <!-- End Individual Graph Panel -->
+
+
+          <div class="panel panel-default patientPanel">
+              <div class="panel-heading">
+                <h3 class="panel-title" ng-click="sixmonthtrendInfo = !sixmonthtrendInfo">Six Month Trend Info:</h3>
+              </div>
+              <div class="panel-body cssSlideUp" ng-show="sixmonthtrendInfo" id="sixmonthtrendInfo">
+                <div class="col-sm-4 indivGraphPanel">
+                  <div google-chart chart="chart_barTrend_sixmonth" style="{{chart_barTrend_sixmonth.cssStyle}}" />
+                </div>
+                <div class="col-sm-1">
+                </div>
+                <div class="col-sm-7" style="border-left: 1px dashed grey; height: 100%;">
+                  <div>
+                    <h1> Six Month Trend Stats</h1>
+                    <p>Other six month trend specific stats will go here.</p>
+                  </div>
+                  <div>
+                    <form class="form" ng-submit="singlePatient.monthTrend()">
+                      <label>Enter Room: </label>
+                      <input type="text" class="form-control" placeholder="Room" ng-model="singlePatient.sixmonthTrendRoom">
+                      <button type="submit" class="btn btn-success">Generate Info</button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+          </div>
+
           
 			</div>
 
