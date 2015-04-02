@@ -14,14 +14,8 @@ angular.module('SPCtrl', ['tagsService', 'patientService', 'googlechart'])
     computeData();
   });
 
-  vm.weekTrend = function() {
-    vm.weekTrendProcessing = true;
-    //console.log(vm.patient);
-
-    computeData();
-  });
-
   vm.weekTrend = function(room) {
+    vm.weekTrendProcessing = true;
     console.log("Input: " + vm.weekTrendRoom);
 
     var endDate = new Date();
