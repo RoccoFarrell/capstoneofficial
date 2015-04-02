@@ -14,8 +14,9 @@ angular.module('SPCtrl', ['tagsService', 'patientService', 'googlechart'])
     computeData();
   });
 
-  vm.weekTrend = function() {
+  vm.weekTrend = function(room) {
     console.log("Input: " + vm.weekTrendRoom);
+
     var endDate = new Date();
     var second = 1000;
     var minute = 60 * second;
@@ -23,7 +24,12 @@ angular.module('SPCtrl', ['tagsService', 'patientService', 'googlechart'])
     var day = hour * 24;
     var week = day * 7;
     var startDateDay = new Date(endDate - week);
-    console.log(vm.patient.patientName);
+
+    //console.log("room: " + room);
+
+    //if(typeof(room != "undefined")) vm.weekTrendRoom = room;
+
+    //console.log(vm.patient.patientName);
     tagsFactory.timeRange(startDateDay, endDate, vm.patient.patientName)
     .success(function(data){
       //console.log("factory data: " + data);
@@ -37,7 +43,7 @@ angular.module('SPCtrl', ['tagsService', 'patientService', 'googlechart'])
       var currentDate;
       date = new Date(vm.weekTrendData[i].tagScanDate);
       currentDate = date;
-      console.log(currentDate.getDate());
+      //console.log(currentDate.getDate());
 
       //console.log(currentDate);
       //console.log(currentDate.getDate);
@@ -63,12 +69,12 @@ angular.module('SPCtrl', ['tagsService', 'patientService', 'googlechart'])
         }
       }
 
-      console.log(vm.weekTrendRoomData);
+      //console.log(vm.weekTrendRoomData);
 
       var chart_barTrend_data = [];
 
       for(i=0; i < 7; i++){
-        console.log(vm.weekTrendRoomData[i]);
+        //console.log(vm.weekTrendRoomData[i]);
         chart_barTrend_data.push({
           c: [{v: (i+1)}, {v: vm.weekTrendRoomData[i]}]
         });
@@ -196,9 +202,9 @@ angular.module('SPCtrl', ['tagsService', 'patientService', 'googlechart'])
     var day = hour * 24;
     var week = day * 7;
     var month = day * 30;
-    var startDateDay = new Date(endDate - week*26);
+    var startDate6Month = new Date(endDate - week*26);
     console.log(vm.patient.patientName);
-    tagsFactory.timeRange(startDateDay, endDate, vm.patient.patientName)
+    tagsFactory.timeRange(startDate6Month, endDate, vm.patient.patientName)
     .success(function(data){
 
       vm.sixmonthTrendData = data;
@@ -414,11 +420,9 @@ angular.module('SPCtrl', ['tagsService', 'patientService', 'googlechart'])
       vm.counts_bar_oneDay = {};
       vm.times_oneDay = {};
 
-      console.log("tagDataDay.length: " + vm.tagDataDay.length);
       for(i=0; i < vm.tagDataDay.length; i++){
 
           tagIDlocal = vm.tagDataDay[i].tagID;
-
           //console.log("tagIDlocal: " + tagIDlocal);
 
           if(tagIDlocal != "Hallway-001"){
@@ -443,9 +447,7 @@ angular.module('SPCtrl', ['tagsService', 'patientService', 'googlechart'])
             else {
               vm.times_oneDay[tagIDlocal] += (datePlusOne - date);
             }
-
             //console.log("times length: " + vm.times_oneDay.length);
-
           }
           //console.log("id: " + vm.tags[i].tagID);
       }
@@ -468,7 +470,7 @@ angular.module('SPCtrl', ['tagsService', 'patientService', 'googlechart'])
       }
 
       //console.log(vm.times_oneDay);
-      console.log(vm.counts_bar_oneDay);
+      //console.log(vm.counts_bar_oneDay);
 
       chartSelect = 1;
 
@@ -477,7 +479,7 @@ angular.module('SPCtrl', ['tagsService', 'patientService', 'googlechart'])
       sortable.push([key, vm.counts_bar_oneDay[key]]);
       sortable.sort(function(a, b) {return b[1] - a[1]});
 
-      console.log(sortable);
+      //console.log(sortable);
 
       var chart_barCounts_data = [];
 
@@ -494,7 +496,7 @@ angular.module('SPCtrl', ['tagsService', 'patientService', 'googlechart'])
         });
       }
       */
-      console.log(chart_barCounts_data); 
+      //console.log(chart_barCounts_data); 
 
       var chart_barCounts_day = {};
 
@@ -516,7 +518,6 @@ angular.module('SPCtrl', ['tagsService', 'patientService', 'googlechart'])
 
       chart_barCounts_day.formatters = {};
       $scope.chart_barCounts_day = chart_barCounts_day;
-
     });
 
     tagsFactory.timeRange(startDateWeek, endDate, vm.patient.patientName)
@@ -527,6 +528,7 @@ angular.module('SPCtrl', ['tagsService', 'patientService', 'googlechart'])
       vm.tagDataWeek = data;
 
       vm.counts_bar_oneWeek = {};
+      vm.times_oneWeek = {};
 
       for(i=0; i< vm.tagDataWeek.length; i++){
     
@@ -535,13 +537,52 @@ angular.module('SPCtrl', ['tagsService', 'patientService', 'googlechart'])
           if(tagIDlocal != "Hallway-001"){
             typeof(vm.counts_bar_oneWeek[tagIDlocal]) == "undefined" ? vm.counts_bar_oneWeek[tagIDlocal] = 1 :
             vm.counts_bar_oneWeek[tagIDlocal] += 1;
+          }
+
+          date = new Date(vm.tagDataWeek[i].tagScanDate);
+          vm.tagDataWeek[i].tagScanDateString = date.toString();
+
+          //console.log("tagScanDate: " + vm.tagDataDay[i].tagScanDateString);
+
+          if(i != vm.tagDataWeek.length - 1){
+            //console.log("in if");
             date = new Date(vm.tagDataWeek[i].tagScanDate);
-            vm.tagDataWeek[i].tagScanDateString = date.toString();
+            datePlusOne = new Date(vm.tagDataWeek[i+1].tagScanDate);
+            //console.log("datePlusOne - date: " + (datePlusOne - date));
+            //console.log("vm.times_oneDay[tagIDlocal]: " + vm.times_oneDay[tagIDlocal]);
+            if(typeof(vm.times_oneWeek[tagIDlocal]) == "undefined"){
+              vm.times_oneWeek[tagIDlocal] = 0;
+            }
+            else {
+              vm.times_oneWeek[tagIDlocal] += (datePlusOne - date);
+            }
+            //console.log("times length: " + vm.times_oneDay.length);
           }
           //console.log("id: " + vm.tags[i].tagID);
       }
 
-      //console.log(vm.counts_bar_oneWeek);
+      //display times
+      //console.log("times length: " + vm.times_oneDay.length);
+      vm.averages_oneWeek = [];
+
+      for(var key in vm.counts_bar_oneWeek){
+        //console.log("vm.times_oneDay[key]: " + vm.times_oneDay[key]);
+        //console.log(key + ": " + vm.times_oneDay[key].toString());
+        var temp = vm.times_oneWeek[key] / 1000;
+        //console.log(key + ": " + temp + " seconds");
+        temp = temp / 60;
+        //console.log(key + ": " + temp + " minutes");
+
+        //vm.averages_oneWeek[key] = temp / vm.counts_bar_oneWeek[key];
+
+        vm.averages_oneWeek.push([key, vm.counts_bar_oneWeek[key], temp / vm.counts_bar_oneWeek[key]]);
+        console.log(vm.averages_oneWeek[key] + " minutes per visit to " + key);
+        vm.averages_oneWeek[0][2].toFixed(2);
+
+      }
+
+      console.log(vm.averages_oneWeek);
+      console.log(vm.counts_bar_oneWeek);
 
       //chartSelect = 0;
       
@@ -568,7 +609,7 @@ angular.module('SPCtrl', ['tagsService', 'patientService', 'googlechart'])
         });
       }
       */
-      console.log(chart_barCounts_data); 
+      //console.log(chart_barCounts_data); 
 
 
       var chart_barCounts_week = {};
@@ -591,7 +632,6 @@ angular.module('SPCtrl', ['tagsService', 'patientService', 'googlechart'])
 
       chart_barCounts_week.formatters = {};
       $scope.chart_barCounts_week = chart_barCounts_week;
-    
     });
 
     tagsFactory.timeRange(startDateMonth, endDate, vm.patient.patientName)
@@ -647,7 +687,7 @@ angular.module('SPCtrl', ['tagsService', 'patientService', 'googlechart'])
         });
       }
       */
-      console.log(chart_barCounts_data); 
+      //console.log(chart_barCounts_data); 
 
 
       var chart_barCounts_month = {};
@@ -670,164 +710,161 @@ angular.module('SPCtrl', ['tagsService', 'patientService', 'googlechart'])
 
       chart_barCounts_month.formatters = {};
       $scope.chart_barCounts_month = chart_barCounts_month;
-    
+    });
+
+    tagsFactory.timeRange(startDate6Month, endDate, vm.patient.patientName)
+    .success(function(data){
+        //console.log("factory data: " + data);
+        //console.log("call success");
+
+        vm.tagDataSixMonth = data;
+
+        vm.counts_bar_sixMonth = {};
+
+        for(i=0; i< vm.tagDataSixMonth.length; i++){
+      
+            tagIDlocal = vm.tagDataSixMonth[i].tagID;
+
+            if(tagIDlocal != "Hallway-001"){
+              typeof(vm.counts_bar_sixMonth[tagIDlocal]) == "undefined" ? vm.counts_bar_sixMonth[tagIDlocal] = 1 :
+              vm.counts_bar_sixMonth[tagIDlocal] += 1;
+              date = new Date(vm.tagDataSixMonth[i].tagScanDate);
+              vm.tagDataSixMonth[i].tagScanDateString = date.toString();
+            }
+            //console.log("id: " + vm.tags[i].tagID);
+        }
+
+        //console.log(vm.counts_bar_oneMonth);
+
+        //chartSelect = 0;
+
+        vm.sixmonthSum = 0;
+
+        var sortable = [];
+        for (var key in vm.counts_bar_sixMonth){
+          sortable.push([key, vm.counts_bar_sixMonth[key]]);
+          vm.sixmonthSum += vm.counts_bar_sixMonth[key];
+        }
+        sortable.sort(function(a, b) {return b[1] - a[1]});
+
+       // console.log(sortable);
+
+        var chart_barCounts_data = [];
+
+
+        for(i=0; i < sortable.length; i++){
+          chart_barCounts_data.push({
+            c: [{v: sortable[i][0]}, {v: sortable[i][1]}]
+          });
+        }
+
+        /*
+        for (var key in vm.counts_bar_oneMonth){
+          chart_barCounts_data.push({
+            c: [{v: key}, {v: vm.counts_bar_oneMonth[key]}]
+          });
+        }
+        */
+        //console.log(chart_barCounts_data); 
+
+        var chart_barCounts_sixmonth = {};
+
+        chart_barCounts_sixmonth.type = "Bar";
+        chart_barCounts_sixmonth.cssStyle = "height:250px; width:325px; padding: 10px; vertical-align: middle; display: table-cell;";
+        chart_barCounts_sixmonth.data = { "cols": [
+            {id: "roomID", label: "Room", type: "string"},
+            {id: "tagCounts", label: "Reads", type: "number"}
+            ], "rows": chart_barCounts_data
+          };
+
+        chart_barCounts_sixmonth.options = {
+          chart: {
+            title:'Tag Scan Frequency',
+            subtitle: 'Last  6 Months',
+          },
+          legend: { position: "none" }
+        };
+
+        chart_barCounts_sixmonth.formatters = {};
+        $scope.chart_barCounts_sixmonth = chart_barCounts_sixmonth;
+    });
+
+    tagsFactory.timeRange(startDateYear, endDate, vm.patient.patientName)
+    .success(function(data){
+        //console.log("factory data: " + data);
+        //console.log("call success");
+
+        vm.tagDataYear = data;
+
+        vm.counts_bar_Year = {};
+
+        for(i=0; i< vm.tagDataYear.length; i++){
+      
+            tagIDlocal = vm.tagDataYear[i].tagID;
+
+            if(tagIDlocal != "Hallway-001"){
+              typeof(vm.counts_bar_Year[tagIDlocal]) == "undefined" ? vm.counts_bar_Year[tagIDlocal] = 1 :
+              vm.counts_bar_Year[tagIDlocal] += 1;
+              date = new Date(vm.tagDataYear[i].tagScanDate);
+              vm.tagDataYear[i].tagScanDateString = date.toString();
+            }
+            //console.log("id: " + vm.tags[i].tagID);
+        }
+
+        //console.log(vm.counts_bar_oneMonth);
+
+        //chartSelect = 0;
+
+        vm.YearSum = 0;
+
+        var sortable = [];
+        for (var key in vm.counts_bar_Year){
+          sortable.push([key, vm.counts_bar_Year[key]]);
+          vm.YearSum += vm.counts_bar_Year[key];
+        }
+        sortable.sort(function(a, b) {return b[1] - a[1]});
+
+       // console.log(sortable);
+
+        var chart_barCounts_data = [];
+
+
+        for(i=0; i < sortable.length; i++){
+          chart_barCounts_data.push({
+            c: [{v: sortable[i][0]}, {v: sortable[i][1]}]
+          });
+        }
+
+        /*
+        for (var key in vm.counts_bar_oneMonth){
+          chart_barCounts_data.push({
+            c: [{v: key}, {v: vm.counts_bar_oneMonth[key]}]
+          });
+        }
+        */
+        //console.log(chart_barCounts_data); 
+
+        var chart_barCounts_Year = {};
+
+        chart_barCounts_Year.type = "Bar";
+        chart_barCounts_Year.cssStyle = "height:250px; width:325px; padding: 10px; vertical-align: middle; display: table-cell;";
+        chart_barCounts_Year.data = { "cols": [
+            {id: "roomID", label: "Room", type: "string"},
+            {id: "tagCounts", label: "Reads", type: "number"}
+            ], "rows": chart_barCounts_data
+          };
+
+        chart_barCounts_Year.options = {
+          chart: {
+            title:'Tag Scan Frequency',
+            subtitle: 'Last  Year',
+          },
+          legend: { position: "none" }
+        };
+
+        chart_barCounts_Year.formatters = {};
+        $scope.chart_barCounts_Year = chart_barCounts_Year;
     });
   }
-
-  tagsFactory.timeRange(startDate6Month, endDate, vm.patient.patientName)
-  .success(function(data){
-      //console.log("factory data: " + data);
-      //console.log("call success");
-
-      vm.tagDataSixMonth = data;
-
-      vm.counts_bar_sixMonth = {};
-
-      for(i=0; i< vm.tagDataSixMonth.length; i++){
-    
-          tagIDlocal = vm.tagDataSixMonth[i].tagID;
-
-          if(tagIDlocal != "Hallway-001"){
-            typeof(vm.counts_bar_sixMonth[tagIDlocal]) == "undefined" ? vm.counts_bar_sixMonth[tagIDlocal] = 1 :
-            vm.counts_bar_sixMonth[tagIDlocal] += 1;
-            date = new Date(vm.tagDataSixMonth[i].tagScanDate);
-            vm.tagDataSixMonth[i].tagScanDateString = date.toString();
-          }
-          //console.log("id: " + vm.tags[i].tagID);
-      }
-
-      //console.log(vm.counts_bar_oneMonth);
-
-      //chartSelect = 0;
-
-      vm.sixmonthSum = 0;
-
-      var sortable = [];
-      for (var key in vm.counts_bar_sixMonth){
-        sortable.push([key, vm.counts_bar_sixMonth[key]]);
-        vm.sixmonthSum += vm.counts_bar_sixMonth[key];
-      }
-      sortable.sort(function(a, b) {return b[1] - a[1]});
-
-     // console.log(sortable);
-
-      var chart_barCounts_data = [];
-
-
-      for(i=0; i < sortable.length; i++){
-        chart_barCounts_data.push({
-          c: [{v: sortable[i][0]}, {v: sortable[i][1]}]
-        });
-      }
-
-      /*
-      for (var key in vm.counts_bar_oneMonth){
-        chart_barCounts_data.push({
-          c: [{v: key}, {v: vm.counts_bar_oneMonth[key]}]
-        });
-      }
-      */
-      console.log(chart_barCounts_data); 
-
-
-      var chart_barCounts_sixmonth = {};
-
-      chart_barCounts_sixmonth.type = "Bar";
-      chart_barCounts_sixmonth.cssStyle = "height:250px; width:325px; padding: 10px; vertical-align: middle; display: table-cell;";
-      chart_barCounts_sixmonth.data = { "cols": [
-          {id: "roomID", label: "Room", type: "string"},
-          {id: "tagCounts", label: "Reads", type: "number"}
-          ], "rows": chart_barCounts_data
-        };
-
-      chart_barCounts_sixmonth.options = {
-        chart: {
-          title:'Tag Scan Frequency',
-          subtitle: 'Last  6 Months',
-        },
-        legend: { position: "none" }
-      };
-
-      chart_barCounts_sixmonth.formatters = {};
-      $scope.chart_barCounts_sixmonth = chart_barCounts_sixmonth;
-  });
-
-  tagsFactory.timeRange(startDateYear, endDate, vm.patient.patientName)
-  .success(function(data){
-      //console.log("factory data: " + data);
-      //console.log("call success");
-
-      vm.tagDataYear = data;
-
-      vm.counts_bar_Year = {};
-
-      for(i=0; i< vm.tagDataYear.length; i++){
-    
-          tagIDlocal = vm.tagDataYear[i].tagID;
-
-          if(tagIDlocal != "Hallway-001"){
-            typeof(vm.counts_bar_Year[tagIDlocal]) == "undefined" ? vm.counts_bar_Year[tagIDlocal] = 1 :
-            vm.counts_bar_Year[tagIDlocal] += 1;
-            date = new Date(vm.tagDataYear[i].tagScanDate);
-            vm.tagDataYear[i].tagScanDateString = date.toString();
-          }
-          //console.log("id: " + vm.tags[i].tagID);
-      }
-
-      //console.log(vm.counts_bar_oneMonth);
-
-      //chartSelect = 0;
-
-      vm.YearSum = 0;
-
-      var sortable = [];
-      for (var key in vm.counts_bar_Year){
-        sortable.push([key, vm.counts_bar_Year[key]]);
-        vm.YearSum += vm.counts_bar_Year[key];
-      }
-      sortable.sort(function(a, b) {return b[1] - a[1]});
-
-     // console.log(sortable);
-
-      var chart_barCounts_data = [];
-
-
-      for(i=0; i < sortable.length; i++){
-        chart_barCounts_data.push({
-          c: [{v: sortable[i][0]}, {v: sortable[i][1]}]
-        });
-      }
-
-      /*
-      for (var key in vm.counts_bar_oneMonth){
-        chart_barCounts_data.push({
-          c: [{v: key}, {v: vm.counts_bar_oneMonth[key]}]
-        });
-      }
-      */
-      console.log(chart_barCounts_data); 
-
-
-      var chart_barCounts_Year = {};
-
-      chart_barCounts_Year.type = "Bar";
-      chart_barCounts_Year.cssStyle = "height:250px; width:325px; padding: 10px; vertical-align: middle; display: table-cell;";
-      chart_barCounts_Year.data = { "cols": [
-          {id: "roomID", label: "Room", type: "string"},
-          {id: "tagCounts", label: "Reads", type: "number"}
-          ], "rows": chart_barCounts_data
-        };
-
-      chart_barCounts_Year.options = {
-        chart: {
-          title:'Tag Scan Frequency',
-          subtitle: 'Last  Year',
-        },
-        legend: { position: "none" }
-      };
-
-      chart_barCounts_Year.formatters = {};
-      $scope.chart_barCounts_Year = chart_barCounts_Year;
-  });
   
 });

@@ -45,10 +45,7 @@
               <div class="col-sm-1">
               </div>
               <div class="col-sm-7" style="border-left: 1px dashed grey; height: 100%;">
-              <div>
-                <h1> Day Specific Stats</h1>
-                <p>Other day specific stats will go here.</p>
-              </div>
+              
 
               </div>
           </div>
@@ -83,11 +80,39 @@
               <div class="col-sm-1">
               </div>
               <div class="col-sm-7" style="border-left: 1px dashed grey; height: 100%;">
-              <div>
-                <h1>Week Specific Stats</h1>
-                <p>Other week specific stats will go here.</p>
-              </div>
+                <div>
+                  <h3>Average Visit Length of Rooms</h3>
+                  <table class="table table-striped">
+                    <thead>
+                      <tr>
+                        <th>
+                          Room Name
+                        </th>
+                        <th>
+                          Total Visits
+                        </th>
+                        <th>
+                          Avg. Visit Length (min.)
+                        </th>
+                      </tr>
+                    </thead>
 
+                    <tbody>
+                      <tr ng-repeat="avgValue in singlePatient.averages_oneWeek | orderBy:'-[2]'">
+                        <td>
+                          <button class="btn" style="margin: 0px; padding: 0px;" ng-click="singlePatient.weekTrend(avgValue[0])"> {{avgValue[0]}} </button>
+                        </td>
+                        <td>
+                          {{avgValue[1]}} 
+                        </td>
+                        <td>
+                          {{avgValue[2] | number:2 }}
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                
               </div>
           </div>
           <!-- End Individual Graph Panel -->
