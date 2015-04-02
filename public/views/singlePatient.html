@@ -143,7 +143,7 @@
               </div>
               <div class="panel-body cssSlideUp" ng-show="monthtrendInfo" id="monthtrendInfo">
                 <div class="col-sm-4 indivGraphPanel">
-                  <h3>Graphing things here?</h3>
+                  <div google-chart chart="chart_barTrend_month" style="{{chart_barTrend_month.cssStyle}}" />
                 </div>
                 <div class="col-sm-1">
                 </div>
@@ -151,6 +151,13 @@
                   <div>
                     <h1> Month Trend Stats</h1>
                     <p>Other month trend specific stats will go here.</p>
+                  </div>
+                  <div>
+                    <form class="form" ng-submit="singlePatient.monthTrend()">
+                      <label>Enter Room: </label>
+                      <input type="text" class="form-control" placeholder="Room" ng-model="singlePatient.monthTrendRoom">
+                      <button type="submit" class="btn btn-success">Generate Info</button>
+                    </form>
                   </div>
                 </div>
               </div>

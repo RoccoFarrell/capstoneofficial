@@ -89,7 +89,7 @@ angular.module('SPCtrl', ['tagsService', 'patientService', 'googlechart'])
 
       chart_barTrend_week.options = {
         chart: {
-          title:'Kitchen Trend Over One Week',
+          title: vm.weekTrendRoom + ' Trend Over One Week',
           subtitle: 'Last 7 Days',
         },
         legend: { position: "none" }
@@ -97,6 +97,93 @@ angular.module('SPCtrl', ['tagsService', 'patientService', 'googlechart'])
 
       chart_barTrend_week.formatters = {};
       $scope.chart_barTrend_week = chart_barTrend_week;
+
+    }); 
+  }
+
+  vm.monthTrend = function() {
+    console.log("Input: " + vm.monthTrendRoom);
+    var endDate = new Date();
+    var second = 1000;
+    var minute = 60 * second;
+    var hour = minute * 60;
+    var day = hour * 24;
+    var week = day * 7;
+    var month = day * 30;
+    var startDateDay = new Date(endDate - month);
+    console.log(vm.patient.patientName);
+    tagsFactory.timeRange(startDateDay, endDate, vm.patient.patientName)
+    .success(function(data){
+      console.log("factory data: " + data);
+
+      vm.monthTrendData = data;
+      var i=0;
+      var dayCounter=0;
+      var count=0;
+      vm.monthTrendRoomData = {};
+
+      var currentDate;
+      date = new Date(vm.monthTrendData[i].tagScanDate);
+      currentDate = date;
+      console.log(currentDate.getDate());
+
+      //console.log(currentDate);
+      //console.log(currentDate.getDate);
+
+      for(i=0; i < vm.monthTrendData.length; i++)
+      {
+        var tempDate;
+        date = new Date(vm.monthTrendData[i].tagScanDate);
+        tempDate = date;
+
+        if (tempDate.getDate() == currentDate.getDate())
+        {
+          if(vm.monthTrendData[i].tagID == vm.monthTrendRoom)
+          {
+            count++;
+            vm.monthTrendRoomData[dayCounter] = count;
+          }
+        }
+        else {
+          currentDate = tempDate;
+          count = 1;
+          dayCounter++;
+        }
+      }
+
+      console.log(vm.monthTrendRoomData);
+
+      var chart_barTrend_data_month = [];
+
+      for(i=0; i < 30; i++){
+        console.log(vm.monthTrendRoomData[i]);
+        chart_barTrend_data_month.push({
+          c: [{v: (i+1)}, {v: vm.monthTrendRoomData[i]}]
+        });
+      }
+
+      console.log(chart_barTrend_data_month);
+
+      var chart_barTrend_month = {};
+
+      chart_barTrend_month.type = "Bar";
+      chart_barTrend_month.cssStyle = "height:250px; width:325px; padding: 10px; vertical-align: middle; display: table-cell;";
+      chart_barTrend_month.data = { "cols": [
+          {id: "roomID", label: "Day", type: "string"},
+          {id: "tagCounts", label: "Reads", type: "number"}
+          ], "rows": chart_barTrend_data_month
+        };
+
+      chart_barTrend_month.options = {
+        chart: {
+          title: vm.weekTrendRoom + ' Trend Over One Month',
+          subtitle: 'Last month',
+        },
+        legend: { position: "none" }
+      };
+
+      chart_barTrend_month.formatters = {};
+      $scope.chart_barTrend_month = chart_barTrend_month;
 
     }); 
   }
