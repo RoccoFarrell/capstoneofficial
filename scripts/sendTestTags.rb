@@ -2,27 +2,7 @@ require "net/http"
 require "uri"
 require "json"
 require "pp"
-require "bson"
 require "time"
-
-##################
-##Authentication##
-##################
-uri = URI.parse("http://104.236.38.217/api/authenticate")
-username = "capstone"
-password = "capstone"
-$http = Net::HTTP.new(uri.host, uri.port)
-request = Net::HTTP::Post.new(uri.request_uri)
-request.set_form_data({"username" => username, "password" => password})
-response = $http.request(request)
-my_hash = JSON.parse(response.body)
-$token = my_hash['token']
-
-################
-####Get Tags####
-################
-$uri = URI.parse("http://104.236.38.217/api/tags")
-$http = Net::HTTP.new(uri.host, uri.port)
 
 $tagID_bedroom1 = "Bedroom-001"
 $tagID_bedroom2 = "Bedroom-002"
@@ -47,31 +27,99 @@ $hungerLevel = 0
 
 $count = 0
 
+$patientName=""
+$postDestination=""
+
 ##Function Prototype
 #def functionname(variable)
 #   return <value>
 #end
+def initialSetup()
+
+	puts "Which user will you be tracking today?"
+	puts "0: Enter new name"
+	puts "1: Steve Rolphoson"
+	puts "2: Jessica Silver"
+	nameSelect = gets.chomp
+
+	if(nameSelect == "1")
+		$patientName = "Steve Rolphoson"
+	elsif(nameSelect == "2")
+		$patientName = "Jessica Silver"
+	elsif(nameSelect == "0")
+		puts "Enter patient name now: "
+		$patientName = gets.chomp
+	else
+		puts "Invalid input"
+	end
+
+	puts "Which server will we be posting to today?"
+	puts "1: Print to console"
+	puts "2: Localhost"
+	puts "3: DigitalOcean"
+	postSelect = gets.chomp
+
+	if(postSelect == "1")
+		$postDestination = nil
+	elsif(postSelect == "2")
+		$postDestination = "http://localhost"
+	elsif(postSelect == "3")
+		$postDestination = "http://104.236.38.217"
+	else
+		puts "Invalid input to post destination"
+	end
+
+	$numDays = 0
+	puts "How many days would you like to generate?"
+	$numDays = gets.chomp
+
+	puts "Welcome " + $patientName + ". Posting to " + $postDestination.inspect + ". Generating " + $numDays + " days."
+
+	##################
+	##Authentication##
+	##################
+	if($postDestination != nil)
+		uri = URI.parse($postDestination + "/api/authenticate")
+		username = "capstone"
+		password = "capstone"
+		$http = Net::HTTP.new(uri.host, uri.port)
+		request = Net::HTTP::Post.new(uri.request_uri)
+		request.set_form_data({"username" => username, "password" => password})
+		response = $http.request(request)
+		my_hash = JSON.parse(response.body)
+		$token = my_hash['token']
+
+		$uri = URI.parse($postDestination + "/api/tags")
+		$http = Net::HTTP.new(uri.host, uri.port)
+	end
+end
+
+initialSetup()
 
 #Submit Tag Function, returns hash of HTTP response, use 'pp' to display
 def submitTag(tagID, tagScanDate)
 
 	tsdISO = tagScanDate.iso8601
-
-	request = Net::HTTP::Post.new($uri.request_uri)
-	request['x-access-token'] = $token
-
-	patientName = "Steve Rolphoson"
-	#request.to_hash['x-access-token']    # => Array
-	#puts "Headers: #{request.to_hash.inspect}"
-
-	request.set_form_data({"tagID" => tagID, "tagScanDate" => tsdISO, "tagPatient" => patientName})
-	puts "-----> Submitted tag   tagID: " + tagID + " tagScanDate: " + tagScanDate.strftime("%I:%M:%S%p %m/%d/%y")
 	$count += 1
-    
-	response = $http.request(request)
-	my_hash = JSON.parse(response.body)
+	puts "-----> Submitted tag   tagID: " + tagID + " tagScanDate: " + tagScanDate.strftime("%I:%M:%S%p %m/%d/%y")
+
+	if($postDestination != nil)
+		request = Net::HTTP::Post.new($uri.request_uri)
+		request['x-access-token'] = $token
+
+		#request.to_hash['x-access-token']    # => Array
+		#puts "Headers: #{request.to_hash.inspect}"
+
+		request.set_form_data({"tagID" => tagID, "tagScanDate" => tsdISO, "tagPatient" => $patientName})
+	
+		response = $http.request(request)
+		my_hash = JSON.parse(response.body)
+		return my_hash
+	else return "Posted to console"
+	end
+
 	#pp my_hash
-	return my_hash
+	
 end
 
 #Bathroom visit, takes input time, bathroom ID, bathroom function as input, returns time after visit is completed
@@ -190,11 +238,12 @@ def bedroomVisit(inputTime, bedroomNum, bedroomFunc, source, destination)
 	return houseTrip(inputTime, submitBedroomID, destination)
 end
 
+
 ####################################
 #########Trip in house##############
 ####################################
 def houseTrip(inputTime, source, destination)
-	puts "Going from " + source + " to " + destination
+	#puts "Going from " + source + " to " + destination
 	$currentLocation = destination
 	case destination
 
@@ -339,16 +388,14 @@ end
 $timeOfDay = Time.new()
 
 def singleDayGen()
-
-	
 	wakeTime = $timeOfDay + ($hour*6) + rand($hour*2) + rand($minute * 60)
 	bedTimeLimit = $timeOfDay + ($hour*21 + rand($minute*45))
 
-	puts "Bed time limit: " + bedTimeLimit.strftime("%I:%M:%S%p %m/%d/%y")
+	#puts "Bed time limit: " + bedTimeLimit.strftime("%I:%M:%S%p %m/%d/%y")
 
 	#Random Nighttime bathroom visit from midnight to 4am, 25% chance to occur on any given night
 	if rand(100) > 75
-		puts "Uh oh! Midnight incontinence strikes!"
+		#puts "Uh oh! Midnight incontinence strikes!"
 		$timeOfDay = bathroomVisit($timeOfDay + rand($hour*4), 1, 1, $tagID_bedroom1, $tagID_bedroom1)
 	end
 
@@ -364,7 +411,7 @@ def singleDayGen()
 		bedTimeActual -= 30*$minute
 	end 
 
-	puts "Bed time actual: " + bedTimeActual.strftime("%I:%M:%S%p %m/%d/%y")
+	#puts "Bed time actual: " + bedTimeActual.strftime("%I:%M:%S%p %m/%d/%y")
 	
 	#leaving bedroom in morning, go to bathroom most days (~90%)
 	if rand(100) > 10
@@ -372,27 +419,27 @@ def singleDayGen()
 		if rand(100) > 20
 			#getting out of bed for shower
 			$timeOfDay += (2*$minute) + rand($minute*3)
-			puts "Shower at " + $timeOfDay.strftime("%I:%M:%S%p %m/%d/%y")
+			#puts "Shower at " + $timeOfDay.strftime("%I:%M:%S%p %m/%d/%y")
 			$timeOfDay = bathroomVisit($timeOfDay, 1, 3, $tagID_bedroom1, $tagID_bedroom1)
 			#getting dressed
 			$timeOfDay += (2*$minute) + rand($minute*3)
 		elsif
 			#getting out of bed / dressed
 			$timeOfDay += (2*$minute) + rand($minute*6)
-			puts "#2 at " + $timeOfDay.strftime("%I:%M:%S%p %m/%d/%y") 
+			#puts "#2 at " + $timeOfDay.strftime("%I:%M:%S%p %m/%d/%y") 
 			$timeOfDay = bathroomVisit($timeOfDay, 1, 2, $tagID_bedroom1, $tagID_bathroom1)
 		end
 	else
-		puts "We'll skip shower for today"
+		#puts "We'll skip shower for today"
 	end
 
 	#eat breakfast, 100% chance to occur after waking, 30% chance to eat in living room
 	$hungerLevel = 0
 	if rand(100) > 30
-		puts "Eating breakfast in the kitchen today"
+		#puts "Eating breakfast in the kitchen today"
 		$timeOfDay = kitchenVisit($timeOfDay, 3, $tagID_bedroom1, $tagID_kitchen)
 	else
-		puts "Eating breakfast in the living room today"
+		#puts "Eating breakfast in the living room today"
 		$timeOfDay = kitchenVisit($timeOfDay, 3, $tagID_bedroom1, $tagID_lr)
 	end
 
@@ -404,7 +451,7 @@ def singleDayGen()
 		middayRandom = rand(100)
 
 		if $hungerLevel > 70
-			puts "Hunger strikes at " + $timeOfDay.inspect
+			#puts "Hunger strikes at " + $timeOfDay.inspect
 			$timeOfDay = kitchenVisit($timeOfDay, 3, $currentLocation, $tagID_lr)
 			$timeOfDay = bathroomVisit($timeOfDay, 1, 2, $currentLocation, $tagID_lr)
 		end
@@ -434,7 +481,6 @@ def singleDayGen()
 		if($timeOfDay < bedTimeActual)
 			$timeOfDay += $hour
 		end
-
 	end
 
 	puts "Going to sleep at around" + bedTimeActual.strftime("%I:%M:%S%p %m/%d/%y")
@@ -447,28 +493,38 @@ def singleDayGen()
 	#five bathroom trips a day
 
 	puts " "
-
-
 end
 
 #######Main loop ##########
 #loops through the week
-for i in 0..13
-	startDay = Time.new(2015, 2, 26)
+$numDays = $numDays.to_i
+$numDays.times do |i|
+	currentTime = Time.new()
+	startDay_temp = currentTime - ($numDays * $day)
+	
+	startDay = Time.new(startDay_temp.year, startDay_temp.month, startDay_temp.day, 0, 0, 0)
 	dayConstant = i * ($day)
 
+	#puts "startday before minus hour: " + startDay.inspect
+	#startDay = startDay - startDay.hour*($hour)
+	#puts "startday.hour = " + startDay.hour.inspect
+	#puts "startday after minus hour: " + startDay.inspect
+
+	#startDay = startDay - startDay.min*($minute)
+	#startDay = startDay - startDay.sec
+
 	#Day starts at midnight 
-
-	puts "=========================="
-	puts "Day " + i.inspect
-	puts "=========================="
-
 	$timeOfDay = startDay + dayConstant
+	$timeOfDay = $timeOfDay - $timeOfDay.hour * ($hour)
+
+	puts "=========================="
+	puts "Day " + (i+1).inspect
+	puts "=========================="
+	#puts "year: " + $timeOfDay.year.inspect + " month: " + $timeOfDay.month.inspect + " day: " + $timeOfDay.day.inspect
+	#puts "start time: " + $timeOfDay.inspect
 
 	singleDayGen()
 	#submitTag("test", Time.new(2015,2,18))
-
-	
 end
 
 puts $count.inspect + " tags entered into DB"

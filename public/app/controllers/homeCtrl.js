@@ -8,6 +8,7 @@ angular.module('homeCtrl', ['tagsService', 'patientService', 'googlechart'])
   patientFactory.all()
   .success(function(data){
     vm.patients = data;
+    console.log(vm.patients);
   });
 
   vm.deletePatient = function(patient) {
