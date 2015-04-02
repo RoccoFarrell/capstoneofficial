@@ -244,11 +244,9 @@ angular.module('SPCtrl', ['tagsService', 'patientService', 'googlechart'])
         }
       }
 
-      console.log("SIXMONTH: " + vm.sixmonthTrendRoomData);
-
       var chart_barTrend_data_sixmonth = [];
 
-      for(i=0; i < 30; i++){
+      for(i=0; i < 26; i++){
         console.log(vm.sixmonthTrendRoomData[i]);
         chart_barTrend_data_sixmonth.push({
           c: [{v: (i+1)}, {v: vm.sixmonthTrendRoomData[i]}]
@@ -269,14 +267,105 @@ angular.module('SPCtrl', ['tagsService', 'patientService', 'googlechart'])
 
       chart_barTrend_sixmonth.options = {
         chart: {
-          title: vm.sixmonthTrendRoom + ' Trend Over One Six Months',
-          subtitle: 'Last month',
+          title: vm.sixmonthTrendRoom + ' Trend Over Six Months',
+          subtitle: 'Last 6 months',
         },
         legend: { position: "none" }
       };
 
       chart_barTrend_sixmonth.formatters = {};
       $scope.chart_barTrend_sixmonth = chart_barTrend_sixmonth;
+
+    }); 
+  }
+
+  vm.yearTrend = function() {
+    console.log("Input: " + vm.yearTrendRoom);
+    var endDate = new Date();
+    var second = 1000;
+    var minute = 60 * second;
+    var hour = minute * 60;
+    var day = hour * 24;
+    var week = day * 7;
+    var month = day * 30;
+    var startDateDay = new Date(endDate - week*52);
+    console.log(vm.patient.patientName);
+    tagsFactory.timeRange(startDateDay, endDate, vm.patient.patientName)
+    .success(function(data){
+
+      vm.yearTrendData = data;
+      var weekCounter=0;
+      var count=0;
+      vm.yearTrendRoomData = {};
+      var newWeek0=0;
+      var newWeek1=0;
+
+      for(i=0; i < vm.yearTrendData.length; i++)
+      {
+        var tempDate;
+        date = new Date(vm.yearTrendData[i].tagScanDate);
+        tempDate = date;
+        //console.log(tempDate.getDay());
+
+        if (newWeek1==1 && newWeek0==1) {
+          count = 1;
+          weekCounter++;
+          newWeek0=0;
+          newWeek1=0;
+        }
+
+        if (tempDate.getDay() == 0)
+        {
+          newWeek0=1;
+          if(vm.yearTrendData[i].tagID == vm.yearTrendRoom)
+          {
+            count++;
+            vm.yearTrendRoomData[weekCounter] = count;
+          }
+        }
+        else
+        {
+          newWeek1 = 1;
+          newWeek0 = 0;
+          if(vm.yearTrendData[i].tagID == vm.yearTrendRoom)
+          {
+            count++;
+            vm.yearTrendRoomData[weekCounter] = count;
+          }
+        }
+      }
+
+      var chart_barTrend_data_year = [];
+
+      for(i=0; i < 52; i++){
+        console.log(vm.yearTrendRoomData[i]);
+        chart_barTrend_data_year.push({
+          c: [{v: (i+1)}, {v: vm.yearTrendRoomData[i]}]
+        });
+      }
+
+      console.log(chart_barTrend_data_year);
+
+      var chart_barTrend_year = {};
+
+      chart_barTrend_year.type = "Bar";
+      chart_barTrend_year.cssStyle = "height:250px; width:325px; padding: 10px; vertical-align: middle; display: table-cell;";
+      chart_barTrend_year.data = { "cols": [
+          {id: "roomID", label: "Week", type: "string"},
+          {id: "tagCounts", label: "Reads", type: "number"}
+          ], "rows": chart_barTrend_data_year
+        };
+
+      chart_barTrend_year.options = {
+        chart: {
+          title: vm.yearTrendRoom + ' Trend Over One Year',
+          subtitle: 'Last year',
+        },
+        legend: { position: "none" }
+      };
+
+      chart_barTrend_year.formatters = {};
+      $scope.chart_barTrend_year = chart_barTrend_year;
 
     }); 
   }
@@ -311,6 +400,7 @@ angular.module('SPCtrl', ['tagsService', 'patientService', 'googlechart'])
     var startDateWeek = new Date(endDate - week);
     var startDateMonth = new Date(endDate - week*4);
     var startDate6Month = new Date(endDate - week*26);
+    var startDateYear = new Date(endDate - week*52);
 
     console.log("end date: " + endDate);
     console.log("start date: " + startDateDay);
@@ -622,10 +712,84 @@ angular.module('SPCtrl', ['tagsService', 'patientService', 'googlechart'])
     
     });
 
+    tagsFactory.timeRange(startDateYear, endDate, vm.patient.patientName)
+    .success(function(data){
+      //console.log("factory data: " + data);
+      //console.log("call success");
+
+      vm.tagDataYear = data;
+
+      vm.counts_bar_Year = {};
+
+      for(i=0; i< vm.tagDataYear.length; i++){
+    
+          tagIDlocal = vm.tagDataYear[i].tagID;
+
+          if(tagIDlocal != "Hallway-001"){
+            typeof(vm.counts_bar_Year[tagIDlocal]) == "undefined" ? vm.counts_bar_Year[tagIDlocal] = 1 :
+            vm.counts_bar_Year[tagIDlocal] += 1;
+            date = new Date(vm.tagDataYear[i].tagScanDate);
+            vm.tagDataYear[i].tagScanDateString = date.toString();
+          }
+          //console.log("id: " + vm.tags[i].tagID);
+      }
+
+      //console.log(vm.counts_bar_oneMonth);
+
+      //chartSelect = 0;
+
+      vm.YearSum = 0;
+
+      var sortable = [];
+      for (var key in vm.counts_bar_Year){
+        sortable.push([key, vm.counts_bar_Year[key]]);
+        vm.YearSum += vm.counts_bar_Year[key];
+      }
+      sortable.sort(function(a, b) {return b[1] - a[1]});
+
+     // console.log(sortable);
+
+      var chart_barCounts_data = [];
 
 
+      for(i=0; i < sortable.length; i++){
+        chart_barCounts_data.push({
+          c: [{v: sortable[i][0]}, {v: sortable[i][1]}]
+        });
+      }
+
+      /*
+      for (var key in vm.counts_bar_oneMonth){
+        chart_barCounts_data.push({
+          c: [{v: key}, {v: vm.counts_bar_oneMonth[key]}]
+        });
+      }
+      */
+      console.log(chart_barCounts_data); 
 
 
+      var chart_barCounts_Year = {};
+
+      chart_barCounts_Year.type = "Bar";
+      chart_barCounts_Year.cssStyle = "height:250px; width:325px; padding: 10px; vertical-align: middle; display: table-cell;";
+      chart_barCounts_Year.data = { "cols": [
+          {id: "roomID", label: "Room", type: "string"},
+          {id: "tagCounts", label: "Reads", type: "number"}
+          ], "rows": chart_barCounts_data
+        };
+
+      chart_barCounts_Year.options = {
+        chart: {
+          title:'Tag Scan Frequency',
+          subtitle: 'Last  Year',
+        },
+        legend: { position: "none" }
+      };
+
+      chart_barCounts_Year.formatters = {};
+      $scope.chart_barCounts_Year = chart_barCounts_Year;
+    
+    });
   }
   
 });

@@ -209,6 +209,51 @@
               </div>
           </div>
 
+          <!-- Individual Graph -->
+          <div class="panel panel-default graphPanel">
+              <div class="col-sm-4 indivGraphPanel">
+
+                <div google-chart chart="chart_barCounts_Year" style="{{chart_barCounts_Year.cssStyle}}" />
+
+              </div>
+              <div class="col-sm-1">
+              </div>
+              <div class="col-sm-7" style="border-left: 1px dashed grey; height: 100%;">
+              <div>
+                <h1>Year Specific Stats</h1>
+                <p>Other year specific stats will go here.</p>
+              </div>
+
+              </div>
+          </div>
+          <!-- End Individual Graph Panel -->
+
+          <div class="panel panel-default patientPanel">
+              <div class="panel-heading">
+                <h3 class="panel-title" ng-click="yeartrendInfo = !yeartrendInfo">Year Trend Info:</h3>
+              </div>
+              <div class="panel-body cssSlideUp" ng-show="yeartrendInfo" id="yeartrendInfo">
+                <div class="col-sm-4 indivGraphPanel">
+                  <div google-chart chart="chart_barTrend_year" style="{{chart_barTrend_year.cssStyle}}" />
+                </div>
+                <div class="col-sm-1">
+                </div>
+                <div class="col-sm-7" style="border-left: 1px dashed grey; height: 100%;">
+                  <div>
+                    <h1> Year Trend Stats</h1>
+                    <p>Other year trend specific stats will go here.</p>
+                  </div>
+                  <div>
+                    <form class="form" ng-submit="singlePatient.yearTrend()">
+                      <label>Enter Room: </label>
+                      <input type="text" class="form-control" placeholder="Room" ng-model="singlePatient.yearTrendRoom">
+                      <button type="submit" class="btn btn-success">Generate Info</button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+          </div>
+
           
 			</div>
 
