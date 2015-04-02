@@ -16,7 +16,7 @@ angular.module('SPCtrl', ['tagsService', 'patientService', 'googlechart'])
   });
 
   vm.weekTrend = function() {
-    console.log("in function");
+    console.log("Input: " + vm.weekTrendRoom);
     var endDate = new Date();
     var second = 1000;
     var minute = 60 * second;
@@ -33,7 +33,7 @@ angular.module('SPCtrl', ['tagsService', 'patientService', 'googlechart'])
       var i=0;
       var dayCounter=0;
       var count=0;
-      vm.weekTrendKitchen = {};
+      vm.weekTrendRoomData = {};
 
       var currentDate;
       date = new Date(vm.weekTrendData[i].tagScanDate);
@@ -51,10 +51,10 @@ angular.module('SPCtrl', ['tagsService', 'patientService', 'googlechart'])
 
         if (tempDate.getDate() == currentDate.getDate())
         {
-          if(vm.weekTrendData[i].tagID == "Kitchen-001")
+          if(vm.weekTrendData[i].tagID == vm.weekTrendRoom)
           {
             count++;
-            vm.weekTrendKitchen[dayCounter] = count;
+            vm.weekTrendRoomData[dayCounter] = count;
           }
         }
         else {
@@ -64,7 +64,39 @@ angular.module('SPCtrl', ['tagsService', 'patientService', 'googlechart'])
         }
       }
 
-      console.log(vm.weekTrendKitchen);
+      console.log(vm.weekTrendRoomData);
+
+      var chart_barTrend_data = [];
+
+      for(i=0; i < 7; i++){
+        console.log(vm.weekTrendRoomData[i]);
+        chart_barTrend_data.push({
+          c: [{v: (i+1)}, {v: vm.weekTrendRoomData[i]}]
+        });
+      }
+
+      console.log(chart_barTrend_data);
+
+      var chart_barTrend_week = {};
+
+      chart_barTrend_week.type = "Bar";
+      chart_barTrend_week.cssStyle = "height:250px; width:325px; padding: 10px; vertical-align: middle; display: table-cell;";
+      chart_barTrend_week.data = { "cols": [
+          {id: "roomID", label: "Day", type: "string"},
+          {id: "tagCounts", label: "Reads", type: "number"}
+          ], "rows": chart_barTrend_data
+        };
+
+      chart_barTrend_week.options = {
+        chart: {
+          title:'Kitchen Trend Over One Week',
+          subtitle: 'Last 7 Days',
+        },
+        legend: { position: "none" }
+      };
+
+      chart_barTrend_week.formatters = {};
+      $scope.chart_barTrend_week = chart_barTrend_week;
 
     }); 
   }

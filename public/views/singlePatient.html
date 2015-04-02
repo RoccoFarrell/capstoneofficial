@@ -98,7 +98,7 @@
               </div>
               <div class="panel-body cssSlideUp" ng-show="weektrendInfo" id="weektrendInfo">
                 <div class="col-sm-4 indivGraphPanel">
-                  <div google-chart chart="trendchart_barCounts_day" style="{{trendchart_barCounts_day.cssStyle}}" />
+                  <div google-chart chart="chart_barTrend_week" style="{{chart_barTrend_week.cssStyle}}" />
                 </div>
                 <div class="col-sm-1">
                 </div>
@@ -107,9 +107,13 @@
                     <h1> Week Trend Stats</h1>
                     <p>Other week trend specific stats will go here.</p>
                   </div>
-                  <button ng-click="singlePatient.weekTrend()" class="btn btn-success">
-                    <span>Generate Info</span>
-                  </button>
+                  <div>
+                    <form class="form" ng-submit="singlePatient.weekTrend()">
+                      <label>Enter Room: </label>
+                      <input type="text" class="form-control" placeholder="Room" ng-model="singlePatient.weekTrendRoom">
+                      <button type="submit" class="btn btn-success">Generate Info</button>
+                    </form>
+                  </div>
                 </div>
               </div>
           </div>
