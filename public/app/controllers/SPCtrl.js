@@ -10,12 +10,12 @@ angular.module('SPCtrl', ['tagsService', 'patientService', 'googlechart'])
     vm.patient = data;
 
     console.log(vm.patient);
-
     
     computeData();
   });
 
   vm.weekTrend = function() {
+    vm.weekTrendProcessing = true;
     console.log("Input: " + vm.weekTrendRoom);
     var endDate = new Date();
     var second = 1000;
@@ -27,7 +27,7 @@ angular.module('SPCtrl', ['tagsService', 'patientService', 'googlechart'])
     console.log(vm.patient.patientName);
     tagsFactory.timeRange(startDateDay, endDate, vm.patient.patientName)
     .success(function(data){
-      //console.log("factory data: " + data);
+      vm.weekTrendProcessing = false;
 
       vm.weekTrendData = data;
       var i=0;
@@ -102,6 +102,7 @@ angular.module('SPCtrl', ['tagsService', 'patientService', 'googlechart'])
   }
 
   vm.monthTrend = function() {
+    vm.monthTrendProcessing = true;
     console.log("Input: " + vm.monthTrendRoom);
     var endDate = new Date();
     var second = 1000;
@@ -114,7 +115,7 @@ angular.module('SPCtrl', ['tagsService', 'patientService', 'googlechart'])
     console.log(vm.patient.patientName);
     tagsFactory.timeRange(startDateDay, endDate, vm.patient.patientName)
     .success(function(data){
-      //console.log("factory data: " + data);
+      vm.monthTrendProcessing = false;
 
       vm.monthTrendData = data;
       var i=0;
@@ -189,6 +190,7 @@ angular.module('SPCtrl', ['tagsService', 'patientService', 'googlechart'])
   }
 
   vm.sixmonthTrend = function() {
+    vm.sixmonthTrendProcessing = true;
     console.log("Input: " + vm.sixmonthTrendRoom);
     var endDate = new Date();
     var second = 1000;
@@ -201,6 +203,8 @@ angular.module('SPCtrl', ['tagsService', 'patientService', 'googlechart'])
     console.log(vm.patient.patientName);
     tagsFactory.timeRange(startDateDay, endDate, vm.patient.patientName)
     .success(function(data){
+
+      vm.sixmonthTrendProcessing = false;
 
       vm.sixmonthTrendData = data;
       var weekCounter=0;
@@ -280,6 +284,7 @@ angular.module('SPCtrl', ['tagsService', 'patientService', 'googlechart'])
   }
 
   vm.yearTrend = function() {
+    vm.yearTrendProcessing = true;
     console.log("Input: " + vm.yearTrendRoom);
     var endDate = new Date();
     var second = 1000;
@@ -292,6 +297,8 @@ angular.module('SPCtrl', ['tagsService', 'patientService', 'googlechart'])
     console.log(vm.patient.patientName);
     tagsFactory.timeRange(startDateDay, endDate, vm.patient.patientName)
     .success(function(data){
+
+      vm.yearTrendProcessing = false;
 
       vm.yearTrendData = data;
       var weekCounter=0;

@@ -14,7 +14,7 @@
           </div>
 
           <div class="panel panel-default">
-            <h3 style="padding-top: 15px; padding-bottom: 15px; width: 700px; margin-left: auto; margin-right: auto;">{{singlePatient.patient.patientName}} has been scanned a total of <b>{{singlePatient.monthSum}}</b> times</h3>
+            <h3 style="padding-top: 15px; padding-bottom: 15px; width: 700px; margin-left: auto; margin-right: auto;">{{singlePatient.patient.patientName}} has been scanned a total of <b>{{singlePatient.YearSum}}</b> times.</h3>
           </div>
 
           <!--
@@ -111,7 +111,10 @@
                     <form class="form" ng-submit="singlePatient.weekTrend()">
                       <label>Enter Room: </label>
                       <input type="text" class="form-control" placeholder="Room" ng-model="singlePatient.weekTrendRoom">
-                      <button type="submit" class="btn btn-success">Generate Info</button>
+                      <button type="submit" class="btn btn-success">
+                        <span ng-if="!singlePatient.weekTrendProcessing">Generate Info</span>
+                        <span ng-if="singlePatient.weekTrendProcessing"><i class="fa fa-spinner fa-spin"></i></span>
+                      </button>
                     </form>
                   </div>
                 </div>
@@ -156,7 +159,10 @@
                     <form class="form" ng-submit="singlePatient.monthTrend()">
                       <label>Enter Room: </label>
                       <input type="text" class="form-control" placeholder="Room" ng-model="singlePatient.monthTrendRoom">
-                      <button type="submit" class="btn btn-success">Generate Info</button>
+                      <button type="submit" class="btn btn-success">
+                        <span ng-if="!singlePatient.monthTrendProcessing">Generate Info</span>
+                        <span ng-if="singlePatient.monthTrendProcessing"><i class="fa fa-spinner fa-spin"></i></span>
+                      </button>
                     </form>
                   </div>
                 </div>
@@ -202,7 +208,10 @@
                     <form class="form" ng-submit="singlePatient.sixmonthTrend()">
                       <label>Enter Room: </label>
                       <input type="text" class="form-control" placeholder="Room" ng-model="singlePatient.sixmonthTrendRoom">
-                      <button type="submit" class="btn btn-success">Generate Info</button>
+                      <button type="submit" class="btn btn-success">
+                        <span ng-if="!singlePatient.sixmonthTrendProcessing">Generate Info</span>
+                        <span ng-if="singlePatient.sixmonthTrendProcessing"><i class="fa fa-spinner fa-spin"></i></span>
+                      </button>
                     </form>
                   </div>
                 </div>
@@ -247,7 +256,10 @@
                     <form class="form" ng-submit="singlePatient.yearTrend()">
                       <label>Enter Room: </label>
                       <input type="text" class="form-control" placeholder="Room" ng-model="singlePatient.yearTrendRoom">
-                      <button type="submit" class="btn btn-success">Generate Info</button>
+                      <button type="submit" class="btn btn-success">
+                        <span ng-if="!singlePatient.yearTrendProcessing">Generate Info</span>
+                        <span ng-if="singlePatient.yearTrendProcessing"><i class="fa fa-spinner fa-spin"></i></span>
+                      </button>
                     </form>
                   </div>
                 </div>
