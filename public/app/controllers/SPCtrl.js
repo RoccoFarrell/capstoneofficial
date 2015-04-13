@@ -650,6 +650,7 @@ angular.module('SPCtrl', ['tagsService', 'patientService', 'googlechart'])
       vm.tagDataMonth = data;
 
       vm.counts_bar_oneMonth = {};
+      vm.times_oneMonth = {};
 
       for(i=0; i< vm.tagDataMonth.length; i++){
     
@@ -658,10 +659,44 @@ angular.module('SPCtrl', ['tagsService', 'patientService', 'googlechart'])
           if(tagIDlocal != "Hallway-001"){
             typeof(vm.counts_bar_oneMonth[tagIDlocal]) == "undefined" ? vm.counts_bar_oneMonth[tagIDlocal] = 1 :
             vm.counts_bar_oneMonth[tagIDlocal] += 1;
-            date = new Date(vm.tagDataMonth[i].tagScanDate);
-            vm.tagDataMonth[i].tagScanDateString = date.toString();
           }
+
+          date = new Date(vm.tagDataMonth[i].tagScanDate);
+          vm.tagDataMonth[i].tagScanDateString = date.toString();
           //console.log("id: " + vm.tags[i].tagID);
+
+          if(i != vm.tagDataMonth.length - 1){
+            //console.log("in if");
+            date = new Date(vm.tagDataMonth[i].tagScanDate);
+            datePlusOne = new Date(vm.tagDataMonth[i+1].tagScanDate);
+            //console.log("datePlusOne - date: " + (datePlusOne - date));
+            //console.log("vm.times_oneDay[tagIDlocal]: " + vm.times_oneDay[tagIDlocal]);
+            if(typeof(vm.times_oneMonth[tagIDlocal]) == "undefined"){
+              vm.times_oneMonth[tagIDlocal] = 0;
+            }
+            else {
+              vm.times_oneMonth[tagIDlocal] += (datePlusOne - date);
+            }
+            //console.log("times length: " + vm.times_oneDay.length);
+          }
+      }
+
+      vm.averages_oneMonth = [];
+
+      for(var key in vm.counts_bar_oneMonth){
+        //console.log("vm.times_oneDay[key]: " + vm.times_oneDay[key]);
+        //console.log(key + ": " + vm.times_oneDay[key].toString());
+        var temp = vm.times_oneMonth[key] / 1000;
+        //console.log(key + ": " + temp + " seconds");
+        temp = temp / 60;
+        //console.log(key + ": " + temp + " minutes");
+
+        //vm.averages_oneWeek[key] = temp / vm.counts_bar_oneWeek[key];
+
+        vm.averages_oneMonth.push([key, vm.counts_bar_oneMonth[key], temp / vm.counts_bar_oneMonth[key]]);
+        //console.log(vm.averages_oneMonth[key] + " minutes per visit to " + key);
+        vm.averages_oneMonth[0][2].toFixed(2);
+
       }
 
       //console.log(vm.counts_bar_oneMonth);
@@ -728,6 +763,7 @@ angular.module('SPCtrl', ['tagsService', 'patientService', 'googlechart'])
         vm.tagDataSixMonth = data;
 
         vm.counts_bar_sixMonth = {};
+        vm.times_sixMonth = {};
 
         for(i=0; i< vm.tagDataSixMonth.length; i++){
       
@@ -736,13 +772,45 @@ angular.module('SPCtrl', ['tagsService', 'patientService', 'googlechart'])
             if(tagIDlocal != "Hallway-001"){
               typeof(vm.counts_bar_sixMonth[tagIDlocal]) == "undefined" ? vm.counts_bar_sixMonth[tagIDlocal] = 1 :
               vm.counts_bar_sixMonth[tagIDlocal] += 1;
-              date = new Date(vm.tagDataSixMonth[i].tagScanDate);
-              vm.tagDataSixMonth[i].tagScanDateString = date.toString();
             }
             //console.log("id: " + vm.tags[i].tagID);
+            date = new Date(vm.tagDataSixMonth[i].tagScanDate);
+            vm.tagDataSixMonth[i].tagScanDateString = date.toString();
+          //console.log("id: " + vm.tags[i].tagID);
+
+          if(i != vm.tagDataSixMonth.length - 1){
+            //console.log("in if");
+            date = new Date(vm.tagDataSixMonth[i].tagScanDate);
+            datePlusOne = new Date(vm.tagDataSixMonth[i+1].tagScanDate);
+            //console.log("datePlusOne - date: " + (datePlusOne - date));
+            //console.log("vm.times_oneDay[tagIDlocal]: " + vm.times_oneDay[tagIDlocal]);
+            if(typeof(vm.times_sixMonth[tagIDlocal]) == "undefined"){
+              vm.times_sixMonth[tagIDlocal] = 0;
+            }
+            else {
+              vm.times_sixMonth[tagIDlocal] += (datePlusOne - date);
+            }
+            //console.log("times length: " + vm.times_oneDay.length);
+          }
         }
 
-        //console.log(vm.counts_bar_oneMonth);
+      vm.averages_sixMonth = [];
+
+      for(var key in vm.counts_bar_sixMonth){
+        //console.log("vm.times_oneDay[key]: " + vm.times_oneDay[key]);
+        //console.log(key + ": " + vm.times_oneDay[key].toString());
+        var temp = vm.times_sixMonth[key] / 1000;
+        //console.log(key + ": " + temp + " seconds");
+        temp = temp / 60;
+        //console.log(key + ": " + temp + " minutes");
+
+        //vm.averages_oneWeek[key] = temp / vm.counts_bar_oneWeek[key];
+
+        vm.averages_sixMonth.push([key, vm.counts_bar_sixMonth[key], temp / vm.counts_bar_sixMonth[key]]);
+        //console.log(vm.averages_oneMonth[key] + " minutes per visit to " + key);
+        vm.averages_sixMonth[0][2].toFixed(2);
+
+      }
 
         //chartSelect = 0;
 
@@ -805,6 +873,7 @@ angular.module('SPCtrl', ['tagsService', 'patientService', 'googlechart'])
         vm.tagDataYear = data;
 
         vm.counts_bar_Year = {};
+        vm.times_oneYear = {};
 
         for(i=0; i< vm.tagDataYear.length; i++){
       
@@ -813,12 +882,45 @@ angular.module('SPCtrl', ['tagsService', 'patientService', 'googlechart'])
             if(tagIDlocal != "Hallway-001"){
               typeof(vm.counts_bar_Year[tagIDlocal]) == "undefined" ? vm.counts_bar_Year[tagIDlocal] = 1 :
               vm.counts_bar_Year[tagIDlocal] += 1;
+              }
+
               date = new Date(vm.tagDataYear[i].tagScanDate);
-              vm.tagDataYear[i].tagScanDateString = date.toString();
+            vm.tagDataYear[i].tagScanDateString = date.toString();
+          //console.log("id: " + vm.tags[i].tagID);
+
+          if(i != vm.tagDataYear.length - 1){
+            //console.log("in if");
+            date = new Date(vm.tagDataYear[i].tagScanDate);
+            datePlusOne = new Date(vm.tagDataYear[i+1].tagScanDate);
+            //console.log("datePlusOne - date: " + (datePlusOne - date));
+            //console.log("vm.times_oneDay[tagIDlocal]: " + vm.times_oneDay[tagIDlocal]);
+            if(typeof(vm.times_oneYear[tagIDlocal]) == "undefined"){
+              vm.times_oneYear[tagIDlocal] = 0;
             }
-            //console.log("id: " + vm.tags[i].tagID);
+            else {
+              vm.times_oneYear[tagIDlocal] += (datePlusOne - date);
+            }
+            //console.log("times length: " + vm.times_oneDay.length);
+          }
         }
 
+      vm.averages_oneYear = [];
+
+      for(var key in vm.counts_bar_Year){
+        //console.log("vm.times_oneDay[key]: " + vm.times_oneDay[key]);
+        //console.log(key + ": " + vm.times_oneDay[key].toString());
+        var temp = vm.times_oneYear[key] / 1000;
+        //console.log(key + ": " + temp + " seconds");
+        temp = temp / 60;
+        //console.log(key + ": " + temp + " minutes");
+
+        //vm.averages_oneWeek[key] = temp / vm.counts_bar_oneWeek[key];
+
+        vm.averages_oneYear.push([key, vm.counts_bar_Year[key], temp / vm.counts_bar_Year[key]]);
+        //console.log(vm.averages_oneMonth[key] + " minutes per visit to " + key);
+        vm.averages_oneYear[0][2].toFixed(2);
+
+      }
         //console.log(vm.counts_bar_oneMonth);
 
         //chartSelect = 0;

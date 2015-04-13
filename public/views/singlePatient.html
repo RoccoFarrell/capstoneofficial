@@ -35,6 +35,8 @@
           </div>
           -->
 
+          <h2 style="border-bottom: 1px dashed grey; margin-bottom: 10px;"><small>Last 24 Hours</small></h2>
+
           <!-- Individual Graph -->
           <div ng-cloak class="panel panel-default graphPanel">
               <div class="col-sm-4 indivGraphPanel">
@@ -45,12 +47,44 @@
               <div class="col-sm-1">
               </div>
               <div class="col-sm-7" style="border-left: 1px dashed grey; height: 100%;">
-              
+                <div>
+                  <h3>Average Visit Length of Rooms</h3>
+                    <table class="table table-striped">
+                      <thead>
+                        <tr>
+                          <th>
+                            Room Name
+                          </th>
+                          <th>
+                            Total Visits
+                          </th>
+                          <th>
+                            Avg. Visit Length (min.)
+                          </th>
+                        </tr>
+                      </thead>
+
+                      <tbody>
+                        <tr ng-repeat="avgValue in singlePatient.averages_oneDay | orderBy:'-[2]'">
+                          <td>
+                            <button class="btn" style="margin: 0px; padding: 0px;" ng-click="singlePatient.dayTrend(avgValue[0])"> {{avgValue[0]}} </button>
+                          </td>
+                          <td>
+                            {{avgValue[1]}} 
+                          </td>
+                          <td>
+                            {{avgValue[2] | number:2 }}
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
 
               </div>
           </div>
           <!-- End Individual Graph Panel -->
 
+          <!--
           <div class="panel panel-default patientPanel">
               <div class="panel-heading">
                 <h3 class="panel-title" ng-click="daytrendInfo = !daytrendInfo">Day Trend Info:</h3>
@@ -62,13 +96,14 @@
                 <div class="col-sm-1">
                 </div>
                 <div class="col-sm-7" style="border-left: 1px dashed grey; height: 100%;">
-                  <div>
-                    <h1> Day Trend Stats</h1>
-                    <p>Other day trend specific stats will go here.</p>
-                  </div>
+                  <h3>More Day Stats</h3>
                 </div>
               </div>
           </div>
+
+          -->
+
+          <h2 style="border-bottom: 1px dashed grey; margin-bottom: 10px;"><small>Last Week</small></h2>
 
           <!-- Individual Graph -->
           <div ng-cloak class="panel panel-default graphPanel">
@@ -146,6 +181,8 @@
               </div>
           </div>
 
+          <h2 style="border-bottom: 1px dashed grey; margin-bottom: 10px;"><small>Last Month</small></h2>
+
           <!-- Individual Graph -->
           <div ng-cloak class="panel panel-default graphPanel">
               <div class="col-sm-4 indivGraphPanel">
@@ -156,10 +193,38 @@
               <div class="col-sm-1">
               </div>
               <div class="col-sm-7" style="border-left: 1px dashed grey; height: 100%;">
-              <div>
-                <h1>Month Specific Stats</h1>
-                <p>Other month specific stats will go here.</p>
-              </div>
+                <div>
+                  <h3>Average Visit Length of Rooms</h3>
+                  <table class="table table-striped">
+                    <thead>
+                      <tr>
+                        <th>
+                          Room Name
+                        </th>
+                        <th>
+                          Total Visits
+                        </th>
+                        <th>
+                          Avg. Visit Length (min.)
+                        </th>
+                      </tr>
+                    </thead>
+
+                    <tbody>
+                      <tr ng-repeat="avgValue in singlePatient.averages_oneMonth | orderBy:'-[2]'">
+                        <td>
+                          <button class="btn" style="margin: 0px; padding: 0px;" ng-click="singlePatient.monthTrend(avgValue[0])"> {{avgValue[0]}} </button>
+                        </td>
+                        <td>
+                          {{avgValue[1]}} 
+                        </td>
+                        <td>
+                          {{avgValue[2] | number:2 }}
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
 
               </div>
           </div>
@@ -194,6 +259,8 @@
               </div>
           </div>
 
+          <h2 style="border-bottom: 1px dashed grey; margin-bottom: 10px;"><small>Last Six Months</small></h2>
+
           <!-- Individual Graph -->
           <div class="panel panel-default graphPanel">
               <div class="col-sm-4 indivGraphPanel">
@@ -205,9 +272,37 @@
               </div>
               <div class="col-sm-7" style="border-left: 1px dashed grey; height: 100%;">
               <div>
-                <h1>Six Month Specific Stats</h1>
-                <p>Other six month specific stats will go here.</p>
-              </div>
+                  <h3>Average Visit Length of Rooms</h3>
+                  <table class="table table-striped">
+                    <thead>
+                      <tr>
+                        <th>
+                          Room Name
+                        </th>
+                        <th>
+                          Total Visits
+                        </th>
+                        <th>
+                          Avg. Visit Length (min.)
+                        </th>
+                      </tr>
+                    </thead>
+
+                    <tbody>
+                      <tr ng-repeat="avgValue in singlePatient.averages_sixMonth | orderBy:'-[2]'">
+                        <td>
+                          <button class="btn" style="margin: 0px; padding: 0px;" ng-click="singlePatient.sixMonthTrend(avgValue[0])"> {{avgValue[0]}} </button>
+                        </td>
+                        <td>
+                          {{avgValue[1]}} 
+                        </td>
+                        <td>
+                          {{avgValue[2] | number:2 }}
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
 
               </div>
           </div>
@@ -243,6 +338,8 @@
               </div>
           </div>
 
+          <h2 style="border-bottom: 1px dashed grey; margin-bottom: 10px;"><small>Last Year</small></h2>
+
           <!-- Individual Graph -->
           <div class="panel panel-default graphPanel">
               <div class="col-sm-4 indivGraphPanel">
@@ -254,9 +351,37 @@
               </div>
               <div class="col-sm-7" style="border-left: 1px dashed grey; height: 100%;">
               <div>
-                <h1>Year Specific Stats</h1>
-                <p>Other year specific stats will go here.</p>
-              </div>
+                  <h3>Average Visit Length of Rooms</h3>
+                  <table class="table table-striped">
+                    <thead>
+                      <tr>
+                        <th>
+                          Room Name
+                        </th>
+                        <th>
+                          Total Visits
+                        </th>
+                        <th>
+                          Avg. Visit Length (min.)
+                        </th>
+                      </tr>
+                    </thead>
+
+                    <tbody>
+                      <tr ng-repeat="avgValue in singlePatient.averages_oneYear | orderBy:'-[2]'">
+                        <td>
+                          <button class="btn" style="margin: 0px; padding: 0px;" ng-click="singlePatient.oneYearTrend(avgValue[0])"> {{avgValue[0]}} </button>
+                        </td>
+                        <td>
+                          {{avgValue[1]}} 
+                        </td>
+                        <td>
+                          {{avgValue[2] | number:2 }}
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
 
               </div>
           </div>
