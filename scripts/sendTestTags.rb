@@ -497,10 +497,11 @@ end
 
 #######Main loop ##########
 #loops through the week
+
 $numDays = $numDays.to_i
 $numDays.times do |i|
 	currentTime = Time.new()
-	startDay_temp = currentTime - ($numDays * $day)
+	startDay_temp = currentTime - (($numDays) * $day)
 	
 	startDay = Time.new(startDay_temp.year, startDay_temp.month, startDay_temp.day, 0, 0, 0)
 	dayConstant = i * ($day)

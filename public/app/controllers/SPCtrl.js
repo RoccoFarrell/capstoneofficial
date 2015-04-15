@@ -473,7 +473,7 @@ angular.module('SPCtrl', ['tagsService', 'patientService', 'googlechart'])
         //console.log(key + ": " + temp + " minutes");
 
         vm.averages_oneDay[key] = temp / vm.counts_bar_oneDay[key];
-        console.log(vm.averages_oneDay[key] + " minutes per visit to " + key);
+        //console.log(vm.averages_oneDay[key] + " minutes per visit to " + key);
  
       }
 
@@ -584,13 +584,13 @@ angular.module('SPCtrl', ['tagsService', 'patientService', 'googlechart'])
         //vm.averages_oneWeek[key] = temp / vm.counts_bar_oneWeek[key];
 
         vm.averages_oneWeek.push([key, vm.counts_bar_oneWeek[key], temp / vm.counts_bar_oneWeek[key]]);
-        console.log(vm.averages_oneWeek[key] + " minutes per visit to " + key);
+        //console.log(vm.averages_oneWeek[key] + " minutes per visit to " + key);
         vm.averages_oneWeek[0][2].toFixed(2);
 
       }
 
-      console.log(vm.averages_oneWeek);
-      console.log(vm.counts_bar_oneWeek);
+      //console.log(vm.averages_oneWeek);
+      //console.log(vm.counts_bar_oneWeek);
 
       //chartSelect = 0;
       
@@ -757,42 +757,42 @@ angular.module('SPCtrl', ['tagsService', 'patientService', 'googlechart'])
 
     tagsFactory.timeRange(startDate6Month, endDate, vm.patient.patientName)
     .success(function(data){
-        //console.log("factory data: " + data);
-        //console.log("call success");
+      //console.log("factory data: " + data);
+      //console.log("call success");
 
-        vm.tagDataSixMonth = data;
+      vm.tagDataSixMonth = data;
 
-        vm.counts_bar_sixMonth = {};
-        vm.times_sixMonth = {};
+      vm.counts_bar_sixMonth = {};
+      vm.times_sixMonth = {};
 
-        for(i=0; i< vm.tagDataSixMonth.length; i++){
-      
-            tagIDlocal = vm.tagDataSixMonth[i].tagID;
+      for(i=0; i< vm.tagDataSixMonth.length; i++){
+    
+          tagIDlocal = vm.tagDataSixMonth[i].tagID;
 
-            if(tagIDlocal != "Hallway-001"){
-              typeof(vm.counts_bar_sixMonth[tagIDlocal]) == "undefined" ? vm.counts_bar_sixMonth[tagIDlocal] = 1 :
-              vm.counts_bar_sixMonth[tagIDlocal] += 1;
-            }
-            //console.log("id: " + vm.tags[i].tagID);
-            date = new Date(vm.tagDataSixMonth[i].tagScanDate);
-            vm.tagDataSixMonth[i].tagScanDateString = date.toString();
-          //console.log("id: " + vm.tags[i].tagID);
-
-          if(i != vm.tagDataSixMonth.length - 1){
-            //console.log("in if");
-            date = new Date(vm.tagDataSixMonth[i].tagScanDate);
-            datePlusOne = new Date(vm.tagDataSixMonth[i+1].tagScanDate);
-            //console.log("datePlusOne - date: " + (datePlusOne - date));
-            //console.log("vm.times_oneDay[tagIDlocal]: " + vm.times_oneDay[tagIDlocal]);
-            if(typeof(vm.times_sixMonth[tagIDlocal]) == "undefined"){
-              vm.times_sixMonth[tagIDlocal] = 0;
-            }
-            else {
-              vm.times_sixMonth[tagIDlocal] += (datePlusOne - date);
-            }
-            //console.log("times length: " + vm.times_oneDay.length);
+          if(tagIDlocal != "Hallway-001"){
+            typeof(vm.counts_bar_sixMonth[tagIDlocal]) == "undefined" ? vm.counts_bar_sixMonth[tagIDlocal] = 1 :
+            vm.counts_bar_sixMonth[tagIDlocal] += 1;
           }
+          //console.log("id: " + vm.tags[i].tagID);
+          date = new Date(vm.tagDataSixMonth[i].tagScanDate);
+          vm.tagDataSixMonth[i].tagScanDateString = date.toString();
+        //console.log("id: " + vm.tags[i].tagID);
+
+        if(i != vm.tagDataSixMonth.length - 1){
+          //console.log("in if");
+          date = new Date(vm.tagDataSixMonth[i].tagScanDate);
+          datePlusOne = new Date(vm.tagDataSixMonth[i+1].tagScanDate);
+          //console.log("datePlusOne - date: " + (datePlusOne - date));
+          //console.log("vm.times_oneDay[tagIDlocal]: " + vm.times_oneDay[tagIDlocal]);
+          if(typeof(vm.times_sixMonth[tagIDlocal]) == "undefined"){
+            vm.times_sixMonth[tagIDlocal] = 0;
+          }
+          else {
+            vm.times_sixMonth[tagIDlocal] += (datePlusOne - date);
+          }
+          //console.log("times length: " + vm.times_oneDay.length);
         }
+      }
 
       vm.averages_sixMonth = [];
 
@@ -809,7 +809,6 @@ angular.module('SPCtrl', ['tagsService', 'patientService', 'googlechart'])
         vm.averages_sixMonth.push([key, vm.counts_bar_sixMonth[key], temp / vm.counts_bar_sixMonth[key]]);
         //console.log(vm.averages_oneMonth[key] + " minutes per visit to " + key);
         vm.averages_sixMonth[0][2].toFixed(2);
-
       }
 
         //chartSelect = 0;
@@ -867,42 +866,42 @@ angular.module('SPCtrl', ['tagsService', 'patientService', 'googlechart'])
 
     tagsFactory.timeRange(startDateYear, endDate, vm.patient.patientName)
     .success(function(data){
-        //console.log("factory data: " + data);
-        //console.log("call success");
+      //console.log("factory data: " + data);
+      //console.log("call success");
 
-        vm.tagDataYear = data;
+      vm.tagDataYear = data;
 
-        vm.counts_bar_Year = {};
-        vm.times_oneYear = {};
+      vm.counts_bar_Year = {};
+      vm.times_oneYear = {};
 
-        for(i=0; i< vm.tagDataYear.length; i++){
-      
-            tagIDlocal = vm.tagDataYear[i].tagID;
+      for(i=0; i< vm.tagDataYear.length; i++){
+    
+          tagIDlocal = vm.tagDataYear[i].tagID;
 
-            if(tagIDlocal != "Hallway-001"){
-              typeof(vm.counts_bar_Year[tagIDlocal]) == "undefined" ? vm.counts_bar_Year[tagIDlocal] = 1 :
-              vm.counts_bar_Year[tagIDlocal] += 1;
-              }
+          if(tagIDlocal != "Hallway-001"){
+            typeof(vm.counts_bar_Year[tagIDlocal]) == "undefined" ? vm.counts_bar_Year[tagIDlocal] = 1 :
+            vm.counts_bar_Year[tagIDlocal] += 1;
+            }
 
-              date = new Date(vm.tagDataYear[i].tagScanDate);
-            vm.tagDataYear[i].tagScanDateString = date.toString();
-          //console.log("id: " + vm.tags[i].tagID);
-
-          if(i != vm.tagDataYear.length - 1){
-            //console.log("in if");
             date = new Date(vm.tagDataYear[i].tagScanDate);
-            datePlusOne = new Date(vm.tagDataYear[i+1].tagScanDate);
-            //console.log("datePlusOne - date: " + (datePlusOne - date));
-            //console.log("vm.times_oneDay[tagIDlocal]: " + vm.times_oneDay[tagIDlocal]);
-            if(typeof(vm.times_oneYear[tagIDlocal]) == "undefined"){
-              vm.times_oneYear[tagIDlocal] = 0;
-            }
-            else {
-              vm.times_oneYear[tagIDlocal] += (datePlusOne - date);
-            }
-            //console.log("times length: " + vm.times_oneDay.length);
+          vm.tagDataYear[i].tagScanDateString = date.toString();
+        //console.log("id: " + vm.tags[i].tagID);
+
+        if(i != vm.tagDataYear.length - 1){
+          //console.log("in if");
+          date = new Date(vm.tagDataYear[i].tagScanDate);
+          datePlusOne = new Date(vm.tagDataYear[i+1].tagScanDate);
+          //console.log("datePlusOne - date: " + (datePlusOne - date));
+          //console.log("vm.times_oneDay[tagIDlocal]: " + vm.times_oneDay[tagIDlocal]);
+          if(typeof(vm.times_oneYear[tagIDlocal]) == "undefined"){
+            vm.times_oneYear[tagIDlocal] = 0;
           }
+          else {
+            vm.times_oneYear[tagIDlocal] += (datePlusOne - date);
+          }
+          //console.log("times length: " + vm.times_oneDay.length);
         }
+      }
 
       vm.averages_oneYear = [];
 
