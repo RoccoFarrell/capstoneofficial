@@ -768,7 +768,7 @@ angular.module('SPCtrl', ['tagsService', 'patientService', 'googlechart'])
       //console.log("call success");
 
       vm.tagDataSixMonth = data;
-
+      //console.log(vm.tagDataSixMonth);
       vm.counts_bar_sixMonth = {};
       vm.times_sixMonth = {};
 
@@ -789,6 +789,12 @@ angular.module('SPCtrl', ['tagsService', 'patientService', 'googlechart'])
           //console.log("in if");
           date = new Date(vm.tagDataSixMonth[i].tagScanDate);
           datePlusOne = new Date(vm.tagDataSixMonth[i+1].tagScanDate);
+
+          if(datePlusOne - date < 0){
+            console.log("at: " + i);
+            console.log("date: " + date);
+            console.log("datePlusOne: " + datePlusOne);
+          }
           //console.log("datePlusOne - date: " + (datePlusOne - date));
           //console.log("vm.times_oneDay[tagIDlocal]: " + vm.times_oneDay[tagIDlocal]);
           if(typeof(vm.times_sixMonth[tagIDlocal]) == "undefined"){

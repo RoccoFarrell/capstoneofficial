@@ -34,6 +34,7 @@ exports.getTimeRangeTags = function(req, res){
 
 	//console.log(query.patientName);
 
+	/*
 	Tag.find({ $and: [{ tagScanDate: { $gte: query.startDate }}, 
 		{ tagScanDate: { $lte: query.endDate }},
 		{ tagPatient: query.patientName } 
@@ -44,6 +45,17 @@ exports.getTimeRangeTags = function(req, res){
 	
 		res.json(tags);
 	}).sort({tagScanDate: 1});
+	*/
+	Tag.find({ $and: [{ tagScanDate: { $gte: query.startDate }}, 
+		{ tagScanDate: { $lte: query.endDate }},
+		{ tagPatient: query.patientName } 
+
+		]}, null, {sort: {tagScanDate: 1}},
+	 function(err, tags){
+		if(err) res.send(err);
+	
+		res.json(tags);
+	});
 };
 
 exports.getAllTags = function(req, res){
