@@ -462,7 +462,7 @@ angular.module('SPCtrl', ['tagsService', 'patientService', 'googlechart'])
 
       //display times
       //console.log("times length: " + vm.times_oneDay.length);
-      vm.averages_oneDay = {};
+      vm.averages_oneDay = [];
 
       for(var key in vm.counts_bar_oneDay){
         //console.log("vm.times_oneDay[key]: " + vm.times_oneDay[key]);
@@ -475,7 +475,14 @@ angular.module('SPCtrl', ['tagsService', 'patientService', 'googlechart'])
         vm.averages_oneDay[key] = temp / vm.counts_bar_oneDay[key];
         //console.log(vm.averages_oneDay[key] + " minutes per visit to " + key);
  
+        //vm.averages_oneDay[key] = temp / vm.counts_bar_oneDay[key];
+        vm.averages_oneDay.push([key, vm.counts_bar_oneDay[key], temp / vm.counts_bar_oneDay[key]]);
+        //console.log(vm.averages_oneDay[key] + " minutes per visit to " + key);
+        vm.averages_oneDay[0][2].toFixed(2);
       }
+
+      //console.log("here");
+      //console.log(vm.averages_oneDay);
 
       //console.log(vm.times_oneDay);
       //console.log(vm.counts_bar_oneDay);
